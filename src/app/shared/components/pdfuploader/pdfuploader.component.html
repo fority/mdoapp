@@ -1,0 +1,34 @@
+<p-card>
+	<div class="grid">
+		<div class="col-6"><label class="label-required">PDF File</label></div>
+		<div class="col-6">
+			<p-fileUpload
+				#upload
+				mode="basic"
+				chooseLabel="Select Pdf File"
+				accept="application/pdf"
+				[customUpload]="true"
+				(uploadHandler)="UploadHandler($event)"
+				[auto]="false"
+			>
+			</p-fileUpload>
+		</div>
+	</div>
+	<div class="grid">
+		<div class="col-6"><label htmlFor="page">Page Number</label></div>
+		<div class="col-6"><p-inputNumber id="page" [(ngModel)]="PageNgModel"> </p-inputNumber></div>
+	</div>
+
+	<ng-template pTemplate="footer">
+		<div class="flex justify-content-end flex-wrap">
+			<p-button label="OK" icon="pi pi-check" (click)="OKClick()"></p-button>
+			<p-button
+				label="Cancel"
+				icon="pi pi-times"
+				styleClass="p-button-secondary"
+				[style]="{ 'margin-left': '.5em' }"
+				(click)="CancelClick()"
+			></p-button>
+		</div>
+	</ng-template>
+</p-card>

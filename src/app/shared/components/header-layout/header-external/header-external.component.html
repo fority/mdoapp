@@ -1,0 +1,82 @@
+<div class="main flex flex-wrap flex row justify-content-between">
+  <div class="start flex flex-wrap flex-row">
+    <p-button label="SEAT COVER" [routerLink]="'/external/seatcover/prime-selection'"></p-button>
+    <p-button
+      label="PROMOTION"
+      icon="pi pi-chevron-down
+    "
+      iconPos="right"
+      (onClick)="promotion.toggle($event)"
+    ></p-button>
+    <p-menu #promotion [model]="promotions" [popup]="true"></p-menu>
+
+    <p-button
+      label="INFO"
+      icon="pi pi-chevron-down
+    "
+      iconPos="right"
+      (onClick)="info.toggle($event)"
+    ></p-button>
+    <p-menu #info [model]="infos" [popup]="true"></p-menu>
+
+    <p-button
+      label="PRODUCT"
+      icon="pi pi-chevron-down
+    "
+      iconPos="right"
+      (onClick)="product.toggle($event)"
+    ></p-button>
+    <p-menu #product [model]="products" [popup]="true"></p-menu>
+  </div>
+  <div class="logo">
+    <img src="../../../assets/logo.svg" alt="" [routerLink]="'/external'" [style]="{ cursor: 'pointer' }" />
+  </div>
+  <div class="end flex flex-wrap flex-row gap-3">
+    <p-button
+      label="GALLERY"
+      icon="pi pi-chevron-down
+    "
+      iconPos="right"
+    ></p-button>
+    <p-button label="ABOUT US"></p-button>
+    <div class="helpline-nav">
+      <img src="../../../assets/helpline-nav.svg" alt="" [style]="{ cursor: 'pointer' }" (click)="RequestHistory()" />
+    </div>
+    <div class="account-nav">
+      <img src="../../../assets/account-nav.svg" alt="" (click)="menu.toggle($event)" [style]="{ cursor: 'pointer' }" />
+      <p-menu #menu [model]="items" [popup]="true"></p-menu>
+    </div>
+  </div>
+</div>
+
+<div class="menu">
+  <div class="flex flex-row justify-content-between align-items-center pl-3 pt-3 pr-3">
+    <div class="flex flex-wrap flex-row align-items-center">
+      <p-button (onClick)="toggleMenu()" icon="pi pi-bars" label="Menu"></p-button>
+    </div>
+    <img
+      src="../../../../../assets/logo.svg"
+      alt=""
+      width="51px"
+      height="51px"
+      [routerLink]="'/external'"
+      [style]="{ cursor: 'pointer' }"
+    />
+
+    <div class="flex gap-2">
+      <div class="helpline-nav">
+        <img src="../../../assets/helpline-nav.svg" alt="" [style]="{ cursor: 'pointer' }" (click)="RequestHistory()" />
+      </div>
+      <div class="account-nav">
+        <img
+          src="../../../assets/account-nav.svg"
+          alt=""
+          (click)="menu1.toggle($event)"
+          [style]="{ cursor: 'pointer' }"
+        />
+        <p-menu #menu1 [model]="items" [popup]="true"></p-menu>
+      </div>
+    </div>
+  </div>
+</div>
+<p-panelMenu #menuL [model]="menuList" [style.display]="isMenuVisible ? 'block' : 'none'" iconPos="end"></p-panelMenu>

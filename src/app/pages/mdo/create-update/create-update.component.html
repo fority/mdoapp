@@ -1,0 +1,252 @@
+<p-card header="{{ Title }}">
+  <p-toolbar>
+    <div class="p-toolbar-group-start">
+      <p-button *ngIf="!isUpdate" pRipple (onClick)="SaveUpdateClick()"
+        >Save</p-button
+      >
+      <p-button *ngIf="isUpdate" pRipple (onClick)="SaveUpdateClick()"
+        >Update</p-button
+      >
+    </div>
+    <div class="p-toolbar-group-end">
+      <p-button
+        icon="pi pi-times"
+        styleClass="p-button-danger"
+        (onClick)="CancelClick()"
+      ></p-button>
+    </div>
+  </p-toolbar>
+  <br />
+
+  <form class="formgrid grid" [formGroup]="FG">
+    <div class="field col-12 md:col-6">
+      <label for="Date"><span class="text-red-400">*</span>Date</label>
+      <br />
+      <p-calendar formControlName="Date" dateFormat="yy-mm-dd"></p-calendar>
+      <div
+        *ngIf="
+          FG.get('Date')?.errors &&
+          (FG.get('Date')?.dirty || FG.get('Date')?.touched)
+        "
+      >
+        <div class="text-red-400" *ngIf="FG.get('Date')?.errors?.['required']">
+          Date is Required
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="ShipDate"><span class="text-red-400">*</span>Ship Date</label>
+      <br />
+      <p-calendar formControlName="ShipDate" dateFormat="yy-mm-dd"></p-calendar>
+      <div
+        *ngIf="
+          FG.get('ShipDate')?.errors &&
+          (FG.get('ShipDate')?.dirty || FG.get('ShipDate')?.touched)
+        "
+      >
+        <div
+          class="text-red-400"
+          *ngIf="FG.get('ShipDate')?.errors?.['required']"
+        >
+          Ship Date is Required
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="ShipTo" [style]="{ width: '100%' }"
+        ><span class="text-red-400">*</span>Ship To</label
+      >
+      <p-dropdown
+        [options]="(shipToSource$ | async) || []"
+        formControlName="ShipToId"
+        (onChange)="ShipToOnChanges($event)"
+      ></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="ShipAddress"
+        ><span class="text-red-400">*</span>Ship Address</label
+      >
+      <input pInputText formControlName="ShipAddress" type="text" />
+      <div
+        *ngIf="
+          FG.get('ShipAddress')?.errors &&
+          (FG.get('ShipAddress')?.dirty || FG.get('ShipAddress')?.touched)
+        "
+      >
+        <div
+          class="text-red-400"
+          *ngIf="FG.get('ShipAddress')?.errors?.['required']"
+        >
+          Ship Address is Required
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="ShipperId"><span class="text-red-400">*</span>Shipper</label>
+      <p-dropdown
+        [options]="(ShipperSource$ | async) || []"
+        formControlName="ShipperId"
+      ></p-dropdown>
+    </div>
+    <div
+      *ngIf="
+        FG.get('ShipperId')?.errors &&
+        (FG.get('ShipperId')?.dirty || FG.get('ShipperId')?.touched) &&
+        this.FG.get('ShipperId')?.value === null
+      "
+    >
+      <div
+        class="text-red-400"
+        *ngIf="FG.get('ShipperId')?.errors?.['required']"
+      >
+        Shipper is Required
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="RequestById"
+        ><span class="text-red-400">*</span>Request By</label
+      >
+      <p-dropdown
+        [options]="(requestBySource$ | async) || []"
+        formControlName="RequestById"
+      ></p-dropdown>
+    </div>
+    <div
+      *ngIf="
+        FG.get('RequestById')?.errors &&
+        (FG.get('RequestById')?.dirty || FG.get('RequestById')?.touched)
+      "
+    >
+      <div
+        class="text-red-400"
+        *ngIf="FG.get('RequestById')?.errors?.['required']"
+      >
+        Request By is Required
+      </div>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="ReasonCodeId"
+        ><span class="text-red-400">*</span>Reason Code</label
+      >
+      <p-dropdown
+        [options]="(reasonSource$ | async) || []"
+        formControlName="ReasonCodeId"
+      ></p-dropdown>
+      <div
+        *ngIf="
+          FG.get('ReasonCodeId')?.errors &&
+          (FG.get('ReasonCodeId')?.dirty || FG.get('ReasonCodeId')?.touched)
+        "
+      >
+        <div
+          class="text-red-400"
+          *ngIf="FG.get('ReasonCodeId')?.errors?.['required']"
+        >
+          Reason Code is Required
+        </div>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="SORef">Sales Order</label>
+      <input type="text" pInputText formControlName="SORef" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="PORef">Purchased Order</label>
+      <input type="text" pInputText formControlName="PORef" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="ProdRef">Production</label>
+      <input type="text" pInputText formControlName="ProdRef" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="Remark">Remark</label>
+      <br />
+      <input type="text" pInputText formControlName="Remark" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="Remark">MDO Line</label>
+      <br />
+      <p-button
+        [disabled]="PagingSignal().Status > 10"
+        label="Add"
+        (onClick)="CreateMdoLine()"
+        icon="pi pi-plus"
+        [rounded]="true"
+      ></p-button>
+    </div>
+    <br />
+    <div class="table-container p-3" *ngIf="formControlMDOLines.length > 0">
+      <div class="data">
+        <p-card class="cards">
+          <ng-container
+            *ngFor="let item of formControlMDOLines.controls; index as i"
+          >
+            <div class="flex flex-row justify-content-between">
+              <b>Line {{ i + 1 }}</b>
+              <div class="flex flex-row gap-2">
+                <p-button
+                  [disabled]="item.get('LineStatus')?.value > 10"
+                  label="Edit"
+                  icon="pi pi-pencil"
+                  [rounded]="true"
+                  (onClick)="EditLine(item.value, i)"
+                >
+                </p-button>
+                <p-button
+                  [disabled]="item.get('LineStatus')?.value > 10"
+                  label="Delete"
+                  severity="danger"
+                  [rounded]="true"
+                  (onClick)="DeleteLine(i)"
+                ></p-button>
+              </div>
+            </div>
+            <br />
+            <table class="table">
+              <tr>
+                <th colspan="2" class="surface-700 text-50">Item</th>
+                <th>{{ item.get("Item")?.value }}</th>
+                <th colspan="2" class="surface-700 text-50">Description</th>
+                <th>{{ item.get("ItemDesc")?.value }}</th>
+              </tr>
+              <tr>
+                <th colspan="2" class="surface-700 text-50">Qty</th>
+                <th>{{ item.get("Qty")?.value }}</th>
+                <th colspan="2" class="surface-700 text-50">UOM</th>
+                <th>{{ item.get("UOMName")?.value }}</th>
+              </tr>
+              <tr>
+                <th colspan="2" class="surface-700 text-50">Remark</th>
+                <th colspan="4">{{ item.get("Remark")?.value }}</th>
+              </tr>
+              <tr>
+                <th colspan="2" class="surface-700 text-50">Lot</th>
+                <th>{{ item.get("LotID")?.value }}</th>
+                <th colspan="2" class="surface-700 text-50">Status</th>
+                <th>{{ item.get("LineStatus")?.value | statusPipe }}</th>
+              </tr>
+            </table>
+            <br />
+            <p-divider></p-divider>
+            <br />
+          </ng-container>
+        </p-card>
+      </div>
+    </div>
+  </form>
+</p-card>
+
+<app-mdoLinesForm
+  *ngIf="visible"
+  [sidebarVisible]="visible"
+  [isUpdate]="updateMdo"
+  (successEmitter)="AddMdoLine($event)"
+  (updateEmitter)="EditMdoLine($event)"
+  (HideSideBarEmitter)="visible = false; Close()"
+></app-mdoLinesForm>

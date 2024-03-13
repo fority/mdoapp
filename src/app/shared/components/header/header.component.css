@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+
+a {
+  color: #000;
+  display: flex;
+  padding-left: 0.5em;
+  font-size: 23px;
+  font-weight: 600;
+  font-family: Montserrat;
+}
+
+.header {
+  display: block;
+}
+
+:host::ng-deep .p-menubar {
+  margin: 0;
+  width: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #ededed;
+  min-height: 4rem;
+  box-shadow: #32325d40 0 2px 5px -1px, #0000004d 0 1px 3px -1px;
+}
+
+.menu {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+:host::ng-deep i {
+  color: #ef233c;
+  font-size: 22px;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+i {
+  cursor: pointer;
+}

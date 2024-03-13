@@ -1,0 +1,40 @@
+<div class="flex justify-content-start align-items-center">
+  <ng-container *ngIf="avatarCapsuleHide$ | async">
+    <div style="padding-right: 20px" *ngIf="(username$ | async) !== undefined">
+      <div class="capsule">
+        <div class="capsule-content">
+          <div class="flex justify-content-start align-items-center">
+            <p-avatar
+              icon="pi pi-user"
+              (click)="ProfileClick()"
+              size="large"
+              shape="circle"
+            ></p-avatar>
+            <span
+              class="capsule-content-text text-overflow-ellipsis overflow-hidden white-space-nowrap"
+            >
+              {{ username$ | async }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <p-button
+    class="loginBtn"
+    pRipple
+    *ngIf="!(isLogin$ | async)"
+    (click)="LoginClick()"
+  >
+    {{ "Login" }}
+  </p-button>
+  <p-button
+    class="loginBtn"
+    pRipple
+    *ngIf="isLogin$ | async"
+    (click)="LogoutClick()"
+  >
+    {{ "Logout" }}
+  </p-button>
+</div>

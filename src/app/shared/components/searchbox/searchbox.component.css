@@ -1,0 +1,22 @@
+:host::ng-deep {
+	.p-autocomplete input {
+		height: 2rem;
+		text-align: start;
+	}
+
+	/* i {
+    color: #000000;
+  } */
+}
+
+.buttonTimes {
+	height: 2rem;
+	border-bottom-left-radius: 0.5rem;
+	width: 1.5rem;
+}
+
+.buttonSearch {
+	height: 2rem;
+	border-top-right-radius: 0.5rem;
+	width: 1.5rem;
+}

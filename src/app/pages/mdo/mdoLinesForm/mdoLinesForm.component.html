@@ -1,0 +1,121 @@
+<p-sidebar
+  *ngIf="sidebarVisible"
+  [(visible)]="sidebarVisible"
+  position="right"
+  styleClass="w-30rem"
+  (onHide)="HideSideBar()"
+>
+  <ng-container>
+    <ng-container>
+      <ng-container>
+        <ng-template pTemplate="header"
+          ><h3 class="font-bold">
+            {{ !isUpdate ? "CREATE MDO LINE" : "UPDATE MDO LINE" }}
+          </h3></ng-template
+        >
+        <ng-template pTemplate="content">
+          <form [formGroup]="FG">
+            <div class="col-12">
+              <label for="Item"
+                ><span class="text-red-400">*</span>Item:&nbsp;</label
+              >
+              <br />
+              <input type="text" pInputText formControlName="Item" />
+              <div
+                *ngIf="
+                  FG.get('Item')?.errors &&
+                  (FG.get('Item')?.dirty || FG.get('Item')?.touched)
+                "
+              >
+                <div
+                  class="text-red-400"
+                  *ngIf="FG.get('Item')?.errors?.['required']"
+                >
+                  Item is Required
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="Quantity"
+                ><span class="text-red-400">*</span>Quantity:&nbsp;</label
+              >
+              <br />
+              <p-inputNumber
+                inputId="integeronly"
+                formControlName="Qty"
+              ></p-inputNumber>
+              <div
+                *ngIf="
+                  FG.get('Qty')?.errors &&
+                  (FG.get('Qty')?.dirty || FG.get('Qty')?.touched)
+                "
+              >
+                <div
+                  class="text-red-400"
+                  *ngIf="FG.get('Qty')?.errors?.['required']"
+                >
+                  Quantity is Required
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="Description">Description:&nbsp;</label>
+              <br />
+              <input type="text" pInputText formControlName="ItemDesc" />
+            </div>
+            <div class="col-12">
+              <label for="UOM"
+                ><span class="text-red-400">*</span>UOM:&nbsp;</label
+              >
+              <br />
+              <p-dropdown
+                [options]="(uomSource$ | async) || []"
+                formControlName="UOMId"
+                (ngModelChange)="UomChange($event)"
+              ></p-dropdown>
+              <div
+                *ngIf="
+                  FG.get('UOMId')?.errors &&
+                  (FG.get('UOMId')?.dirty || FG.get('UOMId')?.touched)
+                "
+              >
+                <div
+                  class="text-red-400"
+                  *ngIf="FG.get('UOMId')?.errors?.['required']"
+                >
+                  UOM is Required
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="Remark">Remark:&nbsp;</label>
+              <br />
+              <input type="text" pInputText formControlName="Remark" />
+            </div>
+            <div class="col-12">
+              <label for="LotID">Lot ID:&nbsp;</label>
+              <br />
+              <input type="text" pInputText formControlName="LotID" />
+            </div></form
+        ></ng-template>
+        <ng-template pTemplate="footer"
+          ><div class="flex justify-content-end gap-2">
+            <p-button
+              label="Cancel"
+              (onClick)="HideSideBar()"
+              [outlined]="true"
+            ></p-button>
+            <p-button
+              *ngIf="!isUpdate"
+              label="Create"
+              (onClick)="SaveUpdateClick()"
+            ></p-button>
+            <p-button
+              *ngIf="isUpdate"
+              label="Edit"
+              (onClick)="SaveUpdateClick()"
+            ></p-button></div></ng-template
+      ></ng-container>
+    </ng-container>
+  </ng-container>
+</p-sidebar>

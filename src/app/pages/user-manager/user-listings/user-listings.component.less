@@ -1,0 +1,256 @@
+:host::ng-deep {
+  a {
+    cursor: pointer;
+    color: #ef233c;
+    text-decoration: none;
+  }
+
+  .p-card {
+    border-radius: 15px;
+    margin: 8px;
+    padding: 8px;
+
+    .p-card-title {
+      margin-left: 10px;
+      color: #2b2d42;
+      font-size: 29.6px;
+      font-weight: 600;
+    }
+
+    .p-card-subtitle {
+      margin-top: 10px;
+      margin-left: 10px;
+      color: #8d99ae;
+      font-size: 14px;
+      padding: 0 0 0 4px;
+    }
+  }
+
+  .p-button {
+    background: none;
+    font-size: 14px;
+    border: none;
+    background-color: #ef233c;
+  }
+
+  .p-button:hover {
+    background: #fff;
+    color: #ef233c;
+    border: 1px solid #ef233c;
+  }
+
+  .p-datatable.p-datatable-sm {
+    .p-datatable-thead > tr > th {
+      background: #34364c;
+      padding: 8px;
+      font-size: 14px;
+      color: #ffffff;
+      font-weight: 500;
+      border: none;
+    }
+
+    .p-datatable-tbody .p-button {
+      background-color: transparent;
+      color: #ef233c;
+    }
+
+    .p-datatable-tbody > tr > td {
+      padding: 8px;
+      border: none;
+      color: #000000d9;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+    }
+  }
+
+  .p-paginator {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 14px;
+    padding: 0.5rem 0;
+
+    .p-paginator-pages .p-paginator-page {
+      font-family: Montserrat;
+      font-size: 14px;
+
+      @media screen and (max-width: 720px) {
+        min-width: 0;
+        width: 20px;
+        margin: 0;
+      }
+    }
+
+    .p-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .p-dropdown {
+      margin: 0;
+
+      .p-dropdown-trigger {
+        width: 25px;
+      }
+
+      .p-dropdown-label {
+        font-family: Montserrat;
+        font-size: 14px;
+        padding-top: 10px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .p-card {
+      padding: 0;
+    }
+
+    .p-paginator {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .p-paginator .p-paginator-first,
+    .p-paginator .p-paginator-last {
+      min-width: 0;
+      width: 25px;
+    }
+  }
+}
+
+:host::ng-deep {
+  .p-dialog {
+    width: 50%;
+
+    .p-dialog-header {
+      padding: 16px 24px;
+      color: #000000d9;
+      background: #fff;
+      border-bottom: 1px solid #f0f0f0;
+      border-radius: 2px 2px 0 0;
+
+      .p-dialog-title {
+        color: #000000d9;
+        font-size: 16px;
+        margin: 0 16px;
+        font-weight: 500;
+      }
+    }
+
+    .p-dialog-content {
+      padding: 2rem;
+      line-height: 1.5rem;
+      word-wrap: break-word;
+
+      .p-dropdown {
+        width: 90%;
+        position: relative;
+
+        .p-dropdown-label.p-placeholder {
+          color: black;
+          font-weight: 600;
+          font-size: 14px;
+          font-family: Montserrat;
+        }
+
+        .p-dropdown-items {
+          font-size: 14px;
+          font-family: Montserrat;
+        }
+      }
+    }
+
+    .cancel .p-button {
+      line-height: 1.5rem;
+      position: relative;
+      display: inline-block;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+      background-image: none;
+      border: 1px solid transparent;
+      box-shadow: 0 2px #00000004;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
+      height: 32px;
+      padding: 4px 15px;
+      font-size: 14px;
+      font-family: Montserrat;
+      border-radius: 2px;
+      color: #000000d9;
+      border-color: #d9d9d9;
+      background: #fff;
+    }
+
+    .ok .p-button {
+      line-height: 1.5rem;
+      position: relative;
+      display: inline-block;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+      background-image: none;
+      border: 1px solid transparent;
+      box-shadow: 0 2px #00000004;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      -webkit-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
+      height: 32px;
+      padding: 4px 15px;
+      font-size: 14px;
+      font-family: Montserrat;
+      border-radius: 2px;
+      color: #fff;
+      border-color: #fff;
+      background: #ef233c;
+    }
+  }
+
+  .search-box .p-button {
+    background: none;
+    font-size: 14px;
+    color: white;
+    border: none;
+    background-color: #ef233c;
+  }
+
+  @media screen and (max-width: 768px) {
+    .p-dialog {
+      width: 60%;
+
+      .p-dialog-header {
+        padding: 16px 8px;
+
+        .p-dialog-title {
+          margin: 0 8px;
+        }
+      }
+
+      .p-dialog-content {
+        padding: 16px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .p-dialog {
+      min-width: 150px;
+      width: 80%;
+
+      .p-dialog-content {
+        padding: 8px;
+        line-height: 1.5rem;
+
+        .p-dropdown .p-component {
+          width: 60%;
+          position: relative;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<div class="card flex justify-content-center surface-ground">
+  <p-sidebar
+    [(visible)]="sidebarVisible"
+    (onHide)="HideSideBar()"
+    [showCloseIcon]="false"
+  >
+    <ng-template pTemplate="header">
+      <img
+        [routerLink]="'/'"
+        src="../../../../assets/new-logo.png"
+        width="200"
+        alt="logo"
+      />
+    </ng-template>
+    <ng-template pTemplate="content">
+      <ng-container> <p-panelMenu [model]="items"></p-panelMenu></ng-container>
+    </ng-template>
+  </p-sidebar>
+</div>

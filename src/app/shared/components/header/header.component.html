@@ -1,0 +1,16 @@
+<app-sidebar
+  [sidebarVisible]="sidebarVisible1"
+  (HideSideBarEmitter)="sidebarVisible1 = false"
+></app-sidebar>
+
+<p-menubar>
+  <ng-template pTemplate="start">
+    <div class="menu">
+      <a routerLink="/menu"
+        ><img src="../../../../assets/new-logo.png" alt="" width="170"
+      /></a>
+      <i class="pi pi-bars ml-2 mt-1" (click)="sidebarVisible1 = true"> </i>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="end"> <app-login-btn></app-login-btn></ng-template
+></p-menubar>

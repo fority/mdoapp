@@ -1,0 +1,16 @@
+section.bodyContainer {
+  min-height: calc(100vh - 125px);
+  background-color: #000;
+}
+
+.sidebarlayout {
+  min-height: 100%;
+}
+
+.sidebarfooter {
+  width: 100%;
+}
+
+.sidebarheader {
+  width: 100%;
+}

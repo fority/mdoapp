@@ -1,0 +1,153 @@
+<p-card
+  [header]="Title"
+  subheader="{{ PagingSignal().TotalElements || 0 }} reasons"
+>
+  <div class="flex flex-row flex-wrap align-items-center gap-3">
+    <div class="search-box flex-grow-1">
+      <app-searchbox
+        [AutoCompleteSource$]="AutoCompleteSource$"
+        PlaceHolder="Search"
+        (onSearch)="Search($event)"
+        (onClearClick)="ClearSearch()"
+      ></app-searchbox>
+    </div>
+    <p-button
+      pRipple
+      [rounded]="true"
+      (click)="Add()"
+      tooltipPosition="top"
+      pTooltip="Click to Add"
+      >Add
+    </p-button>
+  </div>
+  <br />
+  <p-table
+    dataKey="Id"
+    editMode="row"
+    styleClass="p-datatable-sm p-datatable-gridlines"
+    [tableStyle]="{ 'min-width': '30rem' }"
+    [value]="PagingSignal().Content"
+    [totalRecords]="PagingSignal().TotalElements || 0"
+    [rows]="PageSize"
+    [pageLinks]="3"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 50]"
+    [showCurrentPageReport]="true"
+    [currentPageReportTemplate]="'{currentPage} of {totalPages}'"
+    [lazy]="true"
+    (onLazyLoad)="NextPage($event)"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="text-align: center; width: 35%">Reason</th>
+        <th style="text-align: center; width: 35%">Description</th>
+        <th style="text-align: center; width: 35%">Action</th>
+      </tr>
+      <tr *ngIf="isAddEnable">
+        <td style="text-align: center">
+          <div class="flex">
+            <input
+              pInputText
+              class="flex-grow-1"
+              type="text"
+              [(ngModel)]="NewReason"
+            />
+          </div>
+        </td>
+        <td style="text-align: center">
+          <div class="flex">
+            <input
+              pInputText
+              class="flex-grow-1"
+              type="text"
+              [(ngModel)]="NewDescription"
+            />
+          </div>
+        </td>
+        <td style="text-align: center">
+          <div class="flex align-items-center justify-content-center gap-2">
+            <p-button
+              pRipple
+              icon="pi pi-check"
+              (click)="SaveClick()"
+              styleClass="p-button-rounded p-button-outlined p-button-success"
+            ></p-button>
+            <p-button
+              pRipple
+              icon="pi pi-times"
+              (click)="isAddEnable = false"
+              styleClass="p-button-rounded p-button-outlined p-button-danger"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    >
+    <ng-template
+      pTemplate="body"
+      let-data
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
+      <tr [pEditableRow]="data">
+        <td style="text-align: center">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="data.Reason" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ data.Reason }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td style="text-align: center">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="data.Description" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ data.Description }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <div class="flex align-items-center justify-content-center gap-2">
+            <p-button
+              *ngIf="!editing"
+              pRipple
+              pInitEditableRow
+              icon="pi pi-pencil"
+              (click)="onRowEditInit(data)"
+              styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 "
+            ></p-button>
+            <p-button
+              *ngIf="!editing"
+              pRipple
+              icon="pi pi-trash"
+              (click)="Delete($event, data)"
+              styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 p-button-danger"
+            ></p-button>
+
+            <p-button
+              *ngIf="editing"
+              pRipple
+              pSaveEditableRow
+              icon="pi pi-check"
+              (click)="onRowEditSave(ri, data)"
+              styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 p-button-success"
+            ></p-button>
+
+            <p-button
+              *ngIf="editing"
+              pRipple
+              pCancelEditableRow
+              icon="pi pi-times"
+              (click)="onRowEditCancel(data, ri)"
+              styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 p-button-danger"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

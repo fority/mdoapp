@@ -1,0 +1,120 @@
+<p-card
+  header="Manage User"
+  subheader="{{ PagingSignal().TotalElements }} users"
+>
+  <div class="flex flex-row flex-wrap align-items-center gap-3">
+    <div class="search-box flex-grow-1">
+      <app-searchbox
+        PlaceHolder="Search"
+        (onSearch)="Search($event)"
+        (onClearClick)="ClearSearch()"
+      ></app-searchbox>
+    </div>
+    <p-button
+      pRipple
+      styleClass="p-button-rounded"
+      (click)="ShowModal()"
+      pTooltip="Click to Add"
+      tooltipPosition="left"
+      >Import
+    </p-button>
+  </div>
+  <br />
+  <p-table
+    dataKey="Id"
+    editMode="row"
+    styleClass="p-datatable-sm p-datatable-gridlines"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [value]="PagingSignal().Content"
+    [totalRecords]="PagingSignal().TotalElements"
+    [rows]="pageSize"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 50]"
+    [showCurrentPageReport]="true"
+    [currentPageReportTemplate]="'{currentPage} of {totalPages}'"
+    [lazy]="true"
+    (onLazyLoad)="NextPage($event)"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="text-align: center; width: 15%">Display Name</th>
+        <th style="text-align: center; width: 15%">Username</th>
+        <th style="text-align: center; width: 10%">Phone</th>
+        <th style="text-align: center; width: 15%">Email</th>
+        <th style="text-align: center; width: 25%">Address</th>
+        <th style="text-align: center; width: 10%">IsDisable</th>
+        <th style="text-align: center; width: 10%">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-data
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
+      <tr [pEditableRow]="data">
+        <td style="text-align: center">
+          {{ data.Name }}
+        </td>
+        <td style="text-align: center">
+          {{ data.Username }}
+        </td>
+        <td style="text-align: center">
+          {{ data.PhoneNumber }}
+        </td>
+        <td style="text-align: center">
+          {{ data.Email }}
+        </td>
+        <td style="text-align: center">
+          {{ data.Address }}
+        </td>
+        <td style="text-align: center">
+          <p-inputSwitch
+            [(ngModel)]="data.IsDisable"
+            [disabled]="true"
+          ></p-inputSwitch>
+        </td>
+        <td>
+          <div class="flex align-items-center justify-content-center gap-2">
+            <p-button
+              pRipple
+              icon="pi pi-pencil"
+              (click)="EditClick(data.Id)"
+              styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 "
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<p-dialog [(visible)]="isVisible" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="header">
+    <span class="text-xl font-bold">Import User</span>
+  </ng-template>
+  <p-dropdown
+    appendTo="body"
+    placeholder="Select a user"
+    [options]="(userSelection$ | async) || []"
+    [(ngModel)]="userSelected"
+  ></p-dropdown>
+  <ng-template pTemplate="footer">
+    <div class="flex flex-row justify-content-center align-items-center gap-2">
+      <p-button
+        class="ok"
+        label="OK"
+        pRipple
+        icon="pi pi-check"
+        (click)="ImportClick()"
+      ></p-button>
+
+      <p-button
+        class="cancel"
+        label="Cancel"
+        pRipple
+        icon="pi pi-times"
+        (click)="isVisible = false"
+      ></p-button></div
+  ></ng-template>
+</p-dialog>
