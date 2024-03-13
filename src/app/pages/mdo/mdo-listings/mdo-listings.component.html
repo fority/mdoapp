@@ -105,7 +105,7 @@
               pRipple
               [disabled]="data.Status > 10"
               label="CANCELED"
-              (click)="CancelClick(data.Id)"
+              (click)="CancelClick($event, data.Id)"
             ></p-button>
           </div>
         </td>

@@ -85,9 +85,22 @@ export class MdoListingsComponent {
     this.router.navigate([`/mdo/details/${id}`]);
   }
 
-  CancelClick(id: string) {
-    this.mdoService.Cancel(id).subscribe((x) => {
-      this.LoadData();
+  CancelClick(event: any, id: string) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure to cancel?',
+      icon: 'pi pi-exclamation-triangle',
+      dismissableMask: true,
+      accept: () => {
+        this.mdoService.Cancel(id).subscribe(() => {
+          this.LoadData();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Data have been cancelled successfully',
+          });
+        });
+      },
     });
   }
 
