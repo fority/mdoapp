@@ -227,8 +227,6 @@ export class CreateUpdateComponent {
           UOMId: res.UOM.Id,
           UOMName: res.UOM.Name,
         });
-
-        console.log(this.formControlMDOLines.controls);
       });
     });
   }
