@@ -55,7 +55,7 @@
     <div class="field col-12 md:col-6">
       <label for="ShipTo" [style]="{ width: '100%' }"
         ><span class="text-red-400">*</span>Ship To</label
-      >
+      ><br />
       <p-dropdown
         [options]="(shipToSource$ | async) || []"
         formControlName="ShipToId"
@@ -65,7 +65,7 @@
     <div class="field col-12 md:col-6">
       <label for="ShipAddress"
         ><span class="text-red-400">*</span>Ship Address</label
-      >
+      ><br />
       <input pInputText formControlName="ShipAddress" type="text" />
       <div
         *ngIf="
@@ -82,7 +82,8 @@
       </div>
     </div>
     <div class="field col-12 md:col-6">
-      <label for="ShipperId"><span class="text-red-400">*</span>Shipper</label>
+      <label for="ShipperId"><span class="text-red-400">*</span>Shipper</label
+      ><br />
       <p-dropdown
         [options]="(ShipperSource$ | async) || []"
         formControlName="ShipperId"
@@ -106,7 +107,7 @@
     <div class="field col-12 md:col-6">
       <label for="RequestById"
         ><span class="text-red-400">*</span>Request By</label
-      >
+      ><br />
       <p-dropdown
         [options]="(requestBySource$ | async) || []"
         formControlName="RequestById"
@@ -128,7 +129,7 @@
     <div class="field col-12 md:col-6">
       <label for="ReasonCodeId"
         ><span class="text-red-400">*</span>Reason Code</label
-      >
+      ><br />
       <p-dropdown
         [options]="(reasonSource$ | async) || []"
         formControlName="ReasonCodeId"
@@ -150,16 +151,19 @@
 
     <div class="field col-12 md:col-6">
       <label for="SORef">Sales Order</label>
+      <br />
       <input type="text" pInputText formControlName="SORef" />
     </div>
 
     <div class="field col-12 md:col-6">
       <label for="PORef">Purchased Order</label>
+      <br />
       <input type="text" pInputText formControlName="PORef" />
     </div>
 
     <div class="field col-12 md:col-6">
       <label for="ProdRef">Production</label>
+      <br />
       <input type="text" pInputText formControlName="ProdRef" />
     </div>
 
@@ -169,75 +173,79 @@
       <input type="text" pInputText formControlName="Remark" />
     </div>
 
-    <div class="field col-12 md:col-6">
-      <label for="Remark">MDO Line</label>
-      <br />
-      <p-button
-        [disabled]="PagingSignal().Status > 10"
-        label="Add"
-        (onClick)="CreateMdoLine()"
-        icon="pi pi-plus"
-        [rounded]="true"
-      ></p-button>
-    </div>
-    <br />
     <div class="table-container p-3" *ngIf="formControlMDOLines.length > 0">
-      <div class="data">
-        <p-card class="cards">
-          <ng-container
-            *ngFor="let item of formControlMDOLines.controls; index as i"
-          >
-            <div class="flex flex-row justify-content-between">
-              <b>Line {{ i + 1 }}</b>
-              <div class="flex flex-row gap-2">
+      <div class="flex justify-content-end">
+        <p-button
+          [disabled]="PagingSignal().Status > 10"
+          label="MDOLine"
+          (onClick)="CreateMdoLine()"
+          icon="pi pi-plus"
+          [rounded]="true"
+        ></p-button>
+      </div>
+      <br />
+      <p-table
+        dataKey="Id"
+        editMode="row"
+        styleClass="p-datatable-gridlines"
+        [tableStyle]="{ 'min-width': '30rem' }"
+        [value]="formControlMDOLines.controls"
+        [paginator]="false"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="text-align: center">Item</th>
+            <th style="text-align: center">Description</th>
+            <th style="text-align: center">Qty</th>
+            <th style="text-align: center">UOM</th>
+            <th style="text-align: center">Remark</th>
+            <th style="text-align: center">Lot</th>
+            <th style="text-align: center">Status</th>
+            <th style="text-align: center">Action</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-i="rowIndex">
+          <tr>
+            <td style="text-align: center">
+              {{ product?.get("Item")?.value }}
+            </td>
+            <td style="text-align: center">
+              {{ product.get("ItemDesc")?.value }}
+            </td>
+            <td style="text-align: center">{{ product.get("Qty")?.value }}</td>
+            <td style="text-align: center">
+              {{ product.get("UOMName")?.value }}
+            </td>
+            <td style="text-align: center">
+              {{ product.get("Remark")?.value }}
+            </td>
+            <td style="text-align: center">
+              {{ product.get("LotID")?.value }}
+            </td>
+            <td style="text-align: center">
+              {{ product.get("LineStatus")?.value }}
+            </td>
+            <td style="text-align: center">
+              <div class="flex justify-content-center gap-2">
                 <p-button
-                  [disabled]="item.get('LineStatus')?.value > 10"
+                  [disabled]="product.get('LineStatus')?.value > 10"
                   label="Edit"
                   icon="pi pi-pencil"
                   [rounded]="true"
-                  (onClick)="EditLine(item.value, i)"
-                >
-                </p-button>
+                  (click)="EditLine(product.value, i)"
+                ></p-button>
                 <p-button
-                  [disabled]="item.get('LineStatus')?.value > 10"
+                  [disabled]="product.get('LineStatus')?.value > 10"
                   label="Delete"
                   severity="danger"
                   [rounded]="true"
-                  (onClick)="DeleteLine(i)"
+                  (click)="DeleteLine(i)"
                 ></p-button>
               </div>
-            </div>
-            <br />
-            <table class="table">
-              <tr>
-                <th colspan="2" class="surface-700 text-50">Item</th>
-                <th>{{ item.get("Item")?.value }}</th>
-                <th colspan="2" class="surface-700 text-50">Description</th>
-                <th>{{ item.get("ItemDesc")?.value }}</th>
-              </tr>
-              <tr>
-                <th colspan="2" class="surface-700 text-50">Qty</th>
-                <th>{{ item.get("Qty")?.value }}</th>
-                <th colspan="2" class="surface-700 text-50">UOM</th>
-                <th>{{ item.get("UOMName")?.value }}</th>
-              </tr>
-              <tr>
-                <th colspan="2" class="surface-700 text-50">Remark</th>
-                <th colspan="4">{{ item.get("Remark")?.value }}</th>
-              </tr>
-              <tr>
-                <th colspan="2" class="surface-700 text-50">Lot</th>
-                <th>{{ item.get("LotID")?.value }}</th>
-                <th colspan="2" class="surface-700 text-50">Status</th>
-                <th>{{ item.get("LineStatus")?.value | statusPipe }}</th>
-              </tr>
-            </table>
-            <br />
-            <p-divider></p-divider>
-            <br />
-          </ng-container>
-        </p-card>
-      </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
   </form>
 </p-card>

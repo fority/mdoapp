@@ -55,6 +55,7 @@ import { MdoLinesFormComponent } from '../mdoLinesForm/mdoLinesForm.component';
     FormsModule,
     TableModule,
     DividerModule,
+    TableModule,
     CalendarModule,
     SharedModule,
     MdoLinesFormComponent,
@@ -226,6 +227,8 @@ export class CreateUpdateComponent {
           UOMId: res.UOM.Id,
           UOMName: res.UOM.Name,
         });
+
+        console.log(this.formControlMDOLines.controls);
       });
     });
   }
