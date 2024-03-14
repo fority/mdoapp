@@ -1,61 +1,3 @@
-<form class="formgrid grid" [formGroup]="FG">
-  <div class="table-container p-5">
-    <div class="data">
-      <table class="table">
-        <tr>
-          <th class="surface-700 text-50">Date</th>
-          <th>{{ FG.get("Date")?.value | date : "dd/mm/yyyy" }}</th>
-          <th class="surface-700 text-50">Ship Date</th>
-          <th>{{ FG.get("ShipDate")?.value | date : "dd/mm/yyyy" }}</th>
-          <th class="surface-700 text-50">Ship To</th>
-          <th>
-            {{
-              FG.get("ShipToId")?.value
-                | idToName : (shipToSource$ | async) || []
-            }}
-          </th>
-        </tr>
-        <tr>
-          <th class="surface-700 text-50">Ship Address</th>
-          <th colspan="3">{{ FG.get("ShipAddress")?.value }}</th>
-          <th class="surface-700 text-50">Shipper</th>
-          <th>
-            {{
-              FG.get("ShipperId")?.value
-                | idToName : (ShipperSource$ | async) || []
-            }}
-          </th>
-        </tr>
-        <tr>
-          <th class="surface-700 text-50">Request By</th>
-          <th>
-            {{
-              FG.get("RequestById")?.value
-                | idToName : (requestBySource$ | async) || []
-            }}
-          </th>
-          <th class="surface-700 text-50">Reason Code</th>
-          <th>
-            {{
-              FG.get("ReasonCodeId")?.value
-                | idToName : (reasonSource$ | async) || []
-            }}
-          </th>
-          <th class="surface-700 text-50">Sales Order</th>
-          <th>{{ FG.get("SORef")?.value }}</th>
-        </tr>
-        <tr>
-          <th class="surface-700 text-50">Purchased Order</th>
-          <th>{{ FG.get("PORef")?.value }}</th>
-          <th class="surface-700 text-50">Production</th>
-          <th>{{ FG.get("ProdRef")?.value }}</th>
-          <th class="surface-700 text-50">Remark</th>
-          <th>{{ FG.get("Remark")?.value }}</th>
-        </tr>
-      </table>
-    </div>
-  </div>
-</form>
 <p-card header="{{ Title }}">
   <p-toolbar>
     <div class="p-toolbar-group-start">
@@ -282,7 +224,7 @@
               {{ product.get("LotID")?.value }}
             </td>
             <td style="text-align: center">
-              {{ product.get("LineStatus")?.value }}
+              {{ product.get("LineStatus")?.value | statusPipe }}
             </td>
             <td style="text-align: center">
               <div class="flex justify-content-center gap-2">

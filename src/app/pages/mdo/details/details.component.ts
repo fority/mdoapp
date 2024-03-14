@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
+import { TableModule } from 'primeng/table';
 import {
   DefaultPage,
   DefaultPageSize,
@@ -16,7 +17,7 @@ import { SharedModule } from 'src/app/shared/module/SharedModule/SharedModule.mo
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.less'],
-  imports: [CommonModule, CardModule, SharedModule],
+  imports: [CommonModule, CardModule, TableModule, SharedModule],
 })
 export class DetailsComponent implements OnInit {
   private mdoService = inject(MdoService);
@@ -33,7 +34,7 @@ export class DetailsComponent implements OnInit {
     query.PageSize = DefaultPageSize;
     query.OrderBy = null;
     query.Filter = `Id=${this.mdoId}`;
-    query.Includes = 'ShipTo,Shipper,RequestBy,ReasonCode,MDOLines';
+    query.Includes = 'ShipTo,Shipper,RequestBy,ReasonCode,MDOLines.UOM';
     query.Select = null;
 
     this.mdoService.GetOne(query).subscribe((res) => {

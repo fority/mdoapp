@@ -10,7 +10,7 @@
       <th class="surface-600 text-50">Ship Date</th>
       <th>{{ PagingSignal().ShipDate | date : "dd/mm/yyyy" }}</th>
       <th class="surface-600 text-50">Ship To</th>
-      <th>{{ PagingSignal().ShipTo.Name }}</th>
+      <th>{{ PagingSignal().ShipTo ? PagingSignal().ShipTo.Name : "" }}</th>
     </tr>
     <tr>
       <th class="surface-600 text-50">Ship Address</th>
@@ -18,9 +18,11 @@
     </tr>
     <tr>
       <th class="surface-600 text-50">Shipper</th>
-      <th>{{ PagingSignal().Shipper.Name }}</th>
+      <th>{{ PagingSignal().Shipper ? PagingSignal().Shipper.Name : "" }}</th>
       <th class="surface-600 text-50">Request By</th>
-      <th>{{ PagingSignal().RequestBy.Name }}</th>
+      <th>
+        {{ PagingSignal().RequestBy ? PagingSignal().RequestBy.Name : "" }}
+      </th>
       <th class="surface-600 text-50">Sales Order</th>
       <th>{{ PagingSignal().SORef }}</th>
     </tr>
@@ -36,36 +38,60 @@
       <th class="surface-600 text-50">Status</th>
       <th>{{ PagingSignal().Status | statusPipe }}</th>
       <th class="surface-600 text-50">Reason</th>
-      <th colspan="3">{{ PagingSignal().ReasonCode.Reason }}</th>
+      <th colspan="3">
+        {{ PagingSignal().ReasonCode ? PagingSignal().ReasonCode.Reason : "" }}
+      </th>
     </tr>
   </table>
   <br />
-  <p-card header="Mdo Lines">
-    <ng-container *ngFor="let item of PagingSignal().MDOLines; index as i">
-      <b>Line {{ i + 1 }}</b>
-      <table class="table">
-        <tr>
-          <th class="surface-600 text-50">Item</th>
-          <th>{{ item.Item }}</th>
-          <th class="surface-600 text-50">Description</th>
-          <th colspan="3">{{ item.ItemDesc }}</th>
-        </tr>
-        <tr>
-          <th class="surface-600 text-50">Qty</th>
-          <th>{{ item.Qty }}</th>
-          <th class="surface-600 text-50">UOM</th>
-          <th>{{ item?.UOM?.Name }}</th>
-          <th class="surface-600 text-50">Lot</th>
-          <th>{{ item.LotID }}</th>
-        </tr>
-        <tr>
-          <th class="surface-600 text-50">Status</th>
-          <th>{{ item.LineStatus | statusPipe }}</th>
-          <th class="surface-600 text-50">Remark</th>
-          <th colspan="3">{{ item.Remark }}</th>
-        </tr>
-      </table>
-      <br
-    /></ng-container>
-  </p-card>
+  <div
+    class="table-container p-3"
+    *ngIf="PagingSignal().MDOLines && PagingSignal().MDOLines.length > 0"
+  >
+    <p-card header="Mdo Lines">
+      <p-table
+        dataKey="Id"
+        editMode="row"
+        styleClass="p-datatable-gridlines"
+        [tableStyle]="{ 'min-width': '30rem' }"
+        [value]="PagingSignal().MDOLines"
+        [paginator]="false"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="text-align: center">Item</th>
+            <th style="text-align: center">Description</th>
+            <th style="text-align: center">Qty</th>
+            <th style="text-align: center">UOM</th>
+            <th style="text-align: center">Remark</th>
+            <th style="text-align: center">Lot</th>
+            <th style="text-align: center">Status</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-i="rowIndex">
+          <tr>
+            <td style="text-align: center">
+              {{ product.Item }}
+            </td>
+            <td style="text-align: center">
+              {{ product.ItemDesc }}
+            </td>
+            <td style="text-align: center">{{ product.Qty }}</td>
+            <td style="text-align: center">
+              {{ product?.UOM?.Name }}
+            </td>
+            <td style="text-align: center">
+              {{ product.Remark }}
+            </td>
+            <td style="text-align: center">
+              {{ product.LotID }}
+            </td>
+            <td style="text-align: center">
+              {{ product.LineStatus | statusPipe }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
 </div>
