@@ -51,8 +51,8 @@ export class UomComponent {
   NewDescription: string = '';
   isAddEnable: boolean = false;
 
-  AutoCompleteSource$: Observable<string[]> =
-    this.uomService.AutoCompleteList();
+  AutoCompleteSource$: Observable<string[]> = this.uomService.GetMany();
+
   PagingSignal = signal<PagingContent<UOMDto>>({} as PagingContent<UOMDto>);
   Query: GridifyQueryExtend = {} as GridifyQueryExtend;
 

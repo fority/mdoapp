@@ -14,17 +14,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, catchError, map, of } from 'rxjs';
-import {
-  DefaultPage,
-  DefaultPageSize,
-  GridifyQueryExtend,
-  PagingContent,
-} from 'src/app/core/models/sharedModels';
+import { DefaultPage, DefaultPageSize, PagingContent } from 'src/app/core/models/sharedModels';
+import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
 import { UserProfileDto } from 'src/app/models/userProfile';
-import { SortingService } from 'src/app/services/sorting.service';
 import { UserProfileService } from 'src/app/services/userProfile.service';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
-import { SortTableModelType } from 'src/app/shared/enum/sorting';
 
 @Component({
   standalone: true,
@@ -50,7 +44,6 @@ import { SortTableModelType } from 'src/app/shared/enum/sorting';
 export class UserListingsComponent {
   private userProfileService = inject(UserProfileService);
   private messageService = inject(MessageService);
-  private sortingService = inject(SortingService);
   private confirmationService = inject(ConfirmationService);
   private router = inject(Router);
   public activatedRoute = inject(ActivatedRoute);
@@ -147,7 +140,7 @@ export class UserListingsComponent {
         },
       });
     } else {
-      this.userProfileService.Enable(id).subscribe(() => {});
+      this.userProfileService.Enable(id).subscribe(() => { });
     }
   }
 
@@ -167,19 +160,7 @@ export class UserListingsComponent {
   searchFilterText = '';
   searchSortText = this.DEFAULT_SORT;
 
-  SortByColumn(header: SortTableModelType, $event: string) {
-    this.page = DefaultPage;
-    header.assignSortBy($event);
-    this.searchSortText = this.sortingService.SortByColumn();
-    this.LoadData();
-  }
 
-  FilterByColumn(header: SortTableModelType, $event: string) {
-    this.page = DefaultPage;
-    header.assignFilterBy($event);
-    this.searchFilterText = this.sortingService.FilterByColumn();
-    this.LoadData();
-  }
 
   Search(data: string) {
     this.SearchTextNgModel = data;

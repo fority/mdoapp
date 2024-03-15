@@ -18,26 +18,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Observable, map, of } from 'rxjs';
-import {
-  DefaultPage,
-  DefaultPageSize,
-  GridifyQueryExtend,
-  SelectOption,
-} from 'src/app/core/models/sharedModels';
+import { DefaultPage, DefaultPageSize, SelectOption } from 'src/app/core/models/sharedModels';
+import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
 import { ValidateAllFormFields } from 'src/app/core/utils/helpers';
-import {
-  MDOHeaderDto,
-  MDOLineDto,
-  UpdateMDOLineRequest,
-} from 'src/app/models/mdo';
+import { MDOHeaderDto, MDOLineDto, UpdateMDOLineRequest } from 'src/app/models/mdo';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
-import {
-  MdoService,
-  ReasonCodeService,
-  RequestByService,
-  ShipToService,
-  ShipperService,
-} from 'src/app/services/mdo.service';
+import { MdoService, ReasonCodeService, RequestByService, ShipToService, ShipperService } from 'src/app/services/mdo.service';
 import { SharedModule } from 'src/app/shared/module/SharedModule/SharedModule.module';
 import { MdoLinesFormComponent } from '../mdoLinesForm/mdoLinesForm.component';
 

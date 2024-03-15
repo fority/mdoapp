@@ -17,26 +17,8 @@ export interface PagingContent<T> {
   Content: T[];
 }
 
-export interface PagingSettings {
-  page: number;
-  pageSize: number;
-  searchText: string;
-  filter?: string | null;
-  sort?: string | null;
-}
-
 export const DefaultPage = 1;
 export const DefaultPageSize = 10;
 
-export const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'Application/json' }),
-};
-
-export interface GridifyQueryExtend {
-  Page: number;
-  PageSize: number;
-  OrderBy: string | null;
-  Filter: string | null;
-  Includes: string | null;
-  Select: string | null;
-}
+export const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'Application/json' }) };
+export const blobOptions = { responseType: 'blob' as 'json' };

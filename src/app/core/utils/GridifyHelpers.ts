@@ -1,5 +1,14 @@
 import { TableLazyLoadEvent } from 'primeng/table';
 
+export interface GridifyQueryExtend {
+  Page: number;
+  PageSize: number;
+  OrderBy: string | null;
+  Filter: string | null;
+  Includes: string | null;
+  Select: string | null;
+}
+
 export enum FilterOperator {
   'Equals' = '=',
   'NotEquals' = '!=',

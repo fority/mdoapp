@@ -7,13 +7,9 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { Observable } from 'rxjs';
-import {
-  DefaultPage,
-  DefaultPageSize,
-  GridifyQueryExtend,
-  PagingContent,
-} from 'src/app/core/models/sharedModels';
+import { DefaultPage, DefaultPageSize, PagingContent } from 'src/app/core/models/sharedModels';
 import { LoadingService } from 'src/app/core/services/loading.service';
+import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
 import { ShipToDto } from 'src/app/models/shipTo';
 import { ShipToService } from 'src/app/services/mdo.service';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';

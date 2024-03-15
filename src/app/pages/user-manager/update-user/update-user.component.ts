@@ -1,12 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -15,8 +9,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { ToolbarModule } from 'primeng/toolbar';
-import { GridifyQueryExtend } from 'src/app/core/models/sharedModels';
-import { ValidateForm } from 'src/app/core/utils/helpers';
+import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
+import { ValidateAllFormFields } from 'src/app/core/utils/helpers';
 import { UserProfileDto } from 'src/app/models/userProfile';
 import { UserProfileService } from 'src/app/services/userProfile.service';
 
@@ -81,10 +75,12 @@ export class UpdateUserComponent {
   }
 
   SaveUpdateClick() {
-    if (!ValidateForm(this.createFormGroup)) return;
-    this.userProfileService.Update(this.createFormGroup.value).subscribe(() => {
-      this.CancelClick();
-    });
+    if (this.createFormGroup.valid) {
+      this.userProfileService.Update(this.createFormGroup.value).subscribe(() => {
+        this.CancelClick();
+      });
+    }
+    ValidateAllFormFields(this.createFormGroup);
   }
 
   CancelClick() {
