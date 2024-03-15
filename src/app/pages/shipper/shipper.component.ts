@@ -11,10 +11,10 @@ import { Observable } from 'rxjs';
 import {
   DefaultPage,
   DefaultPageSize,
-  GridifyQueryExtend,
   PagingContent,
 } from 'src/app/core/models/sharedModels';
 import { LoadingService } from 'src/app/core/services/loading.service';
+import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
 import { ShipperDto } from 'src/app/models/shipper';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
 import { ShipperService } from './../../services/mdo.service';

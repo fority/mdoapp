@@ -68,7 +68,7 @@ export interface UpdateMdoHeaderRequest extends MdoRequest {
   MDOLines: UpdateMDOLineRequest[];
 }
 
-export interface CreateMDOLineRequest extends MDOLineRequest {}
+export interface CreateMDOLineRequest extends MDOLineRequest { }
 
 export interface UpdateMDOLineRequest extends MDOLineRequest {
   Id: string;
