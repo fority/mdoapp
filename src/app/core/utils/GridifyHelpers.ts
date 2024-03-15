@@ -87,7 +87,7 @@ export const BuildFilterText = (event: TableLazyLoadEvent): string => {
           if (values[0].matchMode === '!=') {
             const startDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 00:00:00.0000000';
             const endDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 23:59:59.0000000';
-            filterText = filterText.concat(`(${keys}<=${startDate}|${keys}>=${endDate})`, ',');
+            filterText = filterText.concat(`(${keys}<${startDate}|${keys}>${endDate})`, ',');
           }
 
           //GreaterThan
