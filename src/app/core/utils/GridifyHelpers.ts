@@ -72,8 +72,10 @@ export const BuildFilterText = (event: TableLazyLoadEvent): string => {
   if (event.filters) {
     for (let [keys, values] of Object.entries(event.filters)) {
       if (keys && Array.isArray(values) && 'matchMode' in values[0] && 'value' in values[0] && values[0].value) {
-        if (values[0].value instanceof Date)
+        if (values[0].value instanceof Date) {
+          //TODO fix this Date>=2024-03-15  00:00:00.0000000,Date<=2024-03-15  23:59:59.0000000
           values[0].value = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate();
+        }
 
         filterText = filterText.concat(`${keys}${values[0].matchMode}${values[0].value}`, ',');
       }
