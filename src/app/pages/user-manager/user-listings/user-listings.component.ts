@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -11,11 +11,22 @@ import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, catchError, map, of } from 'rxjs';
-import { DefaultPage, DefaultPageSize, PagingContent } from 'src/app/core/models/sharedModels';
-import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
+import {
+  DefaultPage,
+  DefaultPageSize,
+  PagingContent,
+} from 'src/app/core/models/sharedModels';
+import {
+  BuildFilterText,
+  BuildSortText,
+  FilterOperatorDateSelectOption,
+  FilterOperatorNumberSelectOption,
+  FilterOperatorTextSelectOption,
+  GridifyQueryExtend,
+} from 'src/app/core/utils/GridifyHelpers';
 import { UserProfileDto } from 'src/app/models/userProfile';
 import { UserProfileService } from 'src/app/services/userProfile.service';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
@@ -48,13 +59,17 @@ export class UserListingsComponent {
   private router = inject(Router);
   public activatedRoute = inject(ActivatedRoute);
 
+  @ViewChild('fTable') fTable?: Table;
+
   isVisible = false;
-  page = DefaultPage;
-  pageSize = DefaultPageSize;
-  SearchTextNgModel: string = '';
+
   FilteredAutoComplete$: Observable<string[]> = of([]);
 
-  ClonedLineData: { [s: string]: UserProfileDto } = {};
+  DEFAULT_ORDER: string = 'Name asc';
+  DateMatchModeOptions = FilterOperatorDateSelectOption;
+  TextMatchModeOptions = FilterOperatorTextSelectOption;
+  NumberMatchModeOptions = FilterOperatorNumberSelectOption;
+
   NewId: string = '';
   NewDescription: string = '';
   isAddEnable: boolean = false;
@@ -71,18 +86,24 @@ export class UserListingsComponent {
     );
 
   userSelected = '';
-  DEFAULT_SORT = '';
 
-  LoadData() {
-    this.Query.Page = this.page;
-    this.Query.PageSize = this.pageSize;
-    this.Query.OrderBy = `Name asc`;
-    this.Query.Filter = `Name=*${this.SearchTextNgModel}`;
+  ngOnInit(): void {
+    this.SetDefaultQuery();
+  }
+
+  SetDefaultQuery() {
+    this.Query.Page = DefaultPage;
+    this.Query.PageSize = DefaultPageSize;
+    this.Query.OrderBy = this.DEFAULT_ORDER;
+    this.Query.Filter = null;
     this.Query.Includes = null;
     this.Query.Select = null;
+  }
 
+  LoadData() {
     this.userProfileService.GetMany(this.Query).subscribe((res) => {
       this.PagingSignal.set(res);
+      console.log(res);
     });
   }
 
@@ -140,7 +161,7 @@ export class UserListingsComponent {
         },
       });
     } else {
-      this.userProfileService.Enable(id).subscribe(() => { });
+      this.userProfileService.Enable(id).subscribe(() => {});
     }
   }
 
@@ -156,27 +177,32 @@ export class UserListingsComponent {
     this.router.navigate([`/user-manager/update/${id}`]);
   }
 
-  //#region Search
-  searchFilterText = '';
-  searchSortText = this.DEFAULT_SORT;
-
-
-
   Search(data: string) {
-    this.SearchTextNgModel = data;
+    this.Query.Filter = `Name=*${data}`;
     this.LoadData();
   }
 
   ClearSearch() {
-    this.SearchTextNgModel = '';
+    this.SetDefaultQuery();
+    this.ResetTable();
     this.LoadData();
+  }
+
+  ResetTable() {
+    if (this.fTable) {
+      this.fTable.clearFilterValues();
+      this.fTable.saveState();
+    }
   }
 
   NextPage(event: TableLazyLoadEvent) {
     if ((event?.first || event?.first === 0) && event?.rows) {
-      this.page = event.first / event.rows + 1 || 1;
-      this.pageSize = event.rows;
+      this.Query.Page = event.first / event.rows + 1 || 1;
+      this.Query.PageSize = event.rows;
     }
+    const sortText = BuildSortText(event);
+    this.Query.OrderBy = sortText == '' ? this.DEFAULT_ORDER : sortText;
+    this.Query.Filter = BuildFilterText(event);
     this.LoadData();
   }
 

@@ -21,13 +21,14 @@
   </div>
   <br />
   <p-table
+    #fTable
     dataKey="Id"
     editMode="row"
     styleClass="p-datatable-sm p-datatable-gridlines"
     [tableStyle]="{ 'min-width': '50rem' }"
     [value]="PagingSignal().Content"
     [totalRecords]="PagingSignal().TotalElements"
-    [rows]="pageSize"
+    [rows]="Query.PageSize"
     [paginator]="true"
     [rowsPerPageOptions]="[10, 20, 30, 50]"
     [showCurrentPageReport]="true"
@@ -37,10 +38,66 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th style="text-align: center; width: 15%">Display Name</th>
-        <th style="text-align: center; width: 15%">Username</th>
-        <th style="text-align: center; width: 10%">Phone</th>
-        <th style="text-align: center; width: 15%">Email</th>
+        <th scope="row" pSortableColumn="Name" style="width: 15%">
+          <div class="center">
+            Display Name
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="Name"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="Name"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="row" pSortableColumn="Username" style="width: 15%">
+          <div class="center">
+            Username
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="Username"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="Username"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="row" pSortableColumn="Phone" style="width: 10%">
+          <div class="center">
+            Phone
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="Phone"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="Phone"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="row" pSortableColumn="Email" style="width: 15%">
+          <div class="center">
+            Email
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="Email"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="Email"></p-sortIcon>
+          </div>
+        </th>
         <th style="text-align: center; width: 25%">Address</th>
         <th style="text-align: center; width: 10%">IsDisable</th>
         <th style="text-align: center; width: 10%">Action</th>
