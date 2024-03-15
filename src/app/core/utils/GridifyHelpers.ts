@@ -41,6 +41,10 @@ export const FilterOperatorSelectOption = [
 export const FilterOperatorDateSelectOption = [
   { label: 'Equals', value: FilterOperator.Equals },
   { label: 'NotEquals', value: FilterOperator.NotEquals },
+  { label: 'GreaterThan', value: FilterOperator.GreaterThan },
+  { label: 'LessThan', value: FilterOperator.LessThan },
+  { label: 'GreaterThanOrEqualTo', value: FilterOperator.GreaterThanOrEqualTo },
+  { label: 'LessThanOrEqualTo', value: FilterOperator.LessThanOrEqualTo }
 ];
 
 export const FilterOperatorTextSelectOption = [
@@ -73,11 +77,42 @@ export const BuildFilterText = (event: TableLazyLoadEvent): string => {
     for (let [keys, values] of Object.entries(event.filters)) {
       if (keys && Array.isArray(values) && 'matchMode' in values[0] && 'value' in values[0] && values[0].value) {
         if (values[0].value instanceof Date) {
-          //TODO fix this Date>=2024-03-15 00:00:00.0000000,Date<=2024-03-15 23:59:59.0000000
-          values[0].value = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate();
+          //Equals
+          if (values[0].matchMode === '=') {
+            const startDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 00:00:00.0000000';
+            const endDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 23:59:59.0000000';
+            filterText = filterText.concat(`(${keys}>=${startDate},${keys}<=${endDate})`, ',');
+          }
+          //NotEquals
+          if (values[0].matchMode === '!=') {
+            const startDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 00:00:00.0000000';
+            const endDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 23:59:59.0000000';
+            filterText = filterText.concat(`(${keys}<=${startDate}|${keys}>=${endDate})`, ',');
+          }
+
+          //GreaterThan
+          if (values[0].matchMode === '>') {
+            const endDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 23:59:59.0000000';
+            filterText = filterText.concat(`(${keys}>${endDate})`, ',');
+          }
+          //LessThan
+          if (values[0].matchMode === '<') {
+            const startDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 00:00:00.0000000';
+            filterText = filterText.concat(`(${keys}<${startDate})`, ',');
+          }
+          //GreaterThanOrEqualTo
+          if (values[0].matchMode === '>=') {
+            const startDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 00:00:00.0000000';
+            filterText = filterText.concat(`(${keys}>=${startDate})`, ',');
+          }
+          //LessThanOrEqualTo
+          if (values[0].matchMode === '<') {
+            const endDate = values[0].value.getFullYear() + '-' + (values[0].value.getMonth() + 1) + '-' + values[0].value.getDate() + ' 23:59:59.0000000';
+            filterText = filterText.concat(`(${keys}<=${endDate})`, ',');
+          }
         }
 
-        filterText = filterText.concat(`${keys}${values[0].matchMode}${values[0].value}`, ',');
+
       }
     }
     filterText = filterText.substring(0, filterText.length - 1);
