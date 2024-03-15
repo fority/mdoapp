@@ -1,19 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { Observable } from 'rxjs';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import {
   DefaultPage,
   DefaultPageSize,
-  GridifyQueryExtend,
   PagingContent,
 } from 'src/app/core/models/sharedModels';
 import { LoadingService } from 'src/app/core/services/loading.service';
+import {
+  BuildFilterText,
+  BuildSortText,
+  GridifyQueryExtend,
+} from 'src/app/core/utils/GridifyHelpers';
 import { UOMDto } from 'src/app/models/uom';
 import { UOMService } from 'src/app/services/mdo.service';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
@@ -41,9 +44,7 @@ export class UomComponent {
   private uomService = inject(UOMService);
   private loadingService = inject(LoadingService);
 
-  Page: number = DefaultPage;
-  PageSize: number = DefaultPageSize;
-  SearchTextNgModel: string = '';
+  @ViewChild('fTable') fTable?: Table;
 
   ClonedLineData: { [s: string]: UOMDto } = {};
   NewId: string = '';
@@ -51,20 +52,26 @@ export class UomComponent {
   NewDescription: string = '';
   isAddEnable: boolean = false;
 
-  AutoCompleteSource$: Observable<string[]> = this.uomService.AutoCompleteList();
-
   PagingSignal = signal<PagingContent<UOMDto>>({} as PagingContent<UOMDto>);
   Query: GridifyQueryExtend = {} as GridifyQueryExtend;
 
-  LoadData() {
-    this.loadingService.start();
-    this.Query.Page = this.Page;
-    this.Query.PageSize = this.PageSize;
-    this.Query.OrderBy = `Name asc`;
-    this.Query.Filter = `Name=*${this.SearchTextNgModel}`;
+  DEFAULT_ORDER: string = 'Name asc';
+
+  ngOnInit(): void {
+    this.SetDefaultQuery();
+  }
+
+  SetDefaultQuery() {
+    this.Query.Page = DefaultPage;
+    this.Query.PageSize = DefaultPageSize;
+    this.Query.OrderBy = this.DEFAULT_ORDER;
+    this.Query.Filter = null;
     this.Query.Includes = null;
     this.Query.Select = null;
+  }
 
+  LoadData() {
+    this.loadingService.start();
     this.uomService.GetMany(this.Query).subscribe((x) => {
       this.PagingSignal.set(x);
       this.loadingService.stop();
@@ -96,13 +103,21 @@ export class UomComponent {
   }
 
   Search(data: string) {
-    this.SearchTextNgModel = data;
+    this.Query.Filter = `Name=*${data}|Description=*${data}`;
     this.LoadData();
   }
 
   ClearSearch() {
-    this.SearchTextNgModel = '';
+    this.SetDefaultQuery();
+    this.ResetTable();
     this.LoadData();
+  }
+
+  ResetTable() {
+    if (this.fTable) {
+      this.fTable.clearFilterValues();
+      this.fTable.saveState();
+    }
   }
 
   onRowEditInit(data: UOMDto) {
@@ -162,9 +177,12 @@ export class UomComponent {
 
   NextPage(event: TableLazyLoadEvent) {
     if ((event?.first || event?.first === 0) && event?.rows) {
-      this.Page = event.first / event.rows + 1 || 1;
-      this.PageSize = event.rows;
+      this.Query.Page = event.first / event.rows + 1 || 1;
+      this.Query.PageSize = event.rows;
     }
+    const sortText = BuildSortText(event);
+    this.Query.OrderBy = sortText == '' ? this.DEFAULT_ORDER : sortText;
+    this.Query.Filter = BuildFilterText(event);
     this.LoadData();
   }
 }

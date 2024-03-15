@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { Observable } from 'rxjs';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import {
-  DefaultPage,
   DefaultPageSize,
   PagingContent,
 } from 'src/app/core/models/sharedModels';
 import { LoadingService } from 'src/app/core/services/loading.service';
-import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
+import {
+  BuildFilterText,
+  BuildSortText,
+  GridifyQueryExtend,
+} from 'src/app/core/utils/GridifyHelpers';
 import { ReasonCodeDto } from 'src/app/models/reason-code';
 import { ReasonCodeService } from 'src/app/services/mdo.service';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
@@ -41,9 +43,7 @@ export class ReasonComponent {
   private reasonCodeService = inject(ReasonCodeService);
   private loadingService = inject(LoadingService);
 
-  Page: number = DefaultPage;
-  PageSize: number = DefaultPageSize;
-  SearchTextNgModel: string = '';
+  @ViewChild('fTable') fTable?: Table;
 
   ClonedLineData: { [s: string]: ReasonCodeDto } = {};
   NewId: string = '';
@@ -51,22 +51,27 @@ export class ReasonComponent {
   NewDescription: string = '';
   isAddEnable: boolean = false;
 
-  AutoCompleteSource$: Observable<string[]> =
-    this.reasonCodeService.AutoCompleteList();
   PagingSignal = signal<PagingContent<ReasonCodeDto>>(
     {} as PagingContent<ReasonCodeDto>
   );
   Query: GridifyQueryExtend = {} as GridifyQueryExtend;
 
-  LoadData() {
-    this.loadingService.start();
-    this.Query.Page = this.Page;
-    this.Query.PageSize = this.PageSize;
-    this.Query.OrderBy = `Reason asc`;
-    this.Query.Filter = `Reason=*${this.SearchTextNgModel}`;
+  DEFAULT_ORDER: string = 'Reason asc';
+
+  ngOnInit(): void {
+    this.SetDefaultQuery();
+  }
+
+  SetDefaultQuery() {
+    this.Query.Page = 0;
+    this.Query.PageSize = DefaultPageSize;
+    this.Query.OrderBy = this.DEFAULT_ORDER;
+    this.Query.Filter = null;
     this.Query.Includes = null;
     this.Query.Select = null;
-
+  }
+  LoadData() {
+    this.loadingService.start();
     this.reasonCodeService.GetMany(this.Query).subscribe((x) => {
       this.PagingSignal.set(x);
       this.loadingService.stop();
@@ -98,13 +103,21 @@ export class ReasonComponent {
   }
 
   Search(data: string) {
-    this.SearchTextNgModel = data;
+    this.Query.Filter = `Reason=*${data}|Description=*${data}`;
     this.LoadData();
   }
 
   ClearSearch() {
-    this.SearchTextNgModel = '';
+    this.SetDefaultQuery();
+    this.ResetTable();
     this.LoadData();
+  }
+
+  ResetTable() {
+    if (this.fTable) {
+      this.fTable.clearFilterValues();
+      this.fTable.saveState();
+    }
   }
 
   onRowEditInit(data: ReasonCodeDto) {
@@ -168,9 +181,12 @@ export class ReasonComponent {
 
   NextPage(event: TableLazyLoadEvent) {
     if ((event?.first || event?.first === 0) && event?.rows) {
-      this.Page = event.first / event.rows + 1 || 1;
-      this.PageSize = event.rows;
+      this.Query.Page = event.first / event.rows + 1 || 1;
+      this.Query.PageSize = event.rows;
     }
+    const sortText = BuildSortText(event);
+    this.Query.OrderBy = sortText == '' ? this.DEFAULT_ORDER : sortText;
+    this.Query.Filter = BuildFilterText(event);
     this.LoadData();
   }
 }

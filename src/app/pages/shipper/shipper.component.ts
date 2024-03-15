@@ -1,20 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable } from 'rxjs';
 import {
-  DefaultPage,
   DefaultPageSize,
   PagingContent,
 } from 'src/app/core/models/sharedModels';
 import { LoadingService } from 'src/app/core/services/loading.service';
-import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
+import {
+  BuildFilterText,
+  BuildSortText,
+  GridifyQueryExtend,
+} from 'src/app/core/utils/GridifyHelpers';
 import { ShipperDto } from 'src/app/models/shipper';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
 import { ShipperService } from './../../services/mdo.service';
@@ -43,9 +45,7 @@ export class ShipperComponent {
   private shipperService = inject(ShipperService);
   private loadingService = inject(LoadingService);
 
-  Page: number = DefaultPage;
-  PageSize: number = DefaultPageSize;
-  SearchTextNgModel: string = '';
+  @ViewChild('fTable') fTable?: Table;
 
   ClonedLineData: { [s: string]: ShipperDto } = {};
   NewId: string = '';
@@ -53,22 +53,27 @@ export class ShipperComponent {
   NewDescription: string = '';
   isAddEnable: boolean = false;
 
-  AutoCompleteSource$: Observable<string[]> =
-    this.shipperService.AutoCompleteList();
   PagingSignal = signal<PagingContent<ShipperDto>>(
     {} as PagingContent<ShipperDto>
   );
   Query: GridifyQueryExtend = {} as GridifyQueryExtend;
 
-  LoadData() {
-    this.loadingService.start();
-    this.Query.Page = this.Page;
-    this.Query.PageSize = this.PageSize;
-    this.Query.OrderBy = `Name asc`;
-    this.Query.Filter = `Name=*${this.SearchTextNgModel}`;
+  DEFAULT_ORDER: string = 'Name asc';
+
+  ngOnInit(): void {
+    this.SetDefaultQuery();
+  }
+
+  SetDefaultQuery() {
+    this.Query.Page = 1;
+    this.Query.PageSize = DefaultPageSize;
+    this.Query.OrderBy = this.DEFAULT_ORDER;
+    this.Query.Filter = null;
     this.Query.Includes = null;
     this.Query.Select = null;
-
+  }
+  LoadData() {
+    this.loadingService.start();
     this.shipperService.GetMany(this.Query).subscribe((x) => {
       this.PagingSignal.set(x);
       this.loadingService.stop();
@@ -100,13 +105,21 @@ export class ShipperComponent {
   }
 
   Search(data: string) {
-    this.SearchTextNgModel = data;
+    this.Query.Filter = `Name=*${data} | Description=*${data}`;
     this.LoadData();
   }
 
   ClearSearch() {
-    this.SearchTextNgModel = '';
+    this.SetDefaultQuery();
+    this.ResetTable();
     this.LoadData();
+  }
+
+  ResetTable() {
+    if (this.fTable) {
+      this.fTable.clearFilterValues();
+      this.fTable.saveState();
+    }
   }
 
   onRowEditInit(data: ShipperDto) {
@@ -166,9 +179,12 @@ export class ShipperComponent {
 
   NextPage(event: TableLazyLoadEvent) {
     if ((event?.first || event?.first === 0) && event?.rows) {
-      this.Page = event.first / event.rows + 1 || 1;
-      this.PageSize = event.rows;
+      this.Query.Page = event.first / event.rows + 1 || 1;
+      this.Query.PageSize = event.rows;
     }
+    const sortText = BuildSortText(event);
+    this.Query.OrderBy = sortText == '' ? this.DEFAULT_ORDER : sortText;
+    this.Query.Filter = BuildFilterText(event);
     this.LoadData();
   }
 }

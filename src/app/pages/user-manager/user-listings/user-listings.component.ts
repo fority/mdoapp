@@ -85,7 +85,7 @@ export class UserListingsComponent {
       map((x) => x.Content.map((x) => ({ label: x.UserName, value: x.Id })))
     );
 
-  userSelected = '';
+  userSelected: string = '';
 
   ngOnInit(): void {
     this.SetDefaultQuery();
@@ -103,7 +103,6 @@ export class UserListingsComponent {
   LoadData() {
     this.userProfileService.GetMany(this.Query).subscribe((res) => {
       this.PagingSignal.set(res);
-      console.log(res);
     });
   }
 

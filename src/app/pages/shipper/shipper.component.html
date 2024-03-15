@@ -5,7 +5,6 @@
   <div class="flex flex-row flex-wrap align-items-center gap-3">
     <div class="search-box flex-grow-1">
       <app-searchbox
-        [AutoCompleteSource$]="AutoCompleteSource$"
         PlaceHolder="Search"
         (onSearch)="Search($event)"
         (onClearClick)="ClearSearch()"
@@ -28,7 +27,7 @@
     [tableStyle]="{ 'min-width': '30rem' }"
     [value]="PagingSignal().Content"
     [totalRecords]="PagingSignal().TotalElements || 0"
-    [rows]="PageSize"
+    [rows]="Query.PageSize"
     [pageLinks]="3"
     [paginator]="true"
     [rowsPerPageOptions]="[10, 20, 30, 50]"

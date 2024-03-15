@@ -1,42 +1,185 @@
 <p-card header="MDO" subheader="{{ PagingSignal().TotalElements }} mdo">
   <div class="flex flex-row flex-wrap align-items-center gap-3">
     <div class="search-box flex-grow-1">
-      <app-searchbox PlaceHolder="Search" (onSearch)="Search($event)" (onClearClick)="ClearSearch()"></app-searchbox>
+      <app-searchbox
+        PlaceHolder="Search"
+        (onSearch)="Search($event)"
+        (onClearClick)="ClearSearch()"
+      ></app-searchbox>
     </div>
-    <p-button pRipple [rounded]="true" (click)="AddClick()" pTooltip="Click to Add" label="Add" tooltipPosition="top">
+    <p-button
+      pRipple
+      [rounded]="true"
+      (click)="AddClick()"
+      pTooltip="Click to Add"
+      label="Add"
+      tooltipPosition="top"
+    >
     </p-button>
   </div>
 
-
   <br />
-  <p-table #fTable dataKey="Id" editMode="row" styleClass="p-datatable-sm p-datatable-gridlines"
-    [tableStyle]="{ 'min-width': '50rem' }" [value]="PagingSignal().Content"
-    [totalRecords]="PagingSignal().TotalElements" [rows]="Query.PageSize" [paginator]="true"
-    [rowsPerPageOptions]="[10, 20, 30, 50]" [showCurrentPageReport]="true"
-    [currentPageReportTemplate]="'{currentPage} of {totalPages}'" [lazy]="true" (onLazyLoad)="NextPage($event)">
+  <p-table
+    #fTable
+    dataKey="RecordId"
+    editMode="row"
+    styleClass="p-datatable-sm p-datatable-gridlines"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [value]="PagingSignal().Content"
+    [totalRecords]="PagingSignal().TotalElements"
+    [rows]="Query.PageSize"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 50]"
+    [showCurrentPageReport]="true"
+    [currentPageReportTemplate]="'{currentPage} of {totalPages}'"
+    [lazy]="true"
+    (onLazyLoad)="NextPage($event)"
+  >
     <ng-template pTemplate="header">
       <tr>
         <th style="text-align: center; width: 5%"></th>
-        <th style="text-align: center; width: 7%">Record Id</th>
-        <th style="text-align: center; width: 7%">Date</th>
-        <th style="text-align: center; width: 7%">Ship Date</th>
-        <th style="text-align: center; width: 7%">Ship To</th>
-        <th style="text-align: center; width: 7%">Shipper</th>
-        <th style="text-align: center; width: 7%">Request By</th>
-        <th style="text-align: center; width: 7%">Reason</th>
+        <th scope="row" pSortableColumn="RecordId" style="width: 7%">
+          <div class="center">
+            Record Id
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="RecordId"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="RecordId"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="row" pSortableColumn="Date" style="width: 7%">
+          <div class="center">
+            Date
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="DateMatchModeOptions"
+              type="text"
+              field="Date"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="Date"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="row" pSortableColumn="ShipDate" style="width: 7%">
+          <div class="center">
+            Ship Date
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="DateMatchModeOptions"
+              type="text"
+              field="ShipDate"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="ShipDate"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="row" pSortableColumn="ShipTo" style="width: 7%">
+          <div class="center">
+            Ship To
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="ShipTo.Name"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="ShipTo"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="row" pSortableColumn="Shipper" style="width: 7%">
+          <div class="center">
+            Shipper
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="Shipper.Name"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="Shipper"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="row" pSortableColumn="RequestBy" style="width: 7%">
+          <div class="center">
+            Request By
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="RequestBy.Name"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="RequestBy"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="row" pSortableColumn="ReasonCode" style="width: 7%">
+          <div class="center">
+            Reason
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="ReasonCode.Reason"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="ReasonCode"></p-sortIcon>
+          </div>
+        </th>
         <th style="text-align: center; width: 7%">Remark</th>
-        <th style="text-align: center; width: 7%">Status</th>
+        <th scope="row" pSortableColumn="Status" style="width: 7%">
+          <div class="center">
+            Status
+            <p-columnFilter
+              [showOperator]="false"
+              [showAddButton]="false"
+              [matchModeOptions]="TextMatchModeOptions"
+              type="text"
+              field="Status"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+            <p-sortIcon field="Status"></p-sortIcon>
+          </div>
+        </th>
         <th style="text-align: center; width: 7%">Action</th>
         <th style="text-align: center; width: 7%">PDF</th>
         <th style="text-align: center; width: 5%">Action</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-data let-rowIndex="rowIndex" let-expanded="expanded">
+    <ng-template
+      pTemplate="body"
+      let-data
+      let-rowIndex="rowIndex"
+      let-expanded="expanded"
+    >
       <tr>
         <td style="text-align: center">
-          <button type="button" pButton pRipple [pRowToggler]="data"
+          <button
+            type="button"
+            pButton
+            pRipple
+            [pRowToggler]="data"
             class="p-button-text p-button-rounded p-button-plain"
-            [icon]="expanded ? 'pi pi-minus' : 'pi pi-plus'"></button>
+            [icon]="expanded[data.Id] ? 'pi pi-minus' : 'pi pi-plus'"
+          ></button>
         </td>
         <td style="text-align: center">
           <a (click)="GotoDetails(data.Id)">{{ data.RecordId }}</a>
@@ -59,7 +202,11 @@
         <td style="text-align: center">
           {{ data.ReasonCode?.Reason }}
         </td>
-        <td style="text-align: center" pTooltip="{{ data.Remark }}" pTooltipPosition="top">
+        <td
+          style="text-align: center"
+          pTooltip="{{ data.Remark }}"
+          pTooltipPosition="top"
+        >
           {{ data.Remark }}
         </td>
         <td style="text-align: center">
@@ -67,8 +214,13 @@
         </td>
         <td>
           <div class="flex align-items-center justify-content-center">
-            <p-button class="border-dashed border-red-300" pRipple [disabled]="data.Status > 10" label="CANCELED"
-              (click)="CancelClick($event, data.Id)"></p-button>
+            <p-button
+              class="border-dashed border-red-300"
+              pRipple
+              [disabled]="data.Status > 10"
+              label="CANCELED"
+              (click)="CancelClick($event, data.Id)"
+            ></p-button>
           </div>
         </td>
         <td style="text-align: center">
@@ -86,44 +238,47 @@
       <tr>
         <td colspan="13">
           <div class="p-3">
-            <p-table [value]="product.MDOLines" dataKey="id">
+            <p-table [value]="product.MDOLines" dataKey="Item">
               <ng-template pTemplate="header">
-      <tr>
-        <th style="text-align: center">Item</th>
-        <th style="text-align: center">Description</th>
-        <th style="text-align: center">Qty</th>
-        <th style="text-align: center">UOM</th>
-        <th style="text-align: center">Lot Id</th>
-        <th style="text-align: center">Remark</th>
-        <th style="text-align: center">Status</th>
-        <th style="text-align: center">Action</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-item>
-      <tr>
-        <td style="text-align: center">{{ item.Item }}</td>
-        <td style="text-align: center">{{ item.ItemDesc }}</td>
-        <td style="text-align: center">{{ item.Qty }}</td>
-        <td style="text-align: center">{{ item?.UOM?.Name }}</td>
-        <td style="text-align: center">{{ item.LotID }}</td>
-        <td style="text-align: center">{{ item.Remark }}</td>
-        <td style="text-align: center">
-          {{ item.LineStatus | statusPipe }}
+                <tr>
+                  <th style="text-align: center">Item</th>
+                  <th style="text-align: center">Description</th>
+                  <th style="text-align: center">Qty</th>
+                  <th style="text-align: center">UOM</th>
+                  <th style="text-align: center">Lot</th>
+                  <th style="text-align: center">Remark</th>
+                  <th style="text-align: center">Status</th>
+                  <th style="text-align: center">Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-item>
+                <tr>
+                  <td style="text-align: center">{{ item.Item }}</td>
+                  <td style="text-align: center">{{ item.ItemDesc }}</td>
+                  <td style="text-align: center">{{ item.Qty }}</td>
+                  <td style="text-align: center">{{ item?.UOM?.Name }}</td>
+                  <td style="text-align: center">{{ item.LotID }}</td>
+                  <td style="text-align: center">{{ item.Remark }}</td>
+                  <td style="text-align: center">
+                    {{ item.LineStatus | statusPipe }}
+                  </td>
+                  <td style="text-align: center">
+                    <p-button
+                      [disabled]="item.LineStatus > 10"
+                      label="RETURNED"
+                    ></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="6">There are no data for this MDO yet.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
         </td>
-        <td style="text-align: center">
-          <p-button [disabled]="item.LineStatus > 10" label="RETURNED"></p-button>
-        </td>
       </tr>
     </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="6">There are no data for this MDO yet.</td>
-      </tr>
-    </ng-template>
-  </p-table>
-  </div>
-  </td>
-  </tr>
-  </ng-template>
   </p-table>
 </p-card>
