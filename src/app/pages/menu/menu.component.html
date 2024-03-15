@@ -8,9 +8,14 @@
     </p-card>
   </div>
 
-  <h1>&nbsp;Settings&nbsp;</h1>
+  <div *FxtRoleGuard="['MDO.Admin']">
+    <h1>&nbsp;Settings&nbsp;</h1>
+  </div>
 
-  <div class="flex flex-wrap justify-content-between">
+  <div
+    class="flex flex-wrap justify-content-between"
+    *FxtRoleGuard="['MDO.Admin']"
+  >
     <p-card class="flex-grow-1" routerLink="/setting/shipper">
       <img src="../../../assets/shipper.svg" alt="" />
       <h5>Shipper</h5>
