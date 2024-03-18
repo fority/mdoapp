@@ -75,8 +75,8 @@ export class MdoListingsComponent {
     this.Query.PageSize = DefaultPageSize;
     this.Query.OrderBy = this.DEFAULT_ORDER;
     this.Query.Filter = null;
-    this.Query.Includes = 'MDOLines.UOM';
-    this.Query.Select = `Id,RecordId,Date,ShipDate,Remark,Status,ShipTo,Shipper,RequestBy,ReasonCode,MDOLines`;
+    this.Query.Includes = null;
+    this.Query.Select = `Id,RecordId,Date,ShipDate,Remark,Status,ShipTo.Name as ShipTo,Shipper.Name as Shipper,RequestBy.Name as RequestBy,ReasonCode.Reason as ReasonCode,MDOLines.Select(new(Id,Item as Items,ItemDesc,LotID,LineStatus,Qty,Remark,UOM.Name as UOM)) as MDOLines`;
   }
 
   LoadData() {
@@ -123,9 +123,22 @@ export class MdoListingsComponent {
     });
   }
 
-  ReturnClick(id: string, mdoLineId: string) {
-    this.mdoService.Return(id, mdoLineId).subscribe((x) => {
-      this.LoadData();
+  ReturnClick(event: any, id: string, mdoLineId: string) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure to return?',
+      icon: 'pi pi-exclamation-triangle',
+      dismissableMask: true,
+      accept: () => {
+        this.mdoService.Return(id, mdoLineId).subscribe(() => {
+          this.LoadData();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Data have been cancelled successfully',
+          });
+        });
+      },
     });
   }
 
