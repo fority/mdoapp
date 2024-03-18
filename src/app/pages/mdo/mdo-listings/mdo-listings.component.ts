@@ -75,14 +75,13 @@ export class MdoListingsComponent {
     this.Query.PageSize = DefaultPageSize;
     this.Query.OrderBy = this.DEFAULT_ORDER;
     this.Query.Filter = null;
-    this.Query.Includes = 'MDOLines.UOM';
-    this.Query.Select = `Id,RecordId,Date,ShipDate,Remark,Status,ShipTo.Name as ShipTo,Shipper.Name as Shipper,RequestBy.Name as RequestBy,ReasonCode.Reason as ReasonCode,MDOLines`;
+    this.Query.Includes = null;
+    this.Query.Select = `Id,RecordId,Date,ShipDate,Remark,Status,ShipTo.Name as ShipTo,Shipper.Name as Shipper,RequestBy.Name as RequestBy,ReasonCode.Reason as ReasonCode,MDOLines.Select(new(Id,Item as Items,ItemDesc,LotID,LineStatus,Qty,Remark,UOM.Name as UOM)) as MDOLines`;
   }
 
   LoadData() {
     this.mdoService.GetMany(this.Query).subscribe((res) => {
       this.PagingSignal.set(res);
-      console.log(res);
       this.listOfData = res.Content;
     });
   }
