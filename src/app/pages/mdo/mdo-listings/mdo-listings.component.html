@@ -191,16 +191,16 @@
           {{ data.ShipDate | date : "dd/MM/yyyy" }}
         </td>
         <td style="text-align: center">
-          {{ data.ShipTo?.Name }}
+          {{ data.ShipTo }}
         </td>
         <td style="text-align: center">
-          {{ data.Shipper?.Name }}
+          {{ data.Shipper }}
         </td>
         <td style="text-align: center">
-          {{ data.RequestBy?.Name }}
+          {{ data.RequestBy }}
         </td>
         <td style="text-align: center">
-          {{ data.ReasonCode?.Reason }}
+          {{ data.ReasonCode }}
         </td>
         <td
           style="text-align: center"
@@ -266,6 +266,7 @@
                     <p-button
                       [disabled]="item.LineStatus > 10"
                       label="RETURNED"
+                      (onClick)="ReturnClick($event, item.Id, product.Id)"
                     ></p-button>
                   </td>
                 </tr>
