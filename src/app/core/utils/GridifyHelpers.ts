@@ -47,6 +47,11 @@ export const FilterOperatorDateSelectOption = [
   { label: 'LessThanOrEqualTo', value: FilterOperator.LessThanOrEqualTo }
 ];
 
+export const FilterOperatorStatusSelectOption = [
+  { label: 'Equals', value: FilterOperator.Equals },
+  { label: 'NotEquals', value: FilterOperator.NotEquals }
+];
+
 export const FilterOperatorTextSelectOption = [
   { label: 'Contains', value: FilterOperator.Contains },
   { label: 'NotContains', value: FilterOperator.NotContains },
@@ -111,11 +116,13 @@ export const BuildFilterText = (event: TableLazyLoadEvent): string => {
             filterText = filterText.concat(`(${keys}<=${endDate})`, ',');
           }
         }
-
-
+        else {
+          filterText = filterText.concat(`${keys}${values[0].matchMode}${values[0].value}`, ',');
+        }
       }
+
+      filterText = filterText.substring(0, filterText.length - 1);
     }
-    filterText = filterText.substring(0, filterText.length - 1);
   }
   return filterText;
 };
