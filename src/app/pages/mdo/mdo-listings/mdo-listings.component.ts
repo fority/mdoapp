@@ -6,12 +6,13 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import {
   DefaultPage,
   DefaultPageSize,
   PagingContent,
 } from 'src/app/core/models/sharedModels';
+import { LoadingService } from 'src/app/core/services/loading.service';
 import {
   BuildFilterText,
   BuildSortText,
@@ -44,6 +45,7 @@ import { SharedModule } from 'src/app/shared/module/SharedModule/SharedModule.mo
 export class MdoListingsComponent {
   private mdoService = inject(MdoService);
   private messageService = inject(MessageService);
+  private loadingService = inject(LoadingService);
   private confirmationService = inject(ConfirmationService);
   private router = inject(Router);
   public activatedRoute = inject(ActivatedRoute);
@@ -67,6 +69,22 @@ export class MdoListingsComponent {
   TextMatchModeOptions = FilterOperatorTextSelectOption;
   NumberMatchModeOptions = FilterOperatorNumberSelectOption;
 
+  AutoCompleteSource$: Observable<string[]> = this.mdoService.GetMany({
+    OrderBy: `RecordId`,
+    Select: `RecordId`,
+    Page: 1,
+    PageSize: 1000000,
+    Filter: null,
+    Includes: null
+  }).pipe(map((x) => x.Content.map((x: any) => x.RecordId || "")));
+
+  customFilterCallback(filter: (a: any) => void, value: any): void {
+    //this.stopListening = true;
+    filter(value);
+    //this.stopListening = false;
+  }
+
+
   ngOnInit(): void {
     this.SetDefaultQuery();
   }
@@ -80,9 +98,11 @@ export class MdoListingsComponent {
   }
 
   LoadData() {
+    this.loadingService.start();
     this.mdoService.GetMany(this.Query).subscribe((res) => {
       this.PagingSignal.set(res);
       this.listOfData = res.Content;
+      this.loadingService.stop();
     });
   }
 
@@ -132,11 +152,7 @@ export class MdoListingsComponent {
       accept: () => {
         this.mdoService.Return(id, mdoLineId).subscribe(() => {
           this.LoadData();
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Data have been cancelled successfully',
-          });
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data have been cancelled successfully' });
         });
       },
     });
@@ -155,20 +171,30 @@ export class MdoListingsComponent {
 
   ResetTable() {
     if (this.fTable) {
+      this.Query.Filter = '';
       this.fTable.clearFilterValues();
       this.fTable.saveState();
     }
   }
+
   NextPage(event: TableLazyLoadEvent) {
     if ((event?.first || event?.first === 0) && event?.rows) {
       this.Query.Page = event.first / event.rows + 1 || 1;
       this.Query.PageSize = event.rows;
     }
-    const sortText = BuildSortText(event);
+    const sortText = BuildSortText(event)
     this.Query.OrderBy = sortText == '' ? this.DEFAULT_ORDER : sortText;
-    this.Query.Filter = BuildFilterText(event);
+    const filtered = BuildFilterText(event);
+    if (filtered === '')
+      this.ResetTable();
+    else
+      this.Query.Filter = BuildFilterText(event);
     this.LoadData();
   }
+
+
+
+
 
   Delete(event: any, data: MDOHeaderDto) {
     this.confirmationService.confirm({
