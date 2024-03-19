@@ -12,9 +12,8 @@
     </div>
     <p-button
       pRipple
-      [rounded]="true"
       (click)="Add()"
-      tooltipPosition="top"
+      tooltipPosition="left"
       pTooltip="Click to Add"
       >Add
     </p-button>
@@ -68,12 +67,14 @@
             <p-button
               pRipple
               icon="pi pi-check"
+              [text]="true"
               (click)="SaveClick()"
               styleClass="p-button-rounded p-button-outlined p-button-success"
             ></p-button>
             <p-button
               pRipple
               icon="pi pi-times"
+              [text]="true"
               (click)="isAddEnable = false"
               styleClass="p-button-rounded p-button-outlined p-button-danger"
             ></p-button>
@@ -116,6 +117,7 @@
               pRipple
               pInitEditableRow
               icon="pi pi-pencil"
+              [text]="true"
               (click)="onRowEditInit(data)"
               styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 "
             ></p-button>
@@ -123,6 +125,7 @@
               *ngIf="!editing"
               pRipple
               icon="pi pi-trash"
+              [text]="true"
               (click)="Delete($event, data)"
               styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 p-button-danger"
             ></p-button>
@@ -132,6 +135,7 @@
               pRipple
               pSaveEditableRow
               icon="pi pi-check"
+              [text]="true"
               (click)="onRowEditSave(ri, data)"
               styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 p-button-success"
             ></p-button>
@@ -141,6 +145,7 @@
               pRipple
               pCancelEditableRow
               icon="pi pi-times"
+              [text]="true"
               (click)="onRowEditCancel(data, ri)"
               styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 p-button-danger"
             ></p-button>

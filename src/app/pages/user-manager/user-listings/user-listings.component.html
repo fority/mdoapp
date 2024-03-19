@@ -38,64 +38,88 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th scope="row" pSortableColumn="Name" style="width: 15%">
-          <div class="center">
-            Display Name
-            <p-columnFilter
-              [showOperator]="false"
-              [showAddButton]="false"
-              [matchModeOptions]="TextMatchModeOptions"
-              type="text"
-              field="Name"
-              display="menu"
-              class="ml-auto"
-            ></p-columnFilter>
-            <p-sortIcon field="Name"></p-sortIcon>
+        <th scope="row" pSortableColumn="Name">
+          <div class="flex justify-content-between flex-wrap">
+            <div class="flex align-items-center justify-content-center">
+              <p-columnFilter
+                [showOperator]="false"
+                [showAddButton]="false"
+                [matchModeOptions]="TextMatchModeOptions"
+                type="text"
+                field="Name"
+                display="menu"
+                class="ml-auto"
+              ></p-columnFilter>
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              Display Name
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              <p-sortIcon field="Name"></p-sortIcon>
+            </div>
           </div>
         </th>
-        <th scope="row" pSortableColumn="Username" style="width: 15%">
-          <div class="center">
-            Username
-            <p-columnFilter
-              [showOperator]="false"
-              [showAddButton]="false"
-              [matchModeOptions]="TextMatchModeOptions"
-              type="text"
-              field="Username"
-              display="menu"
-              class="ml-auto"
-            ></p-columnFilter>
-            <p-sortIcon field="Username"></p-sortIcon>
+        <th scope="row" pSortableColumn="Username">
+          <div class="flex justify-content-between flex-wrap">
+            <div class="flex align-items-center justify-content-center">
+              <p-columnFilter
+                [showOperator]="false"
+                [showAddButton]="false"
+                [matchModeOptions]="TextMatchModeOptions"
+                type="text"
+                field="Username"
+                display="menu"
+                class="ml-auto"
+              ></p-columnFilter>
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              Username
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              <p-sortIcon field="Username"></p-sortIcon>
+            </div>
           </div>
         </th>
-        <th scope="row" pSortableColumn="Phone" style="width: 10%">
-          <div class="center">
-            Phone
-            <p-columnFilter
-              [showOperator]="false"
-              [showAddButton]="false"
-              [matchModeOptions]="TextMatchModeOptions"
-              type="text"
-              field="Phone"
-              display="menu"
-              class="ml-auto"
-            ></p-columnFilter>
-            <p-sortIcon field="Phone"></p-sortIcon>
+        <th scope="row" pSortableColumn="PhoneNumber">
+          <div class="flex justify-content-between flex-wrap">
+            <div class="flex align-items-center justify-content-center">
+              <p-columnFilter
+                [showOperator]="false"
+                [showAddButton]="false"
+                [matchModeOptions]="TextMatchModeOptions"
+                type="text"
+                field="PhoneNumber"
+                display="menu"
+                class="ml-auto"
+              ></p-columnFilter>
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              Phone
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              <p-sortIcon field="PhoneNumber"></p-sortIcon>
+            </div>
           </div>
         </th>
-        <th scope="row" pSortableColumn="Email" style="width: 15%">
-          <div class="center">
-            Email
-            <p-columnFilter
-              [showOperator]="false"
-              [showAddButton]="false"
-              [matchModeOptions]="TextMatchModeOptions"
-              type="text"
-              field="Email"
-              display="menu"
-              class="ml-auto"
-            ></p-columnFilter>
-            <p-sortIcon field="Email"></p-sortIcon>
+        <th scope="row" pSortableColumn="Email">
+          <div class="flex justify-content-between flex-wrap">
+            <div class="flex align-items-center justify-content-center">
+              <p-columnFilter
+                [showOperator]="false"
+                [showAddButton]="false"
+                [matchModeOptions]="TextMatchModeOptions"
+                type="text"
+                field="Email"
+                display="menu"
+                class="ml-auto"
+              ></p-columnFilter>
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              Email
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              <p-sortIcon field="Email"></p-sortIcon>
+            </div>
           </div>
         </th>
         <th style="text-align: center; width: 25%">Address</th>
@@ -135,6 +159,7 @@
           <div class="flex align-items-center justify-content-center gap-2">
             <p-button
               pRipple
+              [text]="true"
               icon="pi pi-pencil"
               (click)="EditClick(data.Id)"
               styleClass="p-button-sm p-button-text p-button-rounded p-button-outlined p-0 "
@@ -146,7 +171,12 @@
   </p-table>
 </p-card>
 
-<p-dialog [(visible)]="isVisible" [draggable]="false" [resizable]="false">
+<p-dialog
+  [(visible)]="isVisible"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '30vw' }"
+>
   <ng-template pTemplate="header">
     <span class="text-xl font-bold">Import User</span>
   </ng-template>

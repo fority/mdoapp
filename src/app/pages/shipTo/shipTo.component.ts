@@ -91,7 +91,7 @@ export class ShipToComponent {
       .Create({ Name: this.NewName, Address: this.NewAddress })
       .subscribe((res) => {
         this.PagingSignal.update((x) => ({
-          Content: [...x.Content, res],
+          Content: [res, ...x.Content],
           TotalElements: x.TotalElements + 1,
         }));
         this.messageService.add({

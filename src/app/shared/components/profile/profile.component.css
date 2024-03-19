@@ -1,0 +1,17 @@
+.p-overlaypanel .p-overlaypanel-content {
+  padding: 0 !important;
+}
+
+.loginBtn .p-button {
+  border: none;
+  background: transparent;
+  padding: 0 0.5em;
+  color: #576268;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.loginBtn .p-button:hover {
+  color: #ffffff;
+  background-color: transparent;
+}
