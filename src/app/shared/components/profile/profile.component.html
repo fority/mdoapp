@@ -2,10 +2,14 @@
   <div class="flex flex-row gap-3 align-items-center p-2">
     <p-avatar
       class="cursor-pointer"
-      icon="pi pi-user"
-      size="large"
+      (click)="op.toggle($event)"
       shape="circle"
-    ></p-avatar>
+      [style]="{ width: '40px', height: '40px' }"
+    >
+      {{
+        (username$ | async) ? (username$ | async)?.charAt(0)?.toUpperCase() : ""
+      }}
+    </p-avatar>
     <div class="flex flex-column">
       <b>{{ username$ | async }}</b>
       <label class="text-400 text-sm">{{ email$ | async }}</label>
@@ -33,9 +37,12 @@
 <div *ngIf="isLogin$ | async">
   <p-avatar
     class="cursor-pointer"
-    icon="pi pi-user"
     (click)="op.toggle($event)"
-    size="large"
     shape="circle"
-  ></p-avatar>
+    [style]="{ width: '40px', height: '40px' }"
+  >
+    {{
+      (username$ | async) ? (username$ | async)?.charAt(0)?.toUpperCase() : ""
+    }}
+  </p-avatar>
 </div>
