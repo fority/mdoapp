@@ -250,7 +250,9 @@
           ></button>
         </td>
         <td style="text-align: center">
-          <a (click)="GotoDetails(data.Id)">{{ data.RecordId }}</a>
+          <a (click)="GotoDetails(data.Id)" class="text-red-400">{{
+            data.RecordId
+          }}</a>
         </td>
         <td style="text-align: center">
           {{ data.Date | date : "dd/MM/yyyy" }}
@@ -283,7 +285,7 @@
         <td>
           <div class="flex align-items-center justify-content-center">
             <p-button
-              class="border-dashed border-red-300"
+              class="cancel border-dashed border-red-300 text-red-400"
               [text]="true"
               severity="danger"
               pRipple
@@ -295,11 +297,17 @@
         </td>
         <td style="text-align: center">
           <a pTooltip="Download" (click)="DownloadPdf(data.Id)">
-            <strong><i class="pi pi-download"></i></strong>
+            <strong><i class="pi pi-download text-red-400"></i></strong>
           </a>
         </td>
         <td style="text-align: center">
-          <a *ngIf="data.Status === 10" (click)="EditClick(data.Id)"> Edit </a>
+          <a
+            *ngIf="data.Status === 10"
+            (click)="EditClick(data.Id)"
+            class="text-red-400"
+          >
+            Edit
+          </a>
         </td>
       </tr>
     </ng-template>

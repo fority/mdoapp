@@ -16,6 +16,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { SidebarModule } from 'primeng/sidebar';
 import { take } from 'rxjs';
 import { RoleService } from 'src/app/core/services/role.service';
+import { ThemeService } from 'src/app/services/theme-service.service';
 
 interface CustomMenuItem extends MenuItem {
   roles?: string[];
@@ -44,10 +45,13 @@ export class SidebarComponent {
 
   private router = inject(Router);
   readonly roleService = inject(RoleService);
+  private themeService = inject(ThemeService);
+
+  isDarkMode: boolean = false;
 
   items: CustomMenuItem[] = [
     {
-      label: '<img src="assets/mdo.svg" width="7%"/>&nbsp; MDO',
+      label: '<img src="" width="7%"/>&nbsp; MDO',
       escape: false,
       visible: true,
       command: () => {
@@ -113,6 +117,10 @@ export class SidebarComponent {
       this.items.forEach((menuItem) => {
         if (menuItem.roles) menuItem.visible = this.IsVisible(menuItem.roles);
       });
+    });
+
+    this.themeService.isDarkMode$.subscribe((darkMode) => {
+      this.isDarkMode = darkMode;
     });
   }
 

@@ -1,76 +1,73 @@
 h1 {
-	display: flex;
-	align-items: center;
-	padding: 0 16px;
-	font-weight: 600;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	color: #2b2d42;
-	font-size: clamp(1.5rem, calc(1vw + 1.3rem), 2rem);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: clamp(1.5rem, calc(1vw + 1.3rem), 2rem);
 }
 
 h1:before,
 h1:after {
-	content: '';
-	flex: 1;
-	border-bottom: 1px solid #8d99ae;
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #8d99ae;
 }
 
 h1:not(:empty):before {
-	margin-right: 1em;
+  margin-right: 1em;
 }
 
 h1:not(:empty):after {
-	margin-left: 1em;
+  margin-left: 1em;
 }
 
 .flex {
-	padding-left: 16px;
-	padding-right: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
 
-	@media screen and (max-width: 480px) {
-		padding: 0;
-	}
+  @media screen and (max-width: 480px) {
+    padding: 0;
+  }
 }
 
 img {
-	vertical-align: middle;
-	border-style: none;
-	width: 36px;
-	height: 36px;
+  vertical-align: middle;
+  border-style: none;
+  width: 36px;
+  height: 36px;
 }
 
 h5 {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-	color: #000000d9;
-	font-weight: 600;
-	font-size: 16px;
-	line-height: 1.5;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 :host::ng-deep .p-card {
-	cursor: pointer;
-	margin: 6px;
-	padding: 5px;
-	border-radius: 15px;
-	background-color: #fff;
-	box-shadow: #3c40434d 0 1px 2px, #3c404326 0 2px 6px 2px;
-	text-align: center;
-	min-width: 360px;
+  cursor: pointer;
+  margin: 6px;
+  padding: 5px;
+  border-radius: 15px;
+  box-shadow: #3c40434d 0 1px 2px, #3c404326 0 2px 6px 2px;
+  text-align: center;
+  min-width: 360px;
 
-	.p-card-content {
-		padding: 10px;
-	}
+  .p-card-content {
+    padding: 10px;
+  }
 
-	@media screen and (max-width: 480px) {
-		min-width: 210px;
-	}
+  @media screen and (max-width: 480px) {
+    min-width: 210px;
+  }
 }
 
 :host::ng-deep .grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-	grid-gap: 6px;
-	align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 6px;
+  align-items: stretch;
 }
