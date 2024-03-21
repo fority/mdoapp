@@ -33,7 +33,6 @@
   label="Login"
 >
 </p-button>
-
 <div *ngIf="isLogin$ | async">
   <p-avatar
     class="cursor-pointer"
@@ -41,8 +40,6 @@
     shape="circle"
     [style]="{ width: '40px', height: '40px' }"
   >
-    {{
-      (username$ | async) ? (username$ | async)?.charAt(0)?.toUpperCase() : ""
-    }}
+    {{ userInitial }}
   </p-avatar>
 </div>

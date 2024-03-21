@@ -15,7 +15,7 @@ import {
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, of, switchMap } from 'rxjs';
 import { DefaultPage, DefaultPageSize } from 'src/app/core/models/sharedModels';
 import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
 import { UserProfileService } from 'src/app/services/userProfile.service';
@@ -38,20 +38,14 @@ export class ProfileComponent implements OnInit {
   username$: Observable<string> | undefined;
   email$: Observable<string> | undefined;
   avatarCapsuleHide$: Observable<boolean> = of(false);
-
+  userInitial: string = '';
   constructor() {
     this.isLogin$ = this.authService.isAuthenticated$.pipe(
-      map((res: AuthenticatedResult) => {
-        return res.isAuthenticated;
-      })
+      map((res: AuthenticatedResult) => res.isAuthenticated)
     );
-    this.username$ = this.authService.userData$.pipe(
-      map((res: UserDataResult) => {
-        return res.userData?.name;
-      })
-    );
+
     this.email$ = this.authService.userData$.pipe(
-      map((res: UserDataResult) => {
+      switchMap((res: UserDataResult) => {
         if (res.userData?.email) {
           let query: GridifyQueryExtend = {} as GridifyQueryExtend;
 
@@ -62,16 +56,21 @@ export class ProfileComponent implements OnInit {
           query.Includes = null;
           query.Select = 'Email,Name';
 
-          this.profileService.GetOne(query).subscribe((res) => {
-            this.username$ = of(res?.Name);
-          });
+          return this.profileService.GetOne(query).pipe(
+            map((profile) => {
+              this.username$ = of(profile?.Name);
+              this.userInitial = profile?.Name
+                ? profile.Name.charAt(0).toUpperCase()
+                : ''; // Update userInitial
+              return res.userData?.email;
+            })
+          );
+        } else {
+          return of(null);
         }
-
-        return res.userData?.email;
       })
     );
   }
-
   ngOnInit() {
     this.avatarCapsuleHide$ = this.breakpointObserver
       .observe(['(min-width: 768px)'])
