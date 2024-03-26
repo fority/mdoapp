@@ -5,7 +5,6 @@ import { ThemeService } from 'src/app/services/theme-service.service';
 import { LoginBtnComponent } from '../login-btn/login-btn.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import { ThemeComponent } from '../theme/theme.component';
 
 @Component({
   standalone: true,
@@ -15,7 +14,6 @@ import { ThemeComponent } from '../theme/theme.component';
     SidebarComponent,
     LoginBtnComponent,
     ProfileComponent,
-    ThemeComponent,
   ],
   selector: 'app-header',
   templateUrl: './header.component.html',

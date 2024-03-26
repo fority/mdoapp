@@ -285,10 +285,8 @@
         <td>
           <div class="flex align-items-center justify-content-center">
             <p-button
-              class="cancel border-dashed border-red-300 text-red-400"
-              [text]="true"
-              severity="danger"
               pRipple
+              severity="danger"
               [disabled]="data.Status > 10"
               label="CANCEL"
               (click)="CancelClick($event, data.Id)"
@@ -302,7 +300,7 @@
         </td>
         <td style="text-align: center">
           <a
-            *ngIf="data.Status === 10"
+            *ngIf="data.Status !== 10"
             (click)="EditClick(data.Id)"
             class="text-red-400"
           >
@@ -342,7 +340,9 @@
                   </td>
                   <td style="text-align: center">
                     <p-button
-                      [disabled]="item.LineStatus > 10"
+                      [disabled]="
+                        item.LineStatus === 10 || item.LineStatus === 0
+                      "
                       [text]="true"
                       severity="danger"
                       label="RETURNED"

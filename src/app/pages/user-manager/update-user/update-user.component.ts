@@ -1,6 +1,12 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -65,7 +71,7 @@ export class UpdateUserComponent {
     this.Query.Page = 0;
     this.Query.PageSize = 0;
     this.Query.OrderBy = null;
-    this.Query.Filter = `Id=${this.userId}`;
+    this.Query.Filter = `Id=${this.userId}|Name=${this.userId}`;
     this.Query.Includes = null;
     this.Query.Select = null;
 
@@ -76,9 +82,11 @@ export class UpdateUserComponent {
 
   SaveUpdateClick() {
     if (this.createFormGroup.valid) {
-      this.userProfileService.Update(this.createFormGroup.value).subscribe(() => {
-        this.CancelClick();
-      });
+      this.userProfileService
+        .Update(this.createFormGroup.value)
+        .subscribe(() => {
+          this.CancelClick();
+        });
     }
     ValidateAllFormFields(this.createFormGroup);
   }

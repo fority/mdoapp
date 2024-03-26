@@ -7,6 +7,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   AuthenticatedResult,
   OidcSecurityService,
@@ -19,10 +20,17 @@ import { Observable, map, of, switchMap } from 'rxjs';
 import { DefaultPage, DefaultPageSize } from 'src/app/core/models/sharedModels';
 import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
 import { UserProfileService } from 'src/app/services/userProfile.service';
+import { ThemeComponent } from '../theme/theme.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, OverlayPanelModule, AvatarModule, ButtonModule],
+  imports: [
+    CommonModule,
+    OverlayPanelModule,
+    AvatarModule,
+    ButtonModule,
+    ThemeComponent,
+  ],
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
@@ -33,6 +41,7 @@ export class ProfileComponent implements OnInit {
   private authService = inject(OidcSecurityService);
   private breakpointObserver = inject(BreakpointObserver);
   private profileService = inject(UserProfileService);
+  private router = inject(Router);
 
   isLogin$: Observable<boolean>;
   username$: Observable<string> | undefined;
@@ -86,6 +95,12 @@ export class ProfileComponent implements OnInit {
 
   LoginClick() {
     this.authService.authorize();
+  }
+
+  AccountClick() {
+    this.username$?.subscribe((username) => {
+      this.router.navigate([`/user-manager/update/${username}`]);
+    });
   }
 
   ProfileClick() {
