@@ -31,49 +31,103 @@ import { ThemeService } from 'src/app/services/theme-service.service';
 })
 export class ThemeComponent implements OnInit {
   private themeService = inject(ThemeService);
+
   visible: boolean = false;
   checked: boolean = false;
   selectedThemeIndexes: { [key: string]: number } = {};
   selectedTheme: string = '';
 
+  darkModeEnabled: boolean = false;
+
   Themes = [
     {
-      color:
-        'linear-gradient(180deg, #4dac9c 0%, rgba(77, 172, 156, 0.5) 100%)',
-      id: 'lara-light-teal',
+      color: 'linear-gradient(180deg, #06b6d4 0%, rgba(6, 182, 212, 0.5) 100%)',
+      id: 'lara-blue',
       theme: 'lara',
     },
     {
       color: 'linear-gradient(180deg, #06b6d4 0%, rgba(6, 182, 212, 0.5) 100%)',
-      id: 'lara-light-blue',
+      id: 'lara-indigo',
       theme: 'lara',
     },
     {
       color: 'linear-gradient(180deg, #585fe0 0%, rgba(88, 95, 224, 0.5) 100%)',
-      id: 'lara-light-purple',
+      id: 'lara-purple',
       theme: 'lara',
     },
     {
+      color:
+        'linear-gradient(180deg, #4dac9c 0%, rgba(77, 172, 156, 0.5) 100%)',
+      id: 'lara-teal',
+      theme: 'lara',
+    },
+
+    {
       color: 'linear-gradient(180deg, #027bff 0%, rgba(2, 123, 255, 0.5) 100%)',
-      id: 'bootstrap4-dark-blue',
+      id: 'bootstrap4-blue',
       theme: 'bootstrap',
     },
     {
       color:
         'linear-gradient(180deg, #893cae 0%, rgba(137, 60, 174, 0.5) 100%)',
-      id: 'bootstrap4-dark-purple',
+      id: 'bootstrap4-purple',
       theme: 'bootstrap',
+    },
+    {
+      color: '#0078d4',
+      id: 'fluent-light',
+      theme: 'fluent',
+    },
+    {
+      color: '#FFE082',
+      id: 'luna-amber',
+      theme: 'luna',
+    },
+    {
+      color: '#81D4FA',
+      id: 'luna-blue',
+      theme: 'luna',
+    },
+    {
+      color: '#C5E1A5',
+      id: 'luna-green',
+      theme: 'luna',
+    },
+    {
+      color: '#F48FB1',
+      id: 'luna-pink',
+      theme: 'luna',
+    },
+    {
+      color: '#673AB7',
+      id: 'md-deeppurple',
+      theme: 'md',
+    },
+    {
+      color: '#3F51B5',
+      id: 'md-indigo',
+      theme: 'md',
+    },
+    {
+      color: '#673AB3',
+      id: 'mdc-deeppurple',
+      theme: 'mdc',
+    },
+    {
+      color: '#3F51B5',
+      id: 'mdc-indigo',
+      theme: 'mdc',
     },
     {
       color:
         'linear-gradient(180deg, #664beb 0%, rgba(102, 75, 235, 0.5) 100%)',
-      id: 'soho-light',
+      id: 'soho',
       theme: 'soho',
     },
     {
       color:
         'linear-gradient(180deg, #4a67c9 0%, rgba(74, 103, 201, 0.5) 100%)',
-      id: 'viva-light',
+      id: 'viva',
       theme: 'viva',
     },
     {
@@ -82,18 +136,206 @@ export class ThemeComponent implements OnInit {
       id: 'mira',
       theme: 'mira',
     },
+    {
+      color: '#1174c0',
+      id: 'nano',
+      theme: 'nano',
+    },
+    {
+      color: '#007ad9',
+      id: 'nova',
+      theme: 'nova',
+    },
+    {
+      color: '#007ad9',
+      id: 'nova-accent',
+      theme: 'nova',
+    },
+    {
+      color: '#007ad9',
+      id: 'nova-alt',
+      theme: 'nova',
+    },
+    {
+      color: '#7B95A3',
+      id: 'rhea',
+      theme: 'rhea',
+    },
+    {
+      color: '#2196F3',
+      id: 'saga-blue',
+      theme: 'saga',
+    },
+    {
+      color: '#4CAF50',
+      id: 'saga-green',
+      theme: 'saga',
+    },
+    {
+      color: '#FFC107',
+      id: 'saga-orange',
+      theme: 'saga',
+    },
+    {
+      color: '#9C27B0',
+      id: 'saga-purple',
+      theme: 'saga',
+    },
+    {
+      color: '#64B5F6',
+      id: 'vela-blue',
+      theme: 'vela',
+    },
+    {
+      color: '#81C784',
+      id: 'vela-green',
+      theme: 'vela',
+    },
+    {
+      color: '#FFD54F',
+      id: 'vela-orange',
+      theme: 'vela',
+    },
+    {
+      color: '#BA68C8',
+      id: 'vela-purple',
+      theme: 'vela',
+    },
+
+    {
+      color: '#64B5F6',
+      id: 'arya-blue',
+      theme: 'arya',
+    },
+    {
+      color: '#81C784',
+      id: 'arya-green',
+      theme: 'arya',
+    },
+    {
+      color: '#FFD54F',
+      id: 'arya-orange',
+      theme: 'arya',
+    },
+    {
+      color: '#BA68C8',
+      id: 'arya-purple',
+      theme: 'arya',
+    },
+  ];
+
+  DarkTheme = [
+    {
+      id: 'lara-blue-dark',
+      theme: 'lara',
+    },
+    {
+      id: 'lara-indigo-dark',
+      theme: 'lara',
+    },
+    {
+      id: 'lara-purple-dark',
+      theme: 'lara',
+    },
+    {
+      id: 'lara-teal-dark',
+      theme: 'lara',
+    },
+    {
+      id: 'bootstrap4-blue-dark',
+      theme: 'bootstrap',
+    },
+    {
+      id: 'bootstrap4-purple-dark',
+      theme: 'bootstrap',
+    },
+    {
+      id: 'md-deeppurple-dark',
+      theme: 'md',
+    },
+    {
+      id: 'md-indigo-dark',
+      theme: 'md',
+    },
+    {
+      id: 'mdc-deeppurple-dark',
+      theme: 'mdc',
+    },
+    {
+      id: 'mdc-indigo-dark',
+      theme: 'mdc',
+    },
+    {
+      id: 'soho-dark',
+      theme: 'soho',
+    },
+    {
+      id: 'viva-dark',
+      theme: 'viva',
+    },
   ];
 
   ngOnInit(): void {
     this.checked = this.themeService.isDarkMode();
-    this.selectedTheme = this.themeService.getSelectedTheme();
+    this.selectedTheme = 'lara-blue';
+    console.log(this.selectedTheme);
+    const darkThemeName = this.selectedTheme + '-dark';
+    this.darkModeEnabled = this.checkIfDarkThemeExists(darkThemeName);
+
     const themeType = this.selectedTheme.split('-')[0];
     const themeIndex = this.getThemeIndex(this.selectedTheme);
     this.applyTheme(this.selectedTheme, themeIndex, themeType);
   }
 
+  //enabled or disabled dark Mode
+  checkIfDarkThemeExists(themeName: string): boolean {
+    if (this.DarkTheme.find((theme) => theme.id === themeName)) {
+      return true; // Found the dark theme
+    }
+
+    return false; // Dark theme not found
+  }
   isSelectedTheme(index: number, themeType: string): boolean {
     return this.selectedThemeIndexes[themeType] === index;
+  }
+
+  getAvatarImagePath(themeType: string): string {
+    const imagePath = `../../../../assets/`;
+
+    switch (themeType) {
+      case 'lara':
+        return imagePath + 'lara-light-teal.png';
+      case 'bootstrap':
+        return imagePath + 'bootstrap4.svg';
+      case 'luna':
+        return imagePath + 'luna-blue.png';
+      case 'md':
+        return imagePath + 'md-light-indigo.svg';
+      case 'mdc':
+        return imagePath + 'md-light-deeppurple.svg';
+      case 'saga':
+        return imagePath + 'saga-blue.png';
+      case 'vela':
+        return imagePath + 'vela-blue.png';
+      case 'arya':
+        return imagePath + 'arya-blue.png';
+      case 'nova':
+        return imagePath + 'nova.png';
+      case 'soho':
+        return imagePath + 'soho-light.png';
+      case 'fluent':
+        return imagePath + 'fluent-light.png';
+      case 'viva':
+        return imagePath + 'viva-light.svg';
+      case 'mira':
+        return imagePath + 'mira.jpg';
+      case 'nano':
+        return imagePath + 'nano.jpg';
+      case 'rhea':
+        return imagePath + 'rhea.png';
+      default:
+        return '';
+    }
   }
 
   toggleSidebar() {
@@ -102,10 +344,15 @@ export class ThemeComponent implements OnInit {
 
   toggleDarkMode() {
     this.checked != this.checked;
-    document.documentElement.setAttribute(
-      'data-theme',
-      this.checked ? 'dark' : 'light'
-    );
+    if (this.checked) {
+      const theme = this.selectedTheme + '-dark';
+      this.themeService.switchTheme(theme);
+      this.themeService.setSelectedTheme(theme);
+    } else {
+      const theme = this.selectedTheme;
+      this.themeService.switchTheme(theme);
+      this.themeService.setSelectedTheme(theme);
+    }
     this.themeService.toggleDarkMode(this.checked);
   }
 
@@ -116,15 +363,25 @@ export class ThemeComponent implements OnInit {
 
   applyTheme(themeId: string, index: number, themeType: string) {
     this.selectedThemeIndexes[themeType] = index;
-
+    this.selectedTheme = themeId;
     this.themeService.switchTheme(themeId);
     this.themeService.setSelectedTheme(themeId);
+    this.checked = false;
+
+    if (themeType === 'luna' || themeType === 'vela' || themeType === 'arya') {
+      this.themeService.toggleDarkMode(true);
+    } else {
+      this.themeService.toggleDarkMode(this.checked);
+    }
 
     for (const key in this.selectedThemeIndexes) {
       if (key !== themeType) {
         this.selectedThemeIndexes[key] = -1;
       }
     }
+
+    const darkThemeName = themeId + '-dark';
+    this.darkModeEnabled = this.checkIfDarkThemeExists(darkThemeName);
   }
   getThemesByType(themeType: string): any[] {
     return this.Themes.filter((theme) => theme.theme === themeType);

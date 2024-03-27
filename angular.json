@@ -33,48 +33,238 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               {
+                "input": "src/themes/arya/arya-blue.css",
+                "bundleName": "arya-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/arya/arya-green.css",
+                "bundleName": "arya-green",
+                "inject": false
+              },
+              {
+                "input": "src/themes/arya/arya-orange.css",
+                "bundleName": "arya-orange",
+                "inject": false
+              },
+              {
+                "input": "src/themes/arya/arya-purple.css",
+                "bundleName": "arya-purple",
+                "inject": false
+              },
+              {
                 "input": "src/themes/lara/lara-light-blue.css",
-                "bundleName": "lara-light-blue",
+                "bundleName": "lara-blue",
                 "inject": false
               },
               {
                 "input": "src/themes/lara/lara-light-indigo.css",
-                "bundleName": "lara-light-indigo",
+                "bundleName": "lara-indigo",
                 "inject": false
               },
               {
                 "input": "src/themes/lara/lara-light-purple.css",
-                "bundleName": "lara-light-purple",
+                "bundleName": "lara-purple",
                 "inject": false
               },
               {
                 "input": "src/themes/lara/lara-light-teal.css",
-                "bundleName": "lara-light-teal",
+                "bundleName": "lara-teal",
+                "inject": false
+              },
+              {
+                "input": "src/themes/lara/lara-dark-blue.css",
+                "bundleName": "lara-blue-dark",
+                "inject": false
+              },
+              {
+                "input": "src/themes/lara/lara-dark-indigo.css",
+                "bundleName": "lara-indigo-dark",
+                "inject": false
+              },
+              {
+                "input": "src/themes/lara/lara-dark-purple.css",
+                "bundleName": "lara-purple-dark",
+                "inject": false
+              },
+              {
+                "input": "src/themes/lara/lara-dark-teal.css",
+                "bundleName": "lara-teal-dark",
                 "inject": false
               },
               {
                 "input": "src/themes/bootstrap/bootstrap4-dark-blue.css",
-                "bundleName": "bootstrap4-dark-blue",
+                "bundleName": "bootstrap4-blue-dark",
                 "inject": false
               },
               {
                 "input": "src/themes/bootstrap/bootstrap4-dark-purple.css",
-                "bundleName": "bootstrap4-dark-purple",
+                "bundleName": "bootstrap4-purple-dark",
+                "inject": false
+              },
+              {
+                "input": "src/themes/bootstrap/bootstrap4-light-purple.css",
+                "bundleName": "bootstrap4-purple",
+                "inject": false
+              },
+              {
+                "input": "src/themes/bootstrap/bootstrap4-light-blue.css",
+                "bundleName": "bootstrap4-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/fluent/fluent-light.css",
+                "bundleName": "fluent-light",
+                "inject": false
+              },
+              {
+                "input": "src/themes/luna/luna-amber.css",
+                "bundleName": "luna-amber",
+                "inject": false
+              },
+              {
+                "input": "src/themes/luna/luna-blue.css",
+                "bundleName": "luna-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/luna/luna-green.css",
+                "bundleName": "luna-green",
+                "inject": false
+              },
+              {
+                "input": "src/themes/luna/luna-pink.css",
+                "bundleName": "luna-pink",
+                "inject": false
+              },
+              {
+                "input": "src/themes/md/md-dark-deeppurple.css",
+                "bundleName": "md-deeppurple-dark",
+                "inject": false
+              },
+              {
+                "input": "src/themes/md/md-dark-indigo.css",
+                "bundleName": "md-indigo-dark",
+                "inject": false
+              },
+              {
+                "input": "src/themes/md/md-light-deeppurple.css",
+                "bundleName": "md-deeppurple",
+                "inject": false
+              },
+              {
+                "input": "src/themes/md/md-light-indigo.css",
+                "bundleName": "md-indigo",
+                "inject": false
+              },
+              {
+                "input": "src/themes/mdc/mdc-dark-deeppurple.css",
+                "bundleName": "mdc-deeppurple-dark",
+                "inject": false
+              },
+              {
+                "input": "src/themes/mdc/mdc-dark-indigo.css",
+                "bundleName": "mdc-indigo-dark",
+                "inject": false
+              },
+              {
+                "input": "src/themes/mdc/mdc-light-deeppurple.css",
+                "bundleName": "mdc-deeppurple",
+                "inject": false
+              },
+              {
+                "input": "src/themes/mdc/mdc-light-indigo.css",
+                "bundleName": "mdc-indigo",
                 "inject": false
               },
               {
                 "input": "src/themes/soho/soho-light.css",
-                "bundleName": "soho-light",
+                "bundleName": "soho",
+                "inject": false
+              },
+              {
+                "input": "src/themes/soho/soho-dark.css",
+                "bundleName": "soho-dark",
                 "inject": false
               },
               {
                 "input": "src/themes/viva/viva-light.css",
-                "bundleName": "viva-light",
+                "bundleName": "viva",
+                "inject": false
+              },
+              {
+                "input": "src/themes/viva/viva-dark.css",
+                "bundleName": "viva-dark",
                 "inject": false
               },
               {
                 "input": "src/themes/mira/mira.css",
                 "bundleName": "mira",
+                "inject": false
+              },
+              {
+                "input": "src/themes/nano/nano.css",
+                "bundleName": "nano",
+                "inject": false
+              },
+              {
+                "input": "src/themes/nova/nova-accent.css",
+                "bundleName": "nova-accent",
+                "inject": false
+              },
+              {
+                "input": "src/themes/nova/nova-alt.css",
+                "bundleName": "nova-alt",
+                "inject": false
+              },
+              {
+                "input": "src/themes/nova/nova.css",
+                "bundleName": "nova",
+                "inject": false
+              },
+              {
+                "input": "src/themes/rhea/rhea.css",
+                "bundleName": "rhea",
+                "inject": false
+              },
+              {
+                "input": "src/themes/saga/saga-blue.css",
+                "bundleName": "saga-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/saga/saga-green.css",
+                "bundleName": "saga-green",
+                "inject": false
+              },
+              {
+                "input": "src/themes/saga/saga-orange.css",
+                "bundleName": "saga-orange",
+                "inject": false
+              },
+              {
+                "input": "src/themes/saga/saga-purple.css",
+                "bundleName": "saga-purple",
+                "inject": false
+              },
+              {
+                "input": "src/themes/vela/vela-blue.css",
+                "bundleName": "vela-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/vela/vela-green.css",
+                "bundleName": "vela-green",
+                "inject": false
+              },
+              {
+                "input": "src/themes/vela/vela-orange.css",
+                "bundleName": "vela-orange",
+                "inject": false
+              },
+              {
+                "input": "src/themes/vela/vela-purple.css",
+                "bundleName": "vela-purple",
                 "inject": false
               },
               "src/styles.less",

@@ -5,7 +5,6 @@
   [style]="{ border: 'none' }"
   (click)="toggleSidebar()"
   size="small"
-  [text]="true"
 ></p-button>
 
 <div class="sidebar">
@@ -23,174 +22,96 @@
       <p-inputSwitch
         [(ngModel)]="checked"
         (onChange)="toggleDarkMode()"
+        [disabled]="!darkModeEnabled"
       ></p-inputSwitch>
     </div>
     <p-divider></p-divider>
     <div class="pt-2">
       <b class="text-xl">Themes</b>
 
-      <!-- Lara Themes -->
-      <ng-container *ngIf="showThemesByType('lara')">
-        <div class="flex flex-row align-items-center gap-2">
-          <p-avatar
-            image="../../../../assets/lara-light-teal.png"
-            shape="circle"
-            [style]="{ width: '15px', height: '15px' }"
-          ></p-avatar>
-          <p>Lara</p>
-        </div>
-        <div class="grid pt-2">
-          <div
-            class="border-round"
-            *ngFor="let lara of getThemesByType('lara'); index as i"
-          >
+      <ng-container
+        *ngFor="
+          let themeType of [
+            'lara',
+            'bootstrap',
+            'luna',
+            'md',
+            'mdc',
+            'saga',
+            'vela',
+            'arya',
+            'nova'
+          ]
+        "
+      >
+        <div *ngIf="showThemesByType(themeType)">
+          <div class="flex flex-row align-items-center gap-2">
+            <p-avatar
+              [image]="getAvatarImagePath(themeType)"
+              shape="circle"
+              [style]="{ width: '15px', height: '15px' }"
+            ></p-avatar>
+            <p>{{ themeType | titlecase }}</p>
+          </div>
+          <div class="grid pt-2">
             <div
-              class="theme border-round-sm surface-ground p-2 m-1"
-              (click)="applyTheme(lara.id, i, 'lara')"
-              [class.selected]="isSelectedTheme(i, 'lara')"
-              [class.unselected]="!isSelectedTheme(i, 'lara')"
-              style="cursor: pointer"
+              class="border-round"
+              *ngFor="let theme of getThemesByType(themeType); let i = index"
             >
               <div
-                [style]="{ background: lara.color }"
-                class="border-round-sm p-2"
-              ></div>
+                class="theme border-round-sm surface-ground p-2 m-1"
+                (click)="applyTheme(theme.id, i, themeType)"
+                [class.selected]="isSelectedTheme(i, themeType)"
+                [class.unselected]="!isSelectedTheme(i, themeType)"
+                style="cursor: pointer"
+              >
+                <div
+                  [style]="{ background: theme.color }"
+                  class="border-round-sm p-2"
+                ></div>
+              </div>
             </div>
           </div>
         </div>
       </ng-container>
+    </div>
 
-      <!-- Bootstrap Themes -->
-      <ng-container *ngIf="showThemesByType('bootstrap')">
-        <div class="flex flex-row align-items-center gap-2">
-          <p-avatar
-            image="../../../../assets/bootstrap4.svg"
-            shape="circle"
-            [style]="{ width: '15px', height: '15px' }"
-          ></p-avatar>
-          <p>Bootstrap</p>
-        </div>
-        <div class="grid pt-2">
-          <div
-            class="border-round"
-            *ngFor="let bootstrap of getThemesByType('bootstrap'); index as i"
-          >
+    <div class="theme-container">
+      <ng-container
+        *ngFor="
+          let themeType of ['soho', 'fluent', 'viva', 'mira', 'nano', 'rhea']
+        "
+      >
+        <div *ngIf="showThemesByType(themeType)" class="theme-wrapper">
+          <div class="flex flex-row align-items-center gap-2">
+            <p-avatar
+              [image]="getAvatarImagePath(themeType)"
+              shape="circle"
+              [style]="{ width: '15px', height: '15px' }"
+            ></p-avatar>
+            <p>{{ themeType | titlecase }}</p>
+          </div>
+          <div class="pt-2 grid-cols-4">
             <div
-              class="theme border-round-sm surface-ground p-2 m-1"
-              (click)="applyTheme(bootstrap.id, i, 'bootstrap')"
-              [class.selected]="isSelectedTheme(i, 'bootstrap')"
-              [class.unselected]="!isSelectedTheme(i, 'bootstrap')"
-              style="cursor: pointer"
+              class="border-round"
+              *ngFor="let theme of getThemesByType(themeType); let i = index"
             >
               <div
-                [style]="{ background: bootstrap.color }"
-                class="border-round-sm p-2"
-              ></div>
+                class="theme border-round-sm surface-ground p-2 m-1"
+                (click)="applyTheme(theme.id, i, themeType)"
+                [class.selected]="isSelectedTheme(i, themeType)"
+                [class.unselected]="!isSelectedTheme(i, themeType)"
+                style="cursor: pointer"
+              >
+                <div
+                  [style]="{ background: theme.color }"
+                  class="border-round-sm p-2"
+                ></div>
+              </div>
             </div>
           </div>
         </div>
       </ng-container>
-
-      <div class="theme-container">
-        <!-- Soho Themes -->
-        <ng-container *ngIf="showThemesByType('soho')">
-          <div class="theme-wrapper">
-            <div class="flex flex-row align-items-center gap-2">
-              <p-avatar
-                image="../../../../assets/soho-light.png"
-                shape="circle"
-                [style]="{ width: '15px', height: '15px' }"
-              ></p-avatar>
-              <p>Soho</p>
-            </div>
-            <div>
-              <div
-                class="border-round"
-                *ngFor="let soho of getThemesByType('soho'); index as i"
-              >
-                <div
-                  class="theme border-round-sm surface-ground p-2 m-1"
-                  (click)="applyTheme(soho.id, i, 'soho')"
-                  [class.selected]="isSelectedTheme(i, 'soho')"
-                  [class.unselected]="!isSelectedTheme(i, 'soho')"
-                  style="cursor: pointer"
-                >
-                  <div
-                    [style]="{ background: soho.color }"
-                    class="border-round-sm p-2"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-
-        <!-- Viva Themes -->
-        <ng-container *ngIf="showThemesByType('viva')">
-          <div class="theme-wrapper">
-            <div class="flex flex-row align-items-center gap-2">
-              <p-avatar
-                image="../../../../assets/viva-light.svg"
-                shape="circle"
-                [style]="{ width: '15px', height: '15px' }"
-              ></p-avatar>
-              <p>Viva</p>
-            </div>
-            <div>
-              <div
-                class="border-round"
-                *ngFor="let viva of getThemesByType('viva'); index as i"
-              >
-                <div
-                  class="theme border-round-sm surface-ground p-2 m-1"
-                  (click)="applyTheme(viva.id, i, 'viva')"
-                  [class.selected]="isSelectedTheme(i, 'viva')"
-                  [class.unselected]="!isSelectedTheme(i, 'viva')"
-                  style="cursor: pointer"
-                >
-                  <div
-                    [style]="{ background: viva.color }"
-                    class="border-round-sm p-2"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-
-        <!-- Mira Themes -->
-        <ng-container *ngIf="showThemesByType('mira')">
-          <div class="theme-wrapper">
-            <div class="flex flex-row align-items-center gap-2">
-              <p-avatar
-                image="../../../../assets/mira.jpg"
-                shape="circle"
-                [style]="{ width: '15px', height: '15px' }"
-              ></p-avatar>
-              <p>Mira</p>
-            </div>
-            <div>
-              <div
-                class="border-round"
-                *ngFor="let mira of getThemesByType('mira'); index as i"
-              >
-                <div
-                  class="theme border-round-sm surface-ground p-2 m-1"
-                  (click)="applyTheme(mira.id, i, 'mira')"
-                  [class.selected]="isSelectedTheme(i, 'mira')"
-                  [class.unselected]="!isSelectedTheme(i, 'mira')"
-                  style="cursor: pointer"
-                >
-                  <div
-                    [style]="{ background: mira.color }"
-                    class="border-round-sm p-2"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-      </div>
     </div>
   </p-sidebar>
 </div>

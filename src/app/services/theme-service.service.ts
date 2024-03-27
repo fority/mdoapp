@@ -19,20 +19,11 @@ export class ThemeService {
   private selectedThemeSubject = new BehaviorSubject<string>('default');
   public selectedTheme$ = this.selectedThemeSubject.asObservable();
 
-  setDefaultTheme() {
-    this.selectedThemeSubject.next('lara-light-blue');
-    localStorage.removeItem('selectedTheme');
-  }
-
   setSelectedTheme(theme: string) {
     if (theme !== 'lara-light-blue') {
       this.selectedThemeSubject.next(theme);
       localStorage.setItem('selectedTheme', theme);
     }
-  }
-
-  getSelectedTheme(): string {
-    return this.selectedThemeSubject.value;
   }
 
   switchTheme(theme: string) {
