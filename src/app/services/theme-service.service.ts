@@ -26,6 +26,11 @@ export class ThemeService {
     }
   }
 
+
+  getSelectedTheme(): string {
+    return this.selectedThemeSubject.value;
+  }
+
   switchTheme(theme: string) {
     let themeLink = this.document.getElementById(
       'app-theme'

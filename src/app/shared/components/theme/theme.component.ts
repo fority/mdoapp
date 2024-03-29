@@ -277,8 +277,7 @@ export class ThemeComponent implements OnInit {
 
   ngOnInit(): void {
     this.checked = this.themeService.isDarkMode();
-    this.selectedTheme = 'lara-blue';
-    console.log(this.selectedTheme);
+    this.selectedTheme = this.themeService.getSelectedTheme();
     const darkThemeName = this.selectedTheme + '-dark';
     this.darkModeEnabled = this.checkIfDarkThemeExists(darkThemeName);
 
