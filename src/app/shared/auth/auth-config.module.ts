@@ -20,7 +20,7 @@ import { environment } from 'src/environments/environment';
         // allowUnsafeReuseRefreshToken: true, // this is required if the refresh token is not rotated
         autoUserInfo: true, // if the user endpoint is not supported.
         logLevel: LogLevel.Debug,
-        historyCleanupOff: true,
+        historyCleanupOff: false,
         triggerAuthorizationResultEvent: true,
       },
     }),
