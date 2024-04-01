@@ -122,9 +122,18 @@ export class SidebarComponent {
   }
 
   ngOnInit(): void {
-    this.themeService.isDarkMode$.subscribe((darkMode) => {
-      this.isDarkMode = darkMode;
-      this.cdr.detectChanges(); // Trigger change detection
+    this.themeService.selectedTheme$.subscribe((theme) => {
+      if (
+        theme?.endsWith('-dark') ||
+        theme.startsWith('arya') ||
+        theme.startsWith('vela') ||
+        theme.startsWith('luna')
+      ) {
+        this.isDarkMode = true;
+      } else {
+        this.isDarkMode = false;
+      }
+      this.cdr.detectChanges();
     });
   }
 
