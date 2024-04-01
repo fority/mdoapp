@@ -97,13 +97,12 @@ export class ProfileComponent implements OnInit {
     this.authService.authorize();
   }
 
+  // AccountClick() {
+  //   this.username$?.subscribe((username) => {
+  //     this.router.navigate([`/user-manager/update/${username}`]);
+  //   });
+  // }
   AccountClick() {
-    this.username$?.subscribe((username) => {
-      this.router.navigate([`/user-manager/update/${username}`]);
-    });
-  }
-
-  ProfileClick() {
-    window.open('https://authserver.dk-schweizer.com', '_blank', 'noreferrer');
+    window.open('https://authapp.dk-schweizer.com/profile', '_blank', 'noreferrer');
   }
 }
