@@ -21,7 +21,7 @@ import { environment } from 'src/environments/environment';
         autoUserInfo: true, // if the user endpoint is not supported.
         logLevel: LogLevel.Debug,
         historyCleanupOff: false,
-        triggerAuthorizationResultEvent: true,
+        triggerAuthorizationResultEvent: false,
       },
     }),
   ],

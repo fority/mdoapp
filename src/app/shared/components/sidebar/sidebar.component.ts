@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -111,17 +112,26 @@ export class SidebarComponent {
     },
   ];
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.roleService.userRoleSubject.pipe(take(1)).subscribe((_roles) => {
       this.userRoles = _roles;
       this.items.forEach((menuItem) => {
         if (menuItem.roles) menuItem.visible = this.IsVisible(menuItem.roles);
       });
     });
+  }
 
+  ngOnInit(): void {
     this.themeService.isDarkMode$.subscribe((darkMode) => {
       this.isDarkMode = darkMode;
+      this.cdr.detectChanges(); // Trigger change detection
     });
+  }
+
+  getLogoSrc(): string {
+    return this.isDarkMode
+      ? '../../../../assets/logo-dark.png'
+      : '../../../../assets/new-logo.png';
   }
 
   IsVisible = (roles: string[]) =>

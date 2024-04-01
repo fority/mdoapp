@@ -38,6 +38,8 @@ export class ThemeComponent implements OnInit {
   selectedTheme: string = '';
 
   darkModeEnabled: boolean = false;
+  isDarkMode: boolean = false;
+  themeIndex: number = -1;
 
   Themes = [
     {
@@ -65,13 +67,13 @@ export class ThemeComponent implements OnInit {
     {
       color: 'linear-gradient(180deg, #027bff 0%, rgba(2, 123, 255, 0.5) 100%)',
       id: 'bootstrap4-blue',
-      theme: 'bootstrap',
+      theme: 'bootstrap4',
     },
     {
       color:
         'linear-gradient(180deg, #893cae 0%, rgba(137, 60, 174, 0.5) 100%)',
       id: 'bootstrap4-purple',
-      theme: 'bootstrap',
+      theme: 'bootstrap4',
     },
     {
       color: '#0078d4',
@@ -243,11 +245,11 @@ export class ThemeComponent implements OnInit {
     },
     {
       id: 'bootstrap4-blue-dark',
-      theme: 'bootstrap',
+      theme: 'bootstrap4',
     },
     {
       id: 'bootstrap4-purple-dark',
-      theme: 'bootstrap',
+      theme: 'bootstrap4',
     },
     {
       id: 'md-deeppurple-dark',
@@ -276,14 +278,32 @@ export class ThemeComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    let savedTheme = localStorage.getItem('selectedTheme');
     this.checked = this.themeService.isDarkMode();
-    this.selectedTheme = this.themeService.getSelectedTheme();
-    const darkThemeName = this.selectedTheme + '-dark';
-    this.darkModeEnabled = this.checkIfDarkThemeExists(darkThemeName);
+
+    if (savedTheme && savedTheme.endsWith('-dark') && this.checked) {
+      this.checked = true;
+      this.darkModeEnabled = true;
+    } else {
+      this.checked = false;
+      if (savedTheme) {
+        this.darkModeEnabled = this.checkIfDarkThemeExists(savedTheme);
+      }
+    }
+
+    this.selectedTheme = savedTheme || 'lara-blue';
+    let theme = this.selectedTheme;
+
+    this.themeService.toggleDarkMode(this.checked);
+
+    if (this.selectedTheme.endsWith('-dark')) {
+      theme = this.selectedTheme.replace('-dark', '');
+    }
+    this.themeIndex = this.getThemeIndex(theme);
 
     const themeType = this.selectedTheme.split('-')[0];
-    const themeIndex = this.getThemeIndex(this.selectedTheme);
-    this.applyTheme(this.selectedTheme, themeIndex, themeType);
+    this.applyTheme(this.selectedTheme, this.themeIndex, themeType);
+    this.isSelectedTheme(this.themeIndex, themeType);
   }
 
   //enabled or disabled dark Mode
@@ -295,7 +315,14 @@ export class ThemeComponent implements OnInit {
     return false; // Dark theme not found
   }
   isSelectedTheme(index: number, themeType: string): boolean {
-    return this.selectedThemeIndexes[themeType] === index;
+    localStorage.removeItem('selectedThemeIndexes');
+    this.themeService.setSelectedThemeIndex(themeType, index);
+    localStorage.setItem('selectedTheme', this.selectedTheme);
+
+    return (
+      this.selectedThemeIndexes[themeType] === index &&
+      this.selectedTheme === this.getThemesByType(themeType)[index].id
+    );
   }
 
   getAvatarImagePath(themeType: string): string {
@@ -304,7 +331,7 @@ export class ThemeComponent implements OnInit {
     switch (themeType) {
       case 'lara':
         return imagePath + 'lara-light-teal.png';
-      case 'bootstrap':
+      case 'bootstrap4':
         return imagePath + 'bootstrap4.svg';
       case 'luna':
         return imagePath + 'luna-blue.png';
@@ -339,33 +366,78 @@ export class ThemeComponent implements OnInit {
 
   toggleSidebar() {
     this.visible = !this.visible;
+    this.checked = this.themeService.isDarkMode();
+    const themeType = this.selectedTheme.split('-')[0];
+    let theme = this.selectedTheme;
+
+    if (theme.endsWith('-dark')) {
+      this.checked = true;
+    } else {
+      this.checked = false;
+    }
+
+    if (this.selectedTheme.endsWith('-dark')) {
+      theme = this.selectedTheme.replace('-dark', '');
+    }
+
+    this.themeIndex = this.getThemeIndex(theme);
+
+    this.isSelectedTheme(this.themeIndex, themeType);
   }
 
   toggleDarkMode() {
     this.checked != this.checked;
-    if (this.checked) {
-      const theme = this.selectedTheme + '-dark';
-      this.themeService.switchTheme(theme);
-      this.themeService.setSelectedTheme(theme);
+
+    const theme = this.checked
+      ? this.selectedTheme + '-dark'
+      : this.selectedTheme.replace('-dark', '');
+
+    let themeSelect = this.selectedTheme;
+
+    if (this.selectedTheme.endsWith('-dark')) {
+      themeSelect = this.selectedTheme.replace('-dark', '');
+    }
+    this.themeIndex = this.getThemeIndex(themeSelect);
+    this.applyTheme(theme, this.themeIndex, themeSelect.split('-')[0]);
+
+    localStorage.setItem('selectedTheme', theme);
+    if (theme.endsWith('-dark')) {
+      this.checked = true;
     } else {
-      const theme = this.selectedTheme;
-      this.themeService.switchTheme(theme);
-      this.themeService.setSelectedTheme(theme);
+      this.checked = false;
     }
     this.themeService.toggleDarkMode(this.checked);
+    this.themeService.setDarkMode(this.checked);
   }
-
   getThemeIndex(themeId: string): number {
-    const theme = this.Themes.find((theme) => theme.id === themeId);
-    return theme ? this.Themes.indexOf(theme) : -1;
+    const themeType = themeId.split('-')[0];
+
+    const filteredThemes = this.Themes.filter(
+      (theme) => theme.theme === themeType
+    );
+    const themeIndex = filteredThemes.findIndex(
+      (theme) => theme.id === themeId
+    );
+
+    return themeIndex !== -1 ? themeIndex : -1;
   }
 
   applyTheme(themeId: string, index: number, themeType: string) {
+    this.checked = false;
+    this.themeService.toggleDarkMode(false);
+
+    if (!themeId.endsWith('-dark')) {
+      const darkThemeName = themeId + '-dark';
+      this.darkModeEnabled = this.checkIfDarkThemeExists(darkThemeName);
+    } else {
+      this.darkModeEnabled = this.checkIfDarkThemeExists(themeId);
+    }
+
     this.selectedThemeIndexes[themeType] = index;
     this.selectedTheme = themeId;
+
     this.themeService.switchTheme(themeId);
     this.themeService.setSelectedTheme(themeId);
-    this.checked = false;
 
     if (themeType === 'luna' || themeType === 'vela' || themeType === 'arya') {
       this.themeService.toggleDarkMode(true);
@@ -373,15 +445,16 @@ export class ThemeComponent implements OnInit {
       this.themeService.toggleDarkMode(this.checked);
     }
 
+    localStorage.clear();
+    localStorage.setItem('selectedTheme', themeId);
+
     for (const key in this.selectedThemeIndexes) {
       if (key !== themeType) {
         this.selectedThemeIndexes[key] = -1;
       }
     }
-
-    const darkThemeName = themeId + '-dark';
-    this.darkModeEnabled = this.checkIfDarkThemeExists(darkThemeName);
   }
+
   getThemesByType(themeType: string): any[] {
     return this.Themes.filter((theme) => theme.theme === themeType);
   }

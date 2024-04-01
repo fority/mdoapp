@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticatedResult, OidcSecurityService } from 'angular-auth-oidc-client';
+import {
+  AuthenticatedResult,
+  OidcSecurityService,
+} from 'angular-auth-oidc-client';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';

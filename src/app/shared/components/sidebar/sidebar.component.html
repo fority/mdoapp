@@ -5,16 +5,7 @@
     [showCloseIcon]="false"
   >
     <ng-template pTemplate="header">
-      <img
-        [routerLink]="'/'"
-        [src]="
-          isDarkMode
-            ? '../../../../assets/logo-dark.png'
-            : '../../../../assets/new-logo.png'
-        "
-        width="200"
-        alt="logo"
-      />
+      <img [routerLink]="'/'" [src]="getLogoSrc()" width="200" alt="logo" />
     </ng-template>
     <ng-template pTemplate="content">
       <ng-container> <p-panelMenu [model]="items"></p-panelMenu></ng-container>

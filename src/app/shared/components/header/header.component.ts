@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { ThemeService } from 'src/app/services/theme-service.service';
@@ -25,9 +25,27 @@ export class HeaderComponent {
   isDarkMode: boolean = false;
   sidebarVisible1: boolean = false;
 
-  constructor() {
-    this.themeService.isDarkMode$.subscribe((darkMode) => {
-      this.isDarkMode = darkMode;
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    this.themeService.selectedTheme$.subscribe((theme) => {
+      if (
+        theme?.endsWith('-dark') ||
+        theme.startsWith('arya') ||
+        theme.startsWith('vela') ||
+        theme.startsWith('luna')
+      ) {
+        this.isDarkMode = true;
+      } else {
+        this.isDarkMode = false;
+      }
+      this.cdr.detectChanges();
     });
+  }
+
+  getLogoSrc(): string {
+    return this.isDarkMode
+      ? '../../../../assets/logo-dark.png'
+      : '../../../../assets/new-logo.png';
   }
 }

@@ -19,6 +19,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { DefaultPage, DefaultPageSize } from 'src/app/core/models/sharedModels';
 import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
+import { ThemeService } from 'src/app/services/theme-service.service';
 import { UserProfileService } from 'src/app/services/userProfile.service';
 import { ThemeComponent } from '../theme/theme.component';
 
@@ -42,6 +43,7 @@ export class ProfileComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   private profileService = inject(UserProfileService);
   private router = inject(Router);
+  private themeService = inject(ThemeService);
 
   isLogin$: Observable<boolean>;
   username$: Observable<string> | undefined;
@@ -91,10 +93,12 @@ export class ProfileComponent implements OnInit {
   }
   LogoutClick() {
     this.authService.logoff().subscribe();
+    localStorage.removeItem('firstVisit');
   }
 
   LoginClick() {
     this.authService.authorize();
+    localStorage.removeItem('firstVisit');
   }
 
   AccountClick() {
