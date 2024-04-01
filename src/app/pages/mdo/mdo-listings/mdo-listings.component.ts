@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import {
   DefaultPage,
   DefaultPageSize,
@@ -54,9 +54,9 @@ export class MdoListingsComponent {
 
   isVisible = false;
 
-  FilteredAutoComplete$: Observable<string[]> = of([]);
+  //FilteredAutoComplete$: Observable<string[]> = of([]);
 
-  ClonedLineData: { [s: string]: MDOHeaderDto } = {};
+  //ClonedLineData: { [s: string]: MDOHeaderDto } = {};
 
   PagingSignal = signal<PagingContent<MDOHeaderDto>>(
     {} as PagingContent<MDOHeaderDto>
