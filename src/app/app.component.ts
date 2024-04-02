@@ -11,12 +11,11 @@ import { RoleService } from './core/services/role.service';
   styleUrls: ['./app.component.less'],
 })
 export class AppComponent {
-  readonly authService = inject(OidcSecurityService);
-  readonly roleService = inject(RoleService);
+  private readonly authService = inject(OidcSecurityService);
+  private readonly roleService = inject(RoleService);
+  private readonly primengConfig = inject(PrimeNGConfig);
 
   isSpinning$ = inject(LoadingService).isLoading$.pipe(delay(0));
-  constructor(private primengConfig: PrimeNGConfig) {
-  }
 
   ngOnInit() {
     this.authService.checkAuth().subscribe(({ userData }: LoginResponse) => {

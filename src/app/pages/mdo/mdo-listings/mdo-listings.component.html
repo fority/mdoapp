@@ -1,55 +1,27 @@
 <p-card header="MDO" subheader="{{ PagingSignal().TotalElements }} mdo">
   <div class="flex flex-row flex-wrap align-items-center gap-3">
     <div class="search-box flex-grow-1">
-      <app-searchbox
-        PlaceHolder="Search"
-        [AutoCompleteSource$]="AutoCompleteSource$"
-        (onSearch)="Search($event)"
-        (onClearClick)="ClearSearch()"
-      ></app-searchbox>
+      <app-searchbox PlaceHolder="Search" [AutoCompleteSource$]="AutoCompleteSource$" (onSearch)="Search($event)"
+        (onClearClick)="ClearSearch()"></app-searchbox>
     </div>
-    <p-button
-      pRipple
-      (click)="AddClick()"
-      pTooltip="Click to Add"
-      label="Add"
-      tooltipPosition="left"
-    >
+    <p-button pRipple (click)="AddClick()" pTooltip="Click to Add" label="Add" tooltipPosition="left">
     </p-button>
   </div>
 
   <br />
-  <p-table
-    #fTable
-    dataKey="RecordId"
-    editMode="row"
-    styleClass="p-datatable-sm p-datatable-gridlines"
-    [tableStyle]="{ 'min-width': '50rem' }"
-    [value]="PagingSignal().Content"
-    [totalRecords]="PagingSignal().TotalElements"
-    [rows]="Query.PageSize"
-    [paginator]="true"
-    [rowsPerPageOptions]="[10, 20, 30, 50]"
-    [showCurrentPageReport]="true"
-    [currentPageReportTemplate]="'{currentPage} of {totalPages}'"
-    [lazy]="true"
-    (onLazyLoad)="NextPage($event)"
-  >
+  <p-table #fTable dataKey="RecordId" editMode="row" styleClass="p-datatable-sm p-datatable-gridlines"
+    [tableStyle]="{ 'min-width': '100rem' }" [value]="PagingSignal().Content"
+    [totalRecords]="PagingSignal().TotalElements" [rows]="Query.PageSize" [paginator]="true"
+    paginatorStyleClass="p-paginator" [rowsPerPageOptions]="[10, 20, 30, 50]" [showCurrentPageReport]="true"
+    [currentPageReportTemplate]="'{currentPage} of {totalPages}'" [lazy]="true" (onLazyLoad)="NextPage($event)">
     <ng-template pTemplate="header">
       <tr>
         <th style="text-align: center; width: 1%"></th>
         <th scope="row" pSortableColumn="RecordId">
           <div class="flex justify-content-between flex-wrap">
             <div class="flex align-items-center justify-content-center">
-              <p-columnFilter
-                [showOperator]="false"
-                [showAddButton]="false"
-                [matchModeOptions]="TextMatchModeOptions"
-                type="text"
-                field="RecordId"
-                display="menu"
-                class="ml-auto"
-              ></p-columnFilter>
+              <p-columnFilter [showOperator]="false" [showAddButton]="false" [matchModeOptions]="TextMatchModeOptions"
+                type="text" field="RecordId" display="menu" class="ml-auto"></p-columnFilter>
             </div>
             <div class="flex align-items-center justify-content-center">
               Record Id
@@ -62,15 +34,8 @@
         <th scope="row" pSortableColumn="Date">
           <div class="flex justify-content-between flex-wrap">
             <div class="flex align-items-center justify-content-center">
-              <p-columnFilter
-                [showOperator]="false"
-                [showAddButton]="false"
-                [matchModeOptions]="DateMatchModeOptions"
-                type="date"
-                field="Date"
-                display="menu"
-                class="ml-auto"
-              ></p-columnFilter>
+              <p-columnFilter [showOperator]="false" [showAddButton]="false" [matchModeOptions]="DateMatchModeOptions"
+                type="date" field="Date" display="menu" class="ml-auto"></p-columnFilter>
             </div>
             <div class="flex align-items-center justify-content-center">
               Date
@@ -83,15 +48,8 @@
         <th scope="row" pSortableColumn="ShipDate">
           <div class="flex justify-content-between flex-wrap">
             <div class="flex align-items-center justify-content-center">
-              <p-columnFilter
-                [showOperator]="false"
-                [showAddButton]="false"
-                [matchModeOptions]="DateMatchModeOptions"
-                type="date"
-                field="ShipDate"
-                display="menu"
-                class="ml-auto"
-              ></p-columnFilter>
+              <p-columnFilter [showOperator]="false" [showAddButton]="false" [matchModeOptions]="DateMatchModeOptions"
+                type="date" field="ShipDate" display="menu" class="ml-auto"></p-columnFilter>
             </div>
             <div class="flex align-items-center justify-content-center">
               Ship Date
@@ -104,15 +62,8 @@
         <th scope="row" pSortableColumn="ShipTo">
           <div class="flex justify-content-between flex-wrap">
             <div class="flex align-items-center justify-content-center">
-              <p-columnFilter
-                [showOperator]="false"
-                [showAddButton]="false"
-                [matchModeOptions]="TextMatchModeOptions"
-                type="text"
-                field="ShipTo.Name"
-                display="menu"
-                class="ml-auto"
-              ></p-columnFilter>
+              <p-columnFilter [showOperator]="false" [showAddButton]="false" [matchModeOptions]="TextMatchModeOptions"
+                type="text" field="ShipTo.Name" display="menu" class="ml-auto"></p-columnFilter>
             </div>
             <div class="flex align-items-center justify-content-center">
               Ship To
@@ -125,15 +76,8 @@
         <th scope="row" pSortableColumn="Shipper">
           <div class="flex justify-content-between flex-wrap">
             <div class="flex align-items-center justify-content-center">
-              <p-columnFilter
-                [showOperator]="false"
-                [showAddButton]="false"
-                [matchModeOptions]="TextMatchModeOptions"
-                type="text"
-                field="Shipper.Name"
-                display="menu"
-                class="ml-auto"
-              ></p-columnFilter>
+              <p-columnFilter [showOperator]="false" [showAddButton]="false" [matchModeOptions]="TextMatchModeOptions"
+                type="text" field="Shipper.Name" display="menu" class="ml-auto"></p-columnFilter>
             </div>
             <div class="flex align-items-center justify-content-center">
               Shipper
@@ -146,15 +90,8 @@
         <th scope="row" pSortableColumn="RequestBy">
           <div class="flex justify-content-between flex-wrap">
             <div class="flex align-items-center justify-content-center">
-              <p-columnFilter
-                [showOperator]="false"
-                [showAddButton]="false"
-                [matchModeOptions]="TextMatchModeOptions"
-                type="text"
-                field="RequestBy.Name"
-                display="menu"
-                class="ml-auto"
-              ></p-columnFilter>
+              <p-columnFilter [showOperator]="false" [showAddButton]="false" [matchModeOptions]="TextMatchModeOptions"
+                type="text" field="RequestBy.Name" display="menu" class="ml-auto"></p-columnFilter>
             </div>
             <div class="flex align-items-center justify-content-center">
               Request By
@@ -167,15 +104,8 @@
         <th scope="row" pSortableColumn="ReasonCode">
           <div class="flex justify-content-between flex-wrap">
             <div class="flex align-items-center justify-content-center">
-              <p-columnFilter
-                [showOperator]="false"
-                [showAddButton]="false"
-                [matchModeOptions]="TextMatchModeOptions"
-                type="text"
-                field="ReasonCode.Reason"
-                display="menu"
-                class="ml-auto"
-              ></p-columnFilter>
+              <p-columnFilter [showOperator]="false" [showAddButton]="false" [matchModeOptions]="TextMatchModeOptions"
+                type="text" field="ReasonCode.Reason" display="menu" class="ml-auto"></p-columnFilter>
             </div>
             <div class="flex align-items-center justify-content-center">
               Reason
@@ -188,15 +118,8 @@
         <th scope="row" pSortableColumn="Remark">
           <div class="flex justify-content-between flex-wrap">
             <div class="flex align-items-center justify-content-center">
-              <p-columnFilter
-                [showOperator]="false"
-                [showAddButton]="false"
-                [matchModeOptions]="TextMatchModeOptions"
-                type="text"
-                field="Remark"
-                display="menu"
-                class="ml-auto"
-              ></p-columnFilter>
+              <p-columnFilter [showOperator]="false" [showAddButton]="false" [matchModeOptions]="TextMatchModeOptions"
+                type="text" field="Remark" display="menu" class="ml-auto"></p-columnFilter>
             </div>
             <div class="flex align-items-center justify-content-center">
               Remark
@@ -206,18 +129,36 @@
             </div>
           </div>
         </th>
+        <!-- TODO WIP status dropdown filter-->
+
+        <!-- <th scope="row" pSortableColumn="Status">
+          <div class="flex justify-content-between flex-wrap">
+            <div class="flex align-items-center justify-content-center">
+              <p-columnFilter field="status" matchMode="=*" [display]="'menu'" [showAddButton]="false"
+                [showMatchModes]="false" [showOperator]="false" [showClearButton]="false" [showApplyButton]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-dropdown #categoryFilter [options]="categories" optionLabel="label" optionValue="value">
+                     (onChange)="onFilter($event)">
+                  </p-dropdown>
+                  <div class="flex gap-3 mt-3">
+                    <p-button label="Clear" styleClass="p-button-outlined" (onClick)="filter(undefined)"></p-button>
+                    <p-button label="Apply" (onClick)="onFilter(categoryFilter.value)"></p-button>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              Status
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              <p-sortIcon field="Status"></p-sortIcon>
+            </div>
+          </div>
+        </th> -->
         <th scope="row" pSortableColumn="Status">
           <div class="flex justify-content-between flex-wrap">
             <div class="flex align-items-center justify-content-center">
-              <p-columnFilter
-                [showOperator]="false"
-                [showAddButton]="false"
-                [matchModeOptions]="TextMatchModeOptions"
-                type="text"
-                field="Status"
-                display="menu"
-                class="ml-auto"
-              ></p-columnFilter>
+
             </div>
             <div class="flex align-items-center justify-content-center">
               Status
@@ -232,27 +173,17 @@
         <th style="text-align: center; width: 5%">Action</th>
       </tr>
     </ng-template>
-    <ng-template
-      pTemplate="body"
-      let-data
-      let-rowIndex="rowIndex"
-      let-expanded="expanded"
-    >
+    <ng-template pTemplate="body" let-data let-rowIndex="rowIndex" let-expanded="expanded">
       <tr>
         <td style="text-align: center">
-          <button
-            type="button"
-            pButton
-            pRipple
-            [pRowToggler]="data"
+          <button type="button" pButton pRipple [pRowToggler]="data"
             class="p-button-text p-button-rounded p-button-plain"
-            [icon]="expanded ? 'pi pi-minus' : 'pi pi-plus'"
-          ></button>
+            [icon]="expanded ? 'pi pi-minus' : 'pi pi-plus'"></button>
         </td>
         <td style="text-align: center">
           <a (click)="GotoDetails(data.Id)" class="text-red-400">{{
             data.RecordId
-          }}</a>
+            }}</a>
         </td>
         <td style="text-align: center">
           {{ data.Date | date : "dd/MM/yyyy" }}
@@ -272,11 +203,7 @@
         <td style="text-align: center">
           {{ data.ReasonCode }}
         </td>
-        <td
-          style="text-align: center"
-          pTooltip="{{ data.Remark }}"
-          pTooltipPosition="top"
-        >
+        <td style="text-align: center" pTooltip="{{ data.Remark }}" pTooltipPosition="top">
           {{ data.Remark }}
         </td>
         <td style="text-align: center">
@@ -284,13 +211,8 @@
         </td>
         <td>
           <div class="flex align-items-center justify-content-center">
-            <p-button
-              pRipple
-              severity="danger"
-              [disabled]="data.Status > 10"
-              label="CANCEL"
-              (click)="CancelClick($event, data.Id)"
-            ></p-button>
+            <p-button pRipple severity="danger" [disabled]="data.Status > 10" label="CANCEL"
+              (click)="CancelClick($event, data.Id)"></p-button>
           </div>
         </td>
         <td style="text-align: center">
@@ -299,11 +221,7 @@
           </a>
         </td>
         <td style="text-align: center">
-          <a
-            *ngIf="data.Status !== 10"
-            (click)="EditClick(data.Id)"
-            class="text-red-400"
-          >
+          <a *ngIf="data.Status !== 10" (click)="EditClick(data.Id)" class="text-red-400">
             Edit
           </a>
         </td>
@@ -316,50 +234,45 @@
           <div class="p-3">
             <p-table [value]="product.MDOLines" dataKey="Item">
               <ng-template pTemplate="header">
-                <tr>
-                  <th style="text-align: center">Item</th>
-                  <th style="text-align: center">Description</th>
-                  <th style="text-align: center">Qty</th>
-                  <th style="text-align: center">UOM</th>
-                  <th style="text-align: center">Lot</th>
-                  <th style="text-align: center">Remark</th>
-                  <th style="text-align: center">Status</th>
-                  <th style="text-align: center">Action</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-item>
-                <tr>
-                  <td style="text-align: center">{{ item.Items }}</td>
-                  <td style="text-align: center">{{ item.ItemDesc }}</td>
-                  <td style="text-align: center">{{ item.Qty }}</td>
-                  <td style="text-align: center">{{ item?.UOM }}</td>
-                  <td style="text-align: center">{{ item.LotID }}</td>
-                  <td style="text-align: center">{{ item.Remark }}</td>
-                  <td style="text-align: center">
-                    {{ item.LineStatus | statusPipe }}
-                  </td>
-                  <td style="text-align: center">
-                    <p-button
-                      [disabled]="
+      <tr>
+        <th style="text-align: center">Item</th>
+        <th style="text-align: center">Description</th>
+        <th style="text-align: center">Qty</th>
+        <th style="text-align: center">UOM</th>
+        <th style="text-align: center">Lot</th>
+        <th style="text-align: center">Remark</th>
+        <th style="text-align: center">Status</th>
+        <th style="text-align: center">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td style="text-align: center">{{ item.Items }}</td>
+        <td style="text-align: center">{{ item.ItemDesc }}</td>
+        <td style="text-align: center">{{ item.Qty }}</td>
+        <td style="text-align: center">{{ item?.UOM }}</td>
+        <td style="text-align: center">{{ item.LotID }}</td>
+        <td style="text-align: center">{{ item.Remark }}</td>
+        <td style="text-align: center">
+          {{ item.LineStatus | statusPipe }}
+        </td>
+        <td style="text-align: center">
+          <p-button [disabled]="
                         item.LineStatus === 10 || item.LineStatus === 0
-                      "
-                      [text]="true"
-                      severity="danger"
-                      label="RETURNED"
-                      (onClick)="ReturnClick($event, item.Id, product.Id)"
-                    ></p-button>
-                  </td>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="emptymessage">
-                <tr>
-                  <td colspan="6">There are no data for this MDO yet.</td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
+                      " [text]="true" severity="danger" label="RETURNED"
+            (onClick)="ReturnClick($event, item.Id, product.Id)"></p-button>
         </td>
       </tr>
     </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">There are no data for this MDO yet.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  </div>
+  </td>
+  </tr>
+  </ng-template>
   </p-table>
 </p-card>

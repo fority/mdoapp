@@ -4,22 +4,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { DropdownModule } from 'primeng/dropdown';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, map } from 'rxjs';
-import {
-  DefaultPage,
-  DefaultPageSize,
-  PagingContent,
-} from 'src/app/core/models/sharedModels';
+import { DefaultPage, DefaultPageSize, PagingContent } from 'src/app/core/models/sharedModels';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import {
-  BuildFilterText,
-  BuildSortText,
-  FilterOperatorDateSelectOption,
-  FilterOperatorNumberSelectOption,
-  FilterOperatorTextSelectOption,
-  GridifyQueryExtend,
+  BuildFilterText, BuildSortText, FilterOperatorDateSelectOption, FilterOperatorNumberSelectOption,
+  FilterOperatorStatusSelectOption, FilterOperatorTextSelectOption, GridifyQueryExtend,
 } from 'src/app/core/utils/GridifyHelpers';
 import { DownloadFile } from 'src/app/core/utils/helpers';
 import { MDOHeaderDto } from 'src/app/models/mdo';
@@ -32,15 +25,8 @@ import { SharedModule } from 'src/app/shared/module/SharedModule/SharedModule.mo
   selector: 'app-mdo-listings',
   templateUrl: './mdo-listings.component.html',
   styleUrls: ['./mdo-listings.component.less'],
-  imports: [
-    CommonModule,
-    CardModule,
-    TableModule,
-    ButtonModule,
-    SearchboxComponent,
-    TooltipModule,
-    SharedModule,
-  ],
+  imports: [CommonModule, DropdownModule, CardModule, TableModule, ButtonModule, SearchboxComponent,
+    TooltipModule, SharedModule,],
 })
 export class MdoListingsComponent {
   private mdoService = inject(MdoService);
@@ -54,13 +40,7 @@ export class MdoListingsComponent {
 
   isVisible = false;
 
-  //FilteredAutoComplete$: Observable<string[]> = of([]);
-
-  //ClonedLineData: { [s: string]: MDOHeaderDto } = {};
-
-  PagingSignal = signal<PagingContent<MDOHeaderDto>>(
-    {} as PagingContent<MDOHeaderDto>
-  );
+  PagingSignal = signal<PagingContent<MDOHeaderDto>>({} as PagingContent<MDOHeaderDto>);
   Query: GridifyQueryExtend = {} as GridifyQueryExtend;
   listOfData = [] as MDOHeaderDto[];
 
@@ -68,6 +48,7 @@ export class MdoListingsComponent {
   DateMatchModeOptions = FilterOperatorDateSelectOption;
   TextMatchModeOptions = FilterOperatorTextSelectOption;
   NumberMatchModeOptions = FilterOperatorNumberSelectOption;
+  StatusMatchModeOptions = FilterOperatorStatusSelectOption;
 
   AutoCompleteSource$: Observable<string[]> = this.mdoService.GetMany({
     OrderBy: `RecordId`,
@@ -78,16 +59,45 @@ export class MdoListingsComponent {
     Includes: null
   }).pipe(map((x) => x.Content.map((x: any) => x.RecordId || "")));
 
-  customFilterCallback(filter: (a: any) => void, value: any): void {
-    //this.stopListening = true;
-    filter(value);
-    //this.stopListening = false;
-  }
-
-
   ngOnInit(): void {
     this.SetDefaultQuery();
   }
+
+
+  //TODO WIP Custome Status Filter
+  // onFilter(data: any) {
+  //   if (this.fTable != null) {
+  //     this.fTable.first = 0; //goto first page (paginator)
+  //     this.fTable.filters = {
+  //       Status: [
+  //         {
+  //           value: data.value,
+  //           matchMode: "=",
+  //           operator: "and",
+  //         },
+  //       ]
+  //     }
+  //   }
+
+  //   const event: TableLazyLoadEvent = {
+  //     first: 0, // Starting index of the data to load
+  //     rows: this.fTable?.rows,  // Number of rows to load per request
+  //     sortField: null,  // Optional: Field to sort by
+  //     sortOrder: null,   // Optional: Sort order (asc/desc)
+  //     filters: {
+  //       Status: [
+  //         {
+  //           value: data.value,
+  //           matchMode: "=",
+  //           operator: "and",
+  //         },
+  //       ]
+  //     }
+  //   };
+  //   this.NextPage(event);
+  // }
+
+
   SetDefaultQuery() {
     this.Query.Page = DefaultPage;
     this.Query.PageSize = DefaultPageSize;
@@ -158,11 +168,99 @@ export class MdoListingsComponent {
     });
   }
 
-  Search(data: string) {
-    this.Query.Filter = `RecordId=*${data}`;
-    this.LoadData();
-  }
 
+  Search(data: string) {
+    if (this.fTable != null) {
+      this.fTable.first = 0; //goto first page (paginator)
+      this.fTable.filters = {
+        RecordId: [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], 'ShipTo.Name': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], 'Shipper.Name': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], 'RequestBy.Name': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], 'ReasonCode.Reason': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], 'Remark': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ],
+      }
+    }
+
+    const event: TableLazyLoadEvent = {
+      first: 0, // Starting index of the data to load
+      rows: this.fTable?.rows,  // Number of rows to load per request
+      sortField: null,  // Optional: Field to sort by
+      sortOrder: null,   // Optional: Sort order (asc/desc)
+      filters: {
+        RecordId: [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ],
+        'ShipTo.Name': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], 'Shipper.Name': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], 'RequestBy.Name': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], 'ReasonCode.Reason': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], 'Remark': [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ],
+      },
+    };
+    this.NextPage(event);
+  }
   ClearSearch() {
     this.SetDefaultQuery();
     this.ResetTable();
@@ -210,9 +308,7 @@ export class MdoListingsComponent {
             TotalElements: res.TotalElements - 1,
           }));
           this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Data have been deleted successfully',
+            severity: 'success', summary: 'Success', detail: 'Data have been deleted successfully',
           });
         });
       },

@@ -120,12 +120,12 @@ export const BuildFilterText = (event: TableLazyLoadEvent): string => {
           //dirty workaround for user not select filter type
           if (values[0].matchMode === 'startsWith')
             return '';
-          filterText = filterText.concat(`${keys}${values[0].matchMode}${values[0].value}`, ',');
+          filterText = filterText.concat(`${keys}${values[0].matchMode}${values[0].value}`, '|');
         }
       }
     }
   }
-  if (filterText.endsWith(","))
+  if (filterText.endsWith("|"))
     filterText = filterText.slice(0, -1);
   return filterText;
 };

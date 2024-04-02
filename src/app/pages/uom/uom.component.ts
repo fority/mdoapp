@@ -103,8 +103,48 @@ export class UomComponent {
   }
 
   Search(data: string) {
-    this.Query.Filter = `Name=*${data}|Description=*${data}`;
-    this.LoadData();
+
+    if (this.fTable != null) {
+      this.fTable.first = 0; //goto first page (paginator)
+      this.fTable.filters = {
+        Name: [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], Description: [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ]
+      }
+    }
+
+    const event: TableLazyLoadEvent = {
+      first: 0, // Starting index of the data to load
+      rows: this.fTable?.rows,  // Number of rows to load per request
+      sortField: null,  // Optional: Field to sort by
+      sortOrder: null,   // Optional: Sort order (asc/desc)
+      filters: {
+        Name: [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ], Description: [
+          {
+            value: data,
+            matchMode: "=*",
+            operator: "and",
+          },
+        ]
+      },
+    };
+    this.NextPage(event);
   }
 
   ClearSearch() {
@@ -182,7 +222,9 @@ export class UomComponent {
     }
     const sortText = BuildSortText(event);
     this.Query.OrderBy = sortText == '' ? this.DEFAULT_ORDER : sortText;
-    this.Query.Filter = BuildFilterText(event);
+    const filtered = BuildFilterText(event);
+    if (filtered === '') this.ResetTable();
+    else this.Query.Filter = BuildFilterText(event);
     this.LoadData();
   }
 }

@@ -32,24 +32,27 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
       switch (response.status) {
         case 400:
           this.message.add({ severity: 'error', summary: response.status.toString(), detail: 'Bad Request' });
+          this.loadingService.stop();
           break;
         case 401:
           this.message.add({ severity: 'error', summary: response.status.toString(), detail: 'Unauthorized' });
+          this.loadingService.stop();
           break;
         case 403:
           this.message.add({ severity: 'error', summary: response.status.toString(), detail: 'Forbidden' });
+          this.loadingService.stop();
           break;
         case 404:
           this.message.add({ severity: 'error', summary: response.status.toString(), detail: 'Not Found' });
+          this.loadingService.stop();
           break;
         case 409:
           this.message.add({ severity: 'error', summary: response.status.toString(), detail: 'Conflict' });
+          this.loadingService.stop();
           break;
         case 500:
           this.message.add({
-            severity: 'error',
-            summary: response.status.toString(),
-            detail: `Message: ${response.error?.message}`,
+            severity: 'error', summary: response.status.toString(), detail: `Message: ${response.error?.message}`,
           });
           this.loadingService.stop();
           break;

@@ -1,19 +1,11 @@
 <p-card header="{{ Title }}">
   <p-toolbar>
     <div class="p-toolbar-group-start">
-      <p-button *ngIf="!isUpdate" pRipple (onClick)="SaveUpdateClick()"
-        >Save</p-button
-      >
-      <p-button *ngIf="isUpdate" pRipple (onClick)="SaveUpdateClick()"
-        >Update</p-button
-      >
+      <p-button *ngIf="!isUpdate" pRipple (onClick)="SaveUpdateClick()">Save</p-button>
+      <p-button *ngIf="isUpdate" pRipple (onClick)="SaveUpdateClick()">Update</p-button>
     </div>
     <div class="p-toolbar-group-end">
-      <p-button
-        icon="pi pi-times"
-        styleClass="p-button-danger"
-        (onClick)="CancelClick()"
-      ></p-button>
+      <p-button icon="pi pi-times" styleClass="p-button-danger" (onClick)="CancelClick()"></p-button>
     </div>
   </p-toolbar>
   <br />
@@ -24,12 +16,10 @@
       <label for="Date"><span class="text-red-400">*</span>Date</label>
       <br />
       <p-calendar formControlName="Date" dateFormat="dd-mm-yy"></p-calendar>
-      <div
-        *ngIf="
+      <div *ngIf="
           FG.get('Date')?.errors &&
           (FG.get('Date')?.dirty || FG.get('Date')?.touched)
-        "
-      >
+        ">
         <div class="text-red-400" *ngIf="FG.get('Date')?.errors?.['required']">
           Date is Required
         </div>
@@ -39,112 +29,65 @@
       <label for="ShipDate"><span class="text-red-400">*</span>Ship Date</label>
       <br />
       <p-calendar formControlName="ShipDate" dateFormat="dd-mm-yy"></p-calendar>
-      <div
-        *ngIf="
+      <div *ngIf="
           FG.get('ShipDate')?.errors &&
           (FG.get('ShipDate')?.dirty || FG.get('ShipDate')?.touched)
-        "
-      >
-        <div
-          class="text-red-400"
-          *ngIf="FG.get('ShipDate')?.errors?.['required']"
-        >
+        ">
+        <div class="text-red-400" *ngIf="FG.get('ShipDate')?.errors?.['required']">
           Ship Date is Required
         </div>
       </div>
     </div>
     <div class="field col-12 md:col-6">
-      <label for="ShipTo" [style]="{ width: '100%' }"
-        ><span class="text-red-400">*</span>Ship To</label
-      ><br />
-      <p-dropdown
-        [options]="(shipToSource$ | async) || []"
-        formControlName="ShipToId"
-        (onChange)="ShipToOnChanges($event)"
-      ></p-dropdown>
+      <label for="ShipTo" [style]="{ width: '100%' }"><span class="text-red-400">*</span>Ship To</label><br />
+      <p-dropdown [options]="(shipToSource$ | async) || []" formControlName="ShipToId"
+        (onChange)="ShipToOnChanges($event)"></p-dropdown>
     </div>
     <div class="field col-12 md:col-6">
-      <label for="ShipAddress"
-        ><span class="text-red-400">*</span>Ship Address</label
-      ><br />
+      <label for="ShipAddress"><span class="text-red-400">*</span>Ship Address</label><br />
       <input pInputText formControlName="ShipAddress" type="text" />
-      <div
-        *ngIf="
+      <div *ngIf="
           FG.get('ShipAddress')?.errors &&
           (FG.get('ShipAddress')?.dirty || FG.get('ShipAddress')?.touched)
-        "
-      >
-        <div
-          class="text-red-400"
-          *ngIf="FG.get('ShipAddress')?.errors?.['required']"
-        >
+        ">
+        <div class="text-red-400" *ngIf="FG.get('ShipAddress')?.errors?.['required']">
           Ship Address is Required
         </div>
       </div>
     </div>
     <div class="field col-12 md:col-6">
-      <label for="ShipperId"><span class="text-red-400">*</span>Shipper</label
-      ><br />
-      <p-dropdown
-        [options]="(ShipperSource$ | async) || []"
-        formControlName="ShipperId"
-      ></p-dropdown>
+      <label for="ShipperId"><span class="text-red-400">*</span>Shipper</label><br />
+      <p-dropdown [options]="(ShipperSource$ | async) || []" formControlName="ShipperId"></p-dropdown>
     </div>
-    <div
-      *ngIf="
+    <div *ngIf="
         FG.get('ShipperId')?.errors &&
         (FG.get('ShipperId')?.dirty || FG.get('ShipperId')?.touched) &&
         this.FG.get('ShipperId')?.value === null
-      "
-    >
-      <div
-        class="text-red-400"
-        *ngIf="FG.get('ShipperId')?.errors?.['required']"
-      >
+      ">
+      <div class="text-red-400" *ngIf="FG.get('ShipperId')?.errors?.['required']">
         Shipper is Required
       </div>
     </div>
 
     <div class="field col-12 md:col-6">
-      <label for="RequestById"
-        ><span class="text-red-400">*</span>Request By</label
-      ><br />
-      <p-dropdown
-        [options]="(requestBySource$ | async) || []"
-        formControlName="RequestById"
-      ></p-dropdown>
+      <label for="RequestById"><span class="text-red-400">*</span>Request By</label><br />
+      <p-dropdown [options]="(requestBySource$ | async) || []" formControlName="RequestById"></p-dropdown>
     </div>
-    <div
-      *ngIf="
+    <div *ngIf="
         FG.get('RequestById')?.errors &&
-        (FG.get('RequestById')?.dirty || FG.get('RequestById')?.touched)
-      "
-    >
-      <div
-        class="text-red-400"
-        *ngIf="FG.get('RequestById')?.errors?.['required']"
-      >
+        (FG.get('RequestById')?.dirty || FG.get('RequestById')?.touched)      ">
+      <div class="text-red-400" *ngIf="FG.get('RequestById')?.errors?.['required']">
         Request By is Required
       </div>
     </div>
     <div class="field col-12 md:col-6">
-      <label for="ReasonCodeId"
-        ><span class="text-red-400">*</span>Reason Code</label
-      ><br />
-      <p-dropdown
-        [options]="(reasonSource$ | async) || []"
-        formControlName="ReasonCodeId"
-      ></p-dropdown>
-      <div
-        *ngIf="
+      <label for="ReasonCodeId"><span class="text-red-400">*</span>Reason Code</label><br />
+      <p-dropdown [options]="(reasonSource$ | async) || []" formControlName="ReasonCodeId"></p-dropdown>
+      <div *ngIf="
           FG.get('ReasonCodeId')?.errors &&
           (FG.get('ReasonCodeId')?.dirty || FG.get('ReasonCodeId')?.touched)
-        "
-      >
-        <div
-          class="text-red-400"
-          *ngIf="FG.get('ReasonCodeId')?.errors?.['required']"
-        >
+        ">
+        <div class="text-red-400" *ngIf="FG.get('ReasonCodeId')?.errors?.['required']">
           Reason Code is Required
         </div>
       </div>
@@ -173,37 +116,18 @@
       <br />
       <input type="text" pInputText formControlName="Remark" />
     </div>
-    <div
-      class="flex alignt-items-center p-3"
-      *ngIf="formControlMDOLines.length === 0"
-    >
-      <p-button
-        [disabled]="PagingSignal().Status > 10"
-        label="Add Line"
-        (onClick)="CreateMdoLine()"
-        icon="pi pi-plus"
-        [rounded]="true"
-      ></p-button>
+    <div class="flex alignt-items-center p-3" *ngIf="formControlMDOLines.length === 0">
+      <p-button [disabled]="PagingSignal().Status > 10" label="Add Line" (onClick)="CreateMdoLine()" icon="pi pi-plus"
+        [rounded]="true"></p-button>
     </div>
     <div class="table-container p-3" *ngIf="formControlMDOLines.length > 0">
       <div class="flex justify-content-end">
-        <p-button
-          [disabled]="PagingSignal().Status > 10"
-          label="Add Line"
-          (onClick)="CreateMdoLine()"
-          icon="pi pi-plus"
-          [rounded]="true"
-        ></p-button>
+        <p-button [disabled]="PagingSignal().Status > 10" label="Add Line" (onClick)="CreateMdoLine()" icon="pi pi-plus"
+          [rounded]="true"></p-button>
       </div>
       <br />
-      <p-table
-        dataKey="Id"
-        editMode="row"
-        styleClass="p-datatable-gridlines"
-        [tableStyle]="{ 'min-width': '30rem' }"
-        [value]="formControlMDOLines.controls"
-        [paginator]="false"
-      >
+      <p-table dataKey="Id" editMode="row" styleClass="p-datatable-gridlines" [tableStyle]="{ 'min-width': '30rem' }"
+        [value]="formControlMDOLines.controls" [paginator]="false">
         <ng-template pTemplate="header">
           <tr>
             <th style="text-align: center">Item</th>
@@ -239,20 +163,10 @@
             </td>
             <td style="text-align: center">
               <div class="flex justify-content-center gap-2">
-                <p-button
-                  [disabled]="product.get('LineStatus')?.value > 10"
-                  label="Edit"
-                  icon="pi pi-pencil"
-                  [rounded]="true"
-                  (click)="EditLine(product.value, i)"
-                ></p-button>
-                <p-button
-                  [disabled]="product.get('LineStatus')?.value > 10"
-                  label="Delete"
-                  severity="danger"
-                  [rounded]="true"
-                  (click)="DeleteLine(i)"
-                ></p-button>
+                <p-button [disabled]="product.get('LineStatus')?.value > 10" label="Edit" icon="pi pi-pencil"
+                  [rounded]="true" (click)="EditLine(product.value, i)"></p-button>
+                <p-button [disabled]="product.get('LineStatus')?.value > 10" label="Delete" severity="danger"
+                  [rounded]="true" (click)="DeleteLine(i)"></p-button>
               </div>
             </td>
           </tr>
@@ -262,11 +176,6 @@
   </form>
 </p-card>
 
-<app-mdoLinesForm
-  *ngIf="visible"
-  [sidebarVisible]="visible"
-  [isUpdate]="updateMdo"
-  (successEmitter)="AddMdoLine($event)"
-  (updateEmitter)="EditMdoLine($event)"
-  (HideSideBarEmitter)="visible = false; Close()"
-></app-mdoLinesForm>
+<app-mdoLinesForm *ngIf="visible" [sidebarVisible]="visible" [isUpdate]="updateMdo"
+  (successEmitter)="AddMdoLine($event)" (updateEmitter)="EditMdoLine($event)"
+  (HideSideBarEmitter)="visible = false; Close()"></app-mdoLinesForm>
