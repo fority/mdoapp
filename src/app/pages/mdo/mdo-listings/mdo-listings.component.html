@@ -168,7 +168,6 @@
             </div>
           </div>
         </th>
-        <th style="text-align: center; width: 5%">Action</th>
         <th style="text-align: center; width: 5%">PDF</th>
         <th style="text-align: center; width: 5%">Action</th>
       </tr>
@@ -209,21 +208,26 @@
         <td style="text-align: center">
           {{ data.Status | statusPipe }}
         </td>
-        <td>
-          <div class="flex align-items-center justify-content-center">
-            <p-button pRipple severity="danger" [disabled]="data.Status > 10" label="CANCEL"
-              (click)="CancelClick($event, data.Id)"></p-button>
-          </div>
-        </td>
+
         <td style="text-align: center">
           <a pTooltip="Download" (click)="DownloadPdf(data.Id)">
             <strong><i class="pi pi-download text-red-400"></i></strong>
           </a>
         </td>
         <td style="text-align: center">
-          <a *ngIf="data.Status !== 10" (click)="EditClick(data.Id)" class="text-red-400">
-            Edit
-          </a>
+          <div class="grid">
+            <div *ngIf="data.Status < 10" class="col">
+              <!-- <a (click)="EditClick(data.Id)" class="text-red-400"> Edit </a> -->
+              <p-button [text]="true" severity="danger" label="Edit" (onClick)="EditClick(data.Id)"></p-button>
+
+            </div>
+
+            <div *ngIf="data.Status === 10" class="col">
+              <!-- <a class="text-red-400" (click)="CancelClick($event, data.Id)">Cancel</a> -->
+              <p-button [text]="true" severity="danger" label="Cancel"
+                (onClick)="CancelClick($event, data.Id)"></p-button>
+            </div>
+          </div>
         </td>
       </tr>
     </ng-template>
@@ -257,10 +261,8 @@
           {{ item.LineStatus | statusPipe }}
         </td>
         <td style="text-align: center">
-          <p-button [disabled]="
-                        item.LineStatus === 10 || item.LineStatus === 0
-                      " [text]="true" severity="danger" label="RETURNED"
-            (onClick)="ReturnClick($event, item.Id, product.Id)"></p-button>
+          <p-button [disabled]="item.LineStatus !== 10" [text]="true" severity="danger" label="Return"
+            (onClick)="ReturnClick($event, product.Id,item.Id )"></p-button>
         </td>
       </tr>
     </ng-template>

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
@@ -25,7 +26,7 @@ import { SharedModule } from 'src/app/shared/module/SharedModule/SharedModule.mo
   selector: 'app-mdo-listings',
   templateUrl: './mdo-listings.component.html',
   styleUrls: ['./mdo-listings.component.less'],
-  imports: [CommonModule, DropdownModule, CardModule, TableModule, ButtonModule, SearchboxComponent,
+  imports: [CommonModule, DropdownModule, CardModule, TableModule, ButtonModule, SearchboxComponent, DividerModule,
     TooltipModule, SharedModule,],
 })
 export class MdoListingsComponent {
