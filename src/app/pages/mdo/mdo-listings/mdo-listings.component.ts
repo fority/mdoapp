@@ -171,47 +171,49 @@ export class MdoListingsComponent {
 
 
   Search(data: string) {
+    const filter = {
+      RecordId: [
+        {
+          value: data,
+          matchMode: "=*",
+          operator: "and",
+        },
+      ],
+      'ShipTo.Name': [
+        {
+          value: data,
+          matchMode: "=*",
+          operator: "and",
+        },
+      ], 'Shipper.Name': [
+        {
+          value: data,
+          matchMode: "=*",
+          operator: "and",
+        },
+      ], 'RequestBy.Name': [
+        {
+          value: data,
+          matchMode: "=*",
+          operator: "and",
+        },
+      ], 'ReasonCode.Reason': [
+        {
+          value: data,
+          matchMode: "=*",
+          operator: "and",
+        },
+      ], 'Remark': [
+        {
+          value: data,
+          matchMode: "=*",
+          operator: "and",
+        },
+      ],
+    }
     if (this.fTable != null) {
       this.fTable.first = 0; //goto first page (paginator)
-      this.fTable.filters = {
-        RecordId: [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ], 'ShipTo.Name': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ], 'Shipper.Name': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ], 'RequestBy.Name': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ], 'ReasonCode.Reason': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ], 'Remark': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ],
-      }
+      this.fTable.filters = filter;
     }
 
     const event: TableLazyLoadEvent = {
@@ -219,46 +221,7 @@ export class MdoListingsComponent {
       rows: this.fTable?.rows,  // Number of rows to load per request
       sortField: null,  // Optional: Field to sort by
       sortOrder: null,   // Optional: Sort order (asc/desc)
-      filters: {
-        RecordId: [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ],
-        'ShipTo.Name': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ], 'Shipper.Name': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ], 'RequestBy.Name': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ], 'ReasonCode.Reason': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ], 'Remark': [
-          {
-            value: data,
-            matchMode: "=*",
-            operator: "and",
-          },
-        ],
-      },
+      filters: filter
     };
     this.NextPage(event);
   }

@@ -127,5 +127,7 @@ export const BuildFilterText = (event: TableLazyLoadEvent): string => {
   }
   if (filterText.endsWith("|"))
     filterText = filterText.slice(0, -1);
+  if (filterText.endsWith(","))
+    filterText = filterText.slice(0, -1);
   return filterText;
 };
