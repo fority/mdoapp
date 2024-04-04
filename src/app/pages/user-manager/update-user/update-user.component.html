@@ -27,15 +27,20 @@
         <input type="text" pInputText formControlName="Name" />
       </div>
     </div>
-    <div class="field grid">
+    <!-- <div class="field grid">
       <label class="col-12 md:col-3 md:mb-0">
         <span class="text-red-400">*&nbsp;</span>Phone Number :
       </label>
       <div class="col-12 md:col-9">
         <input type="text" pInputText formControlName="PhoneNumber" />
       </div>
-    </div>
-
+    </div> -->
+    <app-phoneNumberInput
+      [phoneNumber]="createFormGroup.get('PhoneNumber')?.value"
+      (phoneNumberChanged)="
+        onPhoneNumberChange($event.phoneNumber, $event.isValid)
+      "
+    ></app-phoneNumberInput>
     <div class="field grid">
       <label class="col-12 md:col-3 md:mb-0">
         <span class="text-red-400">*&nbsp;</span>Email :
