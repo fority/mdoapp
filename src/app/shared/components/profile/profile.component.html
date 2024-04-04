@@ -1,19 +1,16 @@
 <p-overlayPanel #op>
   <div class="flex flex-row gap-3 align-items-center p-2">
     <p-avatar
+      styleClass="bg-primary"
       class="cursor-pointer"
       (click)="op.toggle($event)"
       shape="circle"
       [style]="{ width: '40px', height: '40px' }"
     >
-      {{
-        (username$ | async) ? (username$ | async)?.charAt(0)?.toUpperCase() : ""
-      }}
+      {{ (username$ | async) ? (username$ | async)?.charAt(0)?.toUpperCase() : "" }}
     </p-avatar>
     <div class="flex flex-column">
-      <div
-        class="flex flex-row justify-content-between align-items-center pt-1 pr-2"
-      >
+      <div class="flex flex-row justify-content-between align-items-center pt-1 pr-2">
         <b>{{ username$ | async }}</b> <app-theme></app-theme>
       </div>
 
@@ -30,21 +27,14 @@
       >
     </div>
   </div>
-  <div
-    class="surface-ground pt-2 flex flex-row justify-content-end align-items-center p-2"
-  >
+  <div class="surface-ground pt-2 flex flex-row justify-content-end align-items-center p-2">
     <!-- <p-button
       size="small"
       pRipple
       label="My Profile"
       (onClick)="AccountClick()"
     ></p-button> -->
-    <p-button
-      size="small"
-      pRipple
-      label="Logout"
-      (onClick)="LogoutClick()"
-    ></p-button>
+    <p-button size="small" pRipple label="Logout" (onClick)="LogoutClick()"></p-button>
   </div>
 </p-overlayPanel>
 
@@ -60,6 +50,7 @@
 </p-button>
 <div *ngIf="isLogin$ | async">
   <p-avatar
+    styleClass="bg-primary"
     class="cursor-pointer"
     (click)="op.toggle($event, targetEl)"
     shape="circle"
