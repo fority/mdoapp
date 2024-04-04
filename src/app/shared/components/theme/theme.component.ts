@@ -445,7 +445,7 @@ export class ThemeComponent implements OnInit {
       this.themeService.toggleDarkMode(this.checked);
     }
 
-    localStorage.clear();
+    // localStorage.clear();
     localStorage.setItem('selectedTheme', themeId);
 
     for (const key in this.selectedThemeIndexes) {

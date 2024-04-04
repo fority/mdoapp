@@ -8,7 +8,6 @@ import { BehaviorSubject } from 'rxjs';
 export class ThemeService {
   private readonly DARK_MODE_KEY = 'isDarkMode';
   private readonly SELECTED_THEME_KEY = 'selectedTheme';
-  private readonly FIRST_VISIT_FLAG = 'firstVisit';
 
   private darkModeSubject = new BehaviorSubject<boolean>(false);
   public isDarkMode$ = this.darkModeSubject.asObservable();
@@ -23,16 +22,6 @@ export class ThemeService {
   }
 
   private initializeTheme(): void {
-    const isFirstVisit = localStorage.getItem(this.FIRST_VISIT_FLAG) === null;
-
-    if (isFirstVisit) {
-      localStorage.setItem(this.FIRST_VISIT_FLAG, 'visited');
-      localStorage.setItem(this.SELECTED_THEME_KEY, 'lara-blue');
-      this.selectedThemeSubject.next('lara-blue');
-      this.switchTheme('lara-blue');
-      return;
-    }
-
     let savedTheme =
       localStorage.getItem(this.SELECTED_THEME_KEY) || 'lara-blue';
     this.selectedThemeSubject.next(savedTheme);
