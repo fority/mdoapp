@@ -112,12 +112,10 @@ export class ProfileComponent implements OnInit {
   }
   LogoutClick() {
     this.authService.logoff().subscribe();
-    localStorage.removeItem('firstVisit');
   }
 
   LoginClick() {
     this.authService.authorize();
-    localStorage.removeItem('firstVisit');
   }
 
   // AccountClick() {
