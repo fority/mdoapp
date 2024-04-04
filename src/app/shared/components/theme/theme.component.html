@@ -1,18 +1,35 @@
-<p-button icon="pi pi-palette" [text]="true" severity="secondary" [style]="{ border: 'none' }" (click)="toggleSidebar()"
-  size="small"></p-button>
-
+<!-- <p-button icon="pi pi-palette" [text]="true" severity="secondary" [style]="{ border: 'none' }" (click)="toggleSidebar()"
+  size="small"></p-button> -->
+<img
+  src="../../../../assets/theme.png"
+  alt=""
+  (click)="toggleSidebar()"
+  [style]="{ cursor: 'pointer' }"
+/>
 <div class="sidebar">
-  <p-sidebar *ngIf="visible" [showCloseIcon]="false" [(visible)]="visible" position="right" [modal]="true"
-    (HideSideBarEmitter)="visible = false" appendTo="body">
+  <p-sidebar
+    *ngIf="visible"
+    [showCloseIcon]="false"
+    [(visible)]="visible"
+    position="right"
+    [modal]="true"
+    (HideSideBarEmitter)="visible = false"
+    appendTo="body"
+  >
     <div class="flex flex-row justify-content-between pt-2 pb-2">
       <b class="text-xl">Dark Mode</b>
-      <p-inputSwitch [(ngModel)]="checked" (onChange)="toggleDarkMode()" [disabled]="!darkModeEnabled"></p-inputSwitch>
+      <p-inputSwitch
+        [(ngModel)]="checked"
+        (onChange)="toggleDarkMode()"
+        [disabled]="!darkModeEnabled"
+      ></p-inputSwitch>
     </div>
     <p-divider></p-divider>
     <div class="pt-2">
       <b class="text-xl">Themes</b>
 
-      <ng-container *ngFor="
+      <ng-container
+        *ngFor="
           let themeType of [
             'lara',
             'bootstrap4',
@@ -24,20 +41,34 @@
             'arya',
             'nova'
           ]
-        ">
+        "
+      >
         <div *ngIf="showThemesByType(themeType)">
           <div class="flex flex-row align-items-center gap-2">
-            <p-avatar [image]="getAvatarImagePath(themeType)" shape="circle"
-              [style]="{ width: '15px', height: '15px' }"></p-avatar>
+            <p-avatar
+              [image]="getAvatarImagePath(themeType)"
+              shape="circle"
+              [style]="{ width: '15px', height: '15px' }"
+            ></p-avatar>
             <p>{{ themeType | titlecase }}</p>
           </div>
 
           <div class="grid pt-2">
-            <div class="border-round" *ngFor="let theme of getThemesByType(themeType); let i = index">
-              <div class="theme border-round-sm surface-ground p-2 m-1" (click)="applyTheme(theme.id, i, themeType)"
-                [class.selected]="isSelectedTheme(i, themeType)" [class.unselected]="!isSelectedTheme(i, themeType)"
-                style="cursor: pointer">
-                <div [style]="{ background: theme.color }" class="border-round-sm p-2"></div>
+            <div
+              class="border-round"
+              *ngFor="let theme of getThemesByType(themeType); let i = index"
+            >
+              <div
+                class="theme border-round-sm surface-ground p-2 m-1"
+                (click)="applyTheme(theme.id, i, themeType)"
+                [class.selected]="isSelectedTheme(i, themeType)"
+                [class.unselected]="!isSelectedTheme(i, themeType)"
+                style="cursor: pointer"
+              >
+                <div
+                  [style]="{ background: theme.color }"
+                  class="border-round-sm p-2"
+                ></div>
               </div>
             </div>
           </div>
@@ -46,21 +77,36 @@
     </div>
 
     <div class="theme-container">
-      <ng-container *ngFor="
+      <ng-container
+        *ngFor="
           let themeType of ['soho', 'fluent', 'viva', 'mira', 'nano', 'rhea']
-        ">
+        "
+      >
         <div *ngIf="showThemesByType(themeType)" class="theme-wrapper">
           <div class="flex flex-row align-items-center gap-2">
-            <p-avatar [image]="getAvatarImagePath(themeType)" shape="circle"
-              [style]="{ width: '15px', height: '15px' }"></p-avatar>
+            <p-avatar
+              [image]="getAvatarImagePath(themeType)"
+              shape="circle"
+              [style]="{ width: '15px', height: '15px' }"
+            ></p-avatar>
             <p>{{ themeType | titlecase }}</p>
           </div>
           <div class="pt-2 grid-cols-4">
-            <div class="border-round" *ngFor="let theme of getThemesByType(themeType); let i = index">
-              <div class="theme border-round-sm surface-ground p-2 m-1" (click)="applyTheme(theme.id, i, themeType)"
-                [class.selected]="isSelectedTheme(i, themeType)" [class.unselected]="!isSelectedTheme(i, themeType)"
-                style="cursor: pointer">
-                <div [style]="{ background: theme.color }" class="border-round-sm p-2"></div>
+            <div
+              class="border-round"
+              *ngFor="let theme of getThemesByType(themeType); let i = index"
+            >
+              <div
+                class="theme border-round-sm surface-ground p-2 m-1"
+                (click)="applyTheme(theme.id, i, themeType)"
+                [class.selected]="isSelectedTheme(i, themeType)"
+                [class.unselected]="!isSelectedTheme(i, themeType)"
+                style="cursor: pointer"
+              >
+                <div
+                  [style]="{ background: theme.color }"
+                  class="border-round-sm p-2"
+                ></div>
               </div>
             </div>
           </div>
