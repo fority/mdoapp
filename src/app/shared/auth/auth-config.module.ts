@@ -19,7 +19,7 @@ import { environment } from 'src/environments/environment';
         triggerRefreshWhenIdTokenExpired: false, // required when refreshing the browser if id_token is not updated after the first authentication
         // allowUnsafeReuseRefreshToken: true, // this is required if the refresh token is not rotated
         autoUserInfo: true, // if the user endpoint is not supported.
-        logLevel: LogLevel.Debug,
+        logLevel: LogLevel.Error,
         historyCleanupOff: false,
         triggerAuthorizationResultEvent: true,
       },
@@ -27,4 +27,4 @@ import { environment } from 'src/environments/environment';
   ],
   exports: [AuthModule],
 })
-export class AuthConfigModule {}
+export class AuthConfigModule { }

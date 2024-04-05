@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, ReplaySubject, map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
   BaseResponse,
@@ -19,13 +19,15 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class UserProfileService extends BaseSettingService<
-  UserProfileDto,
-  CreateUserProfileRequest,
-  UpdateUserProfileRequest
-> {
+export class UserProfileService extends BaseSettingService<UserProfileDto, CreateUserProfileRequest, UpdateUserProfileRequest>
+{
+  userProfileSubject = new ReplaySubject<UserProfileDto>();
   constructor() {
     super('api/UserProfile');
+  }
+
+  UpdateUserProfile(message: UserProfileDto) {
+    this.userProfileSubject.next(message);
   }
 
   FxtGetUser(): Observable<PagingContent<FxtIdServerUserDto>> {

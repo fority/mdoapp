@@ -23,8 +23,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { Observable, map, of, tap } from 'rxjs';
 import {
   DefaultPage,
-  DefaultPageSize,
-  SelectOption,
+  SelectOption
 } from 'src/app/core/models/sharedModels';
 import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
 import { ValidateAllFormFields } from 'src/app/core/utils/helpers';
@@ -91,7 +90,7 @@ export class MdoLinesFormComponent {
     let query: GridifyQueryExtend = {} as GridifyQueryExtend;
 
     query.Page = DefaultPage;
-    query.PageSize = DefaultPageSize;
+    query.PageSize = 100000;
     query.OrderBy = null;
     query.Filter = null;
     query.Select = `Id, Name`;
