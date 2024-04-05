@@ -40,9 +40,8 @@
 
 <p-button
   pRipple
-  class="loginBtn"
-  [text]="true"
-  severity="success"
+  class="loginBtn p-button-text"
+  styleClass="text-primary"
   *ngIf="!(isLogin$ | async)"
   (click)="LoginClick()"
   label="Login"
