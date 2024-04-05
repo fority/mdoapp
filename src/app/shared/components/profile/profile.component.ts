@@ -47,52 +47,6 @@ export class ProfileComponent implements OnInit {
         }
       })
     );
-
-    // this.dataSharingService.currentUsername.subscribe(
-    //   (username: string | undefined) => {
-    //     if (username) {
-    //       this.username$ = of(username);
-    //       this.userInitial = username ? username.charAt(0).toUpperCase() : '';
-    //       this.email$ = this.authService.userData$.pipe(
-    //         switchMap((res: UserDataResult) => {
-    //           return of(res.userData?.email || '');
-    //         })
-    //       );
-    //       return;
-    //     } else {
-    //       this.email$ = this.authService.userData$.pipe(
-    //         switchMap((res: UserDataResult) => {
-    //           if (res.userData?.email) {
-    //             let query: GridifyQueryExtend = {} as GridifyQueryExtend;
-
-    //             query.Page = DefaultPage;
-    //             query.PageSize = DefaultPageSize;
-    //             query.OrderBy = null;
-    //             query.Filter = `Email=${res.userData?.email}`;
-    //             query.Includes = null;
-    //             query.Select = 'Email,Name';
-    //             return this.profileService.GetOne(query).pipe(
-    //               map((profile) => {
-    //                 this.dataSharingService.setProfile(
-    //                   profile?.Name,
-    //                   res.userData?.email
-    //                 );
-    //                 this.username$ = of(profile?.Name || '');
-    //                 this.userInitial = profile?.Name
-    //                   ? profile.Name.charAt(0).toUpperCase()
-    //                   : '';
-
-    //                 return res.userData?.email;
-    //               })
-    //             );
-    //           } else {
-    //             return of(null);
-    //           }
-    //         })
-    //       );
-    //     }
-    //   }
-    // );
   }
 
   ngOnInit() {
