@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
+import { AuthenticatedResult, LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import { PrimeNGConfig } from 'primeng/api';
-import { delay } from 'rxjs';
+import { delay, filter, switchMap } from 'rxjs';
 import { DefaultPage, DefaultPageSize } from './core/models/sharedModels';
 import { LoadingService } from './core/services/loading.service';
 import { RoleService } from './core/services/role.service';
@@ -22,20 +22,31 @@ export class AppComponent {
   isSpinning$ = inject(LoadingService).isLoading$.pipe(delay(0));
 
   ngOnInit() {
-    this.authService.checkAuth().subscribe(({ userData }: LoginResponse) => {
-      this.roleService.UpdateUserRole(userData?.role || []);
+    this.authService
+      .checkAuth()
+      .pipe(
+        switchMap(({ userData }: LoginResponse) => {
+          this.roleService.UpdateUserRole(userData?.role || []);
 
-      const query: GridifyQueryExtend = {} as GridifyQueryExtend;
+          return this.authService.isAuthenticated$.pipe(
+            filter((res: AuthenticatedResult) => res.isAuthenticated),
+            switchMap(() => {
+              const query: GridifyQueryExtend = {} as GridifyQueryExtend;
 
-      query.Page = DefaultPage;
-      query.PageSize = DefaultPageSize;
-      query.Filter = `Id=${userData?.sub}`;
-      query.Select = 'Email,Name';
+              query.Page = DefaultPage;
+              query.PageSize = DefaultPageSize;
+              query.Filter = `Id=${userData?.sub}`;
+              query.Select = 'Email,Name';
 
-      this.userProfileService.GetOne(query).subscribe(x => {
+              return this.userProfileService.GetOne(query);
+            })
+          );
+        })
+      )
+      .subscribe((x) => {
         this.userProfileService.UpdateUserProfile(x);
-      })
-    });
+      });
+
     this.primengConfig.ripple = true;
   }
 }

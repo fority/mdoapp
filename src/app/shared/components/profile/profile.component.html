@@ -7,7 +7,7 @@
       shape="circle"
       [style]="{ width: '40px', height: '40px' }"
     >
-      {{ (username$ | async) ? (username$ | async)?.charAt(0)?.toUpperCase() : "" }}
+      {{ userInitial }}
     </p-avatar>
     <div class="flex flex-column">
       <div class="flex flex-row justify-content-between align-items-center pt-1 pr-2">

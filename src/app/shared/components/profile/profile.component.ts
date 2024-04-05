@@ -1,32 +1,17 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewEncapsulation,
-  inject,
-} from '@angular/core';
-import {
-  AuthenticatedResult,
-  OidcSecurityService
-} from 'angular-auth-oidc-client';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { AuthenticatedResult, OidcSecurityService } from 'angular-auth-oidc-client';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, of, switchMap } from 'rxjs';
 import { UserProfileService } from 'src/app/services/userProfile.service';
 import { ThemeComponent } from '../theme/theme.component';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    OverlayPanelModule,
-    AvatarModule,
-    ButtonModule,
-    ThemeComponent,
-  ],
+  imports: [CommonModule, OverlayPanelModule, AvatarModule, ButtonModule, ThemeComponent],
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
@@ -38,28 +23,30 @@ export class ProfileComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   private userProfileService = inject(UserProfileService);
 
-
   isLogin$: Observable<boolean>;
   username$: Observable<string> | undefined;
   email$: Observable<string> | undefined;
   avatarCapsuleHide$: Observable<boolean> = of(false);
   userInitial: string = '';
 
-
-
-
-
   constructor() {
-    this.isLogin$ = this.authService.isAuthenticated$.pipe(
-      map((res: AuthenticatedResult) => res.isAuthenticated)
+    this.isLogin$ = this.authService.isAuthenticated$.pipe(map((res: AuthenticatedResult) => res.isAuthenticated));
+
+    this.username$ = this.isLogin$.pipe(
+      switchMap((loggedIn) => {
+        if (loggedIn) {
+          return this.userProfileService.userProfileSubject.pipe(
+            map((profile) => {
+              this.email$ = of(profile?.Email || '');
+              this.userInitial = profile?.Name ? profile?.Name.charAt(0).toUpperCase() : '';
+              return profile?.Name || '';
+            })
+          );
+        } else {
+          return of('');
+        }
+      })
     );
-
-    this.userProfileService.userProfileSubject.subscribe((profile) => {
-      this.username$ = of(profile?.Name || '');
-      this.email$ = of(profile?.Email || '');
-      this.userInitial = profile?.Name ? profile?.Name.charAt(0).toUpperCase() : '';
-    });
-
 
     // this.dataSharingService.currentUsername.subscribe(
     //   (username: string | undefined) => {
@@ -109,13 +96,11 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.avatarCapsuleHide$ = this.breakpointObserver
-      .observe(['(min-width: 768px)'])
-      .pipe(
-        map((state: BreakpointState) => {
-          return state.matches;
-        })
-      );
+    this.avatarCapsuleHide$ = this.breakpointObserver.observe(['(min-width: 768px)']).pipe(
+      map((state: BreakpointState) => {
+        return state.matches;
+      })
+    );
   }
   LogoutClick() {
     this.authService.logoff().subscribe();
@@ -131,10 +116,6 @@ export class ProfileComponent implements OnInit {
   //   });
   // }
   AccountClick() {
-    window.open(
-      'https://authapp.dk-schweizer.com/profile',
-      '_blank',
-      'noreferrer'
-    );
+    window.open('https://authapp.dk-schweizer.com/profile', '_blank', 'noreferrer');
   }
 }
