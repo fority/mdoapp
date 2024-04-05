@@ -1,17 +1,15 @@
 <div class="table-container p-3">
-  <h1 class="text-red-500 font-bold">
-    Record Id - {{ PagingSignal().RecordId }}
-  </h1>
+  <h1 class="text-red-500 font-bold">Record Id - {{ PagingSignal().RecordId }}</h1>
 
   <table class="table">
     <tr>
       <th class="header surface-600 text-50">Date</th>
       <th>
-        {{ PagingSignal().Date | date : "dd/mm/yyyy" }}
+        {{ PagingSignal().Date | date : "dd/MM/yyyy" }}
       </th>
       <th class="surface-600 text-50">Ship Date</th>
       <th>
-        {{ PagingSignal().ShipDate | date : "dd/mm/yyyy" }}
+        {{ PagingSignal().ShipDate | date : "dd/MM/yyyy" }}
       </th>
       <th class="surface-600 text-50">Ship To</th>
       <th>
@@ -56,10 +54,7 @@
     </tr>
   </table>
   <br />
-  <div
-    class="table-container p-3"
-    *ngIf="PagingSignal().MDOLines && PagingSignal().MDOLines.length > 0"
-  >
+  <div class="table-container p-3" *ngIf="PagingSignal().MDOLines && PagingSignal().MDOLines.length > 0">
     <p-card header="Mdo Lines">
       <p-table
         dataKey="Id"
