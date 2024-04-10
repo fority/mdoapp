@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BuildFilterText, BuildSortText, DefaultPage, DefaultPageSize, FilterOperatorDateSelectOption, FilterOperatorNumberSelectOption, FilterOperatorTextSelectOption, GridifyQueryExtend, PagingContent } from 'fxt-core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -14,19 +15,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { Observable, catchError, map, of } from 'rxjs';
-import {
-  DefaultPage,
-  DefaultPageSize,
-  PagingContent,
-} from 'src/app/core/models/sharedModels';
-import {
-  BuildFilterText,
-  BuildSortText,
-  FilterOperatorDateSelectOption,
-  FilterOperatorNumberSelectOption,
-  FilterOperatorTextSelectOption,
-  GridifyQueryExtend,
-} from 'src/app/core/utils/GridifyHelpers';
+
+
 import { UserProfileDto } from 'src/app/models/userProfile';
 import { UserProfileService } from 'src/app/services/userProfile.service';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
@@ -160,7 +150,7 @@ export class UserListingsComponent {
         },
       });
     } else {
-      this.userProfileService.Enable(id).subscribe(() => {});
+      this.userProfileService.Enable(id).subscribe(() => { });
     }
   }
 

@@ -7,16 +7,8 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import {
-  DefaultPageSize,
-  PagingContent,
-} from 'src/app/core/models/sharedModels';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import {
-  BuildFilterText,
-  BuildSortText,
-  GridifyQueryExtend,
-} from 'src/app/core/utils/GridifyHelpers';
+
+import { BuildFilterText, BuildSortText, DefaultPage, DefaultPageSize, GridifyQueryExtend, LoadingService, PagingContent } from 'fxt-core';
 import { ShipperDto } from 'src/app/models/shipper';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
 import { ShipperService } from './../../services/mdo.service';
@@ -66,7 +58,7 @@ export class ShipperComponent {
   }
 
   SetDefaultQuery() {
-    this.Query.Page = 1;
+    this.Query.Page = DefaultPage;
     this.Query.PageSize = DefaultPageSize;
     this.Query.OrderBy = this.DEFAULT_ORDER;
     this.Query.Filter = null;

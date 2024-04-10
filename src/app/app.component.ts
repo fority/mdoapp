@@ -2,10 +2,8 @@ import { Component, inject } from '@angular/core';
 import { AuthenticatedResult, LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import { PrimeNGConfig } from 'primeng/api';
 import { delay, filter, switchMap } from 'rxjs';
-import { DefaultPage, DefaultPageSize } from './core/models/sharedModels';
-import { LoadingService } from './core/services/loading.service';
-import { RoleService } from './core/services/role.service';
-import { GridifyQueryExtend } from './core/utils/GridifyHelpers';
+
+import { DefaultPage, DefaultPageSize, GridifyQueryExtend, LoadingService, RoleService } from 'fxt-core';
 import { UserProfileService } from './services/userProfile.service';
 
 @Component({

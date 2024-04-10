@@ -1,8 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BaseResponse, BaseSettingService, httpOptions } from 'fxt-core';
 import { Observable, retry, tap } from 'rxjs';
-import { BaseResponse, httpOptions } from '../core/models/sharedModels';
-import { BaseSettingService } from '../core/services/basesetting.service';
+import { environment } from 'src/environments/environment';
 import { CreateMdoHeaderRequest, MDOHeaderDto, UpdateMDOLineRequest } from '../models/mdo';
 import { CreateReasonCodeRequest, ReasonCodeDto, UpdateReasonCodeRequest } from '../models/reason-code';
 import {
@@ -31,9 +31,8 @@ export class MdoService extends BaseSettingService<
   UpdateMDOLineRequest
 > {
   constructor() {
-    super('api/Mdo');
+    super(`${environment.ApiBaseUrl}/api/Mdo`);
   }
-  urlCreator = 'api/Mdo';
 
   Return(Id: string, LineId: string): Observable<BaseResponse> {
     const params = new HttpParams().append('Id', Id).append('LineId', LineId);
@@ -86,7 +85,7 @@ export class ReasonCodeService extends BaseSettingService<
   UpdateReasonCodeRequest
 > {
   constructor() {
-    super('api/ReasonCode');
+    super(`${environment.ApiBaseUrl}/api/reasoncode`);
   }
 }
 
@@ -99,7 +98,7 @@ export class RequestByService extends BaseSettingService<
   UpdateRequestByRequest
 > {
   constructor() {
-    super('api/RequestBy');
+    super(`${environment.ApiBaseUrl}/api/RequestBy`);
   }
 }
 
@@ -112,7 +111,7 @@ export class ShipperService extends BaseSettingService<
   UpdateShipperRequest
 > {
   constructor() {
-    super('api/Shipper');
+    super(`${environment.ApiBaseUrl}/api/Shipper`);
   }
 }
 
@@ -125,7 +124,7 @@ export class ShipToService extends BaseSettingService<
   UpdateShipToRequest
 > {
   constructor() {
-    super('api/ShipTo');
+    super(`${environment.ApiBaseUrl}/api/ShipTo`);
   }
 }
 
@@ -138,6 +137,6 @@ export class UOMService extends BaseSettingService<
   UpdateUOMRequest
 > {
   constructor() {
-    super('api/UOM');
+    super(`${environment.ApiBaseUrl}/api/UOM`);
   }
 }

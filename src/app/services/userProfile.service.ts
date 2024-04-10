@@ -2,13 +2,8 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, map, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import {
-  BaseResponse,
-  BaseResponseWithData,
-  PagingContent,
-  httpOptions,
-} from '../core/models/sharedModels';
-import { BaseSettingService } from '../core/services/basesetting.service';
+
+import { BaseResponse, BaseResponseWithData, BaseSettingService, PagingContent, httpOptions } from 'fxt-core';
 import { FxtIdServerUserDto } from '../models/fxtIdServerUserModels';
 import {
   CreateUserProfileRequest,
@@ -19,11 +14,10 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class UserProfileService extends BaseSettingService<UserProfileDto, CreateUserProfileRequest, UpdateUserProfileRequest>
-{
+export class UserProfileService extends BaseSettingService<UserProfileDto, CreateUserProfileRequest, UpdateUserProfileRequest> {
   userProfileSubject = new ReplaySubject<UserProfileDto>();
   constructor() {
-    super('api/UserProfile');
+    super(`${environment.ApiBaseUrl}/api/UserProfile`);
   }
 
   UpdateUserProfile(message: UserProfileDto) {
@@ -33,7 +27,7 @@ export class UserProfileService extends BaseSettingService<UserProfileDto, Creat
   FxtGetUser(): Observable<PagingContent<FxtIdServerUserDto>> {
     return this.httpClient
       .get<BaseResponseWithData<PagingContent<FxtIdServerUserDto>>>(
-        `${environment.ApiBaseUrl}/${this.url}/FxtGetUser`,
+        `${this.ApiUrl}/FxtGetUser`,
         httpOptions
       )
       .pipe(
@@ -46,7 +40,7 @@ export class UserProfileService extends BaseSettingService<UserProfileDto, Creat
     let params = new HttpParams().append('Id', id);
     return this.httpClient
       .post<BaseResponse>(
-        `${environment.ApiBaseUrl}/${this.url}/FxtImportUser`,
+        `${this.ApiUrl}/FxtImportUser`,
         null,
         { ...httpOptions, params }
       )
@@ -57,7 +51,7 @@ export class UserProfileService extends BaseSettingService<UserProfileDto, Creat
     let params = new HttpParams().append('Id', id);
     return this.httpClient
       .post<BaseResponse>(
-        `${environment.ApiBaseUrl}/${this.url}/Enable`,
+        `${environment.ApiBaseUrl}/${this.ApiUrl}/Enable`,
         null,
         { ...httpOptions, params }
       )
@@ -68,7 +62,7 @@ export class UserProfileService extends BaseSettingService<UserProfileDto, Creat
     let params = new HttpParams().append('Id', id);
     return this.httpClient
       .post<BaseResponse>(
-        `${environment.ApiBaseUrl}/${this.url}/Disable`,
+        `${environment.ApiBaseUrl}/${this.ApiUrl}/Disable`,
         null,
         { ...httpOptions, params }
       )

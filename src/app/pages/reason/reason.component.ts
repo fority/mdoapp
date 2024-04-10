@@ -1,21 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BuildFilterText, BuildSortText, DefaultPageSize, GridifyQueryExtend, LoadingService, PagingContent } from 'fxt-core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
-import {
-  DefaultPageSize,
-  PagingContent,
-} from 'src/app/core/models/sharedModels';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import {
-  BuildFilterText,
-  BuildSortText,
-  GridifyQueryExtend,
-} from 'src/app/core/utils/GridifyHelpers';
+
 import { ReasonCodeDto } from 'src/app/models/reason-code';
 import { ReasonCodeService } from 'src/app/services/mdo.service';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';

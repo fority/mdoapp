@@ -9,9 +9,8 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthInterceptor } from './core/interceptor/auth.interceptor';
-import { CsrfInterceptor } from './core/interceptor/csrf.interceptor';
-import { ErrorHandlerInterceptor } from './core/interceptor/error-handler.interceptor';
+
+import { AuthInterceptor, CsrfInterceptor, ErrorInterceptor } from 'fxt-core';
 import { AuthConfigModule } from './shared/auth/auth-config.module';
 import { SpinnerComponent } from './shared/components/spinner/spinner.component';
 
@@ -29,7 +28,7 @@ import { SpinnerComponent } from './shared/components/spinner/spinner.component'
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ErrorHandlerInterceptor,
+      useClass: ErrorInterceptor,
       multi: true,
     },
     {
@@ -52,4 +51,4 @@ import { SpinnerComponent } from './shared/components/spinner/spinner.component'
     SharedModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

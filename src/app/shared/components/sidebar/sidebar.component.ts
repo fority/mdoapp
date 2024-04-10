@@ -10,13 +10,13 @@ import {
   inject,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { RoleService } from 'fxt-core';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { SidebarModule } from 'primeng/sidebar';
 import { take } from 'rxjs';
-import { RoleService } from 'src/app/core/services/role.service';
 import { ThemeService } from 'src/app/services/theme-service.service';
 
 interface CustomMenuItem extends MenuItem {
