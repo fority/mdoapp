@@ -1,15 +1,11 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-import { MessageService } from 'primeng/api';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { environment } from 'src/environments/environment';
 
-/**
- * Adds a default error handler to all requests.
- */
 @Injectable({
   providedIn: 'root',
 })
@@ -39,7 +35,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           this.loadingService.stop();
           break;
         case 403:
-          this.message.add({ severity: 'error', summary: response.status.toString(), detail: 'Forbidden' });
+          this.message.add({ severity: 'error', summary: response.status.toString(), detail: 'No Permission' });
           this.loadingService.stop();
           break;
         case 404:
@@ -51,9 +47,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           this.loadingService.stop();
           break;
         case 500:
-          this.message.add({
-            severity: 'error', summary: response.status.toString(), detail: `Message: ${response.error?.message}`,
-          });
+          this.message.add({ severity: 'error', summary: response.status.toString(), detail: 'Server Error' });
           this.loadingService.stop();
           break;
         case 503:
@@ -61,7 +55,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           this.loadingService.stop();
           break;
         case 0:
-          this.message.add({ severity: 'error', summary: response.status.toString(), detail: `Unknown Error` });
+          this.message.add({ severity: 'error', summary: response.status.toString(), detail: `Connection Error` });
           this.loadingService.stop();
           break;
 
