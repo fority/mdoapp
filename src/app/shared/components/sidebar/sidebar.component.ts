@@ -24,14 +24,7 @@ interface CustomMenuItem extends MenuItem {
 }
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    SidebarModule,
-    MenuModule,
-    ButtonModule,
-    PanelMenuModule,
-  ],
+  imports: [CommonModule, RouterModule, SidebarModule, MenuModule, ButtonModule, PanelMenuModule],
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.less'],
@@ -138,13 +131,10 @@ export class SidebarComponent {
   }
 
   getLogoSrc(): string {
-    return this.isDarkMode
-      ? '../../../../assets/logo-dark.png'
-      : '../../../../assets/new-logo.png';
+    return this.isDarkMode ? '../../../../assets/logo-dark.png' : '../../../../assets/new-logo.png';
   }
 
-  IsVisible = (roles: string[]) =>
-    roles?.some((role) => this.userRoles.includes(role));
+  IsVisible = (roles: string[]) => roles?.some((role) => this.userRoles.includes(role));
 
   HideSideBar = () => this.HideSideBarEmitter.emit();
 }

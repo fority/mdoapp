@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -15,15 +10,7 @@ import { ThemeService } from 'src/app/services/theme-service.service';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    InputSwitchModule,
-    ButtonModule,
-    SidebarModule,
-    DividerModule,
-    AvatarModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, InputSwitchModule, ButtonModule, SidebarModule, DividerModule, AvatarModule, FormsModule],
   selector: 'app-theme',
   templateUrl: './theme.component.html',
   styleUrls: ['./theme.component.css'],
@@ -58,8 +45,7 @@ export class ThemeComponent implements OnInit {
       theme: 'lara',
     },
     {
-      color:
-        'linear-gradient(180deg, #4dac9c 0%, rgba(77, 172, 156, 0.5) 100%)',
+      color: 'linear-gradient(180deg, #4dac9c 0%, rgba(77, 172, 156, 0.5) 100%)',
       id: 'lara-teal',
       theme: 'lara',
     },
@@ -70,8 +56,7 @@ export class ThemeComponent implements OnInit {
       theme: 'bootstrap4',
     },
     {
-      color:
-        'linear-gradient(180deg, #893cae 0%, rgba(137, 60, 174, 0.5) 100%)',
+      color: 'linear-gradient(180deg, #893cae 0%, rgba(137, 60, 174, 0.5) 100%)',
       id: 'bootstrap4-purple',
       theme: 'bootstrap4',
     },
@@ -121,20 +106,17 @@ export class ThemeComponent implements OnInit {
       theme: 'mdc',
     },
     {
-      color:
-        'linear-gradient(180deg, #664beb 0%, rgba(102, 75, 235, 0.5) 100%)',
+      color: 'linear-gradient(180deg, #664beb 0%, rgba(102, 75, 235, 0.5) 100%)',
       id: 'soho',
       theme: 'soho',
     },
     {
-      color:
-        'linear-gradient(180deg, #4a67c9 0%, rgba(74, 103, 201, 0.5) 100%)',
+      color: 'linear-gradient(180deg, #4a67c9 0%, rgba(74, 103, 201, 0.5) 100%)',
       id: 'viva',
       theme: 'viva',
     },
     {
-      color:
-        'linear-gradient(180deg, #81a1c1 0%, rgba(129, 161, 193, 0.5) 100%)',
+      color: 'linear-gradient(180deg, #81a1c1 0%, rgba(129, 161, 193, 0.5) 100%)',
       id: 'mira',
       theme: 'mira',
     },
@@ -320,8 +302,7 @@ export class ThemeComponent implements OnInit {
     localStorage.setItem('selectedTheme', this.selectedTheme);
 
     return (
-      this.selectedThemeIndexes[themeType] === index &&
-      this.selectedTheme === this.getThemesByType(themeType)[index].id
+      this.selectedThemeIndexes[themeType] === index && this.selectedTheme === this.getThemesByType(themeType)[index].id
     );
   }
 
@@ -388,9 +369,7 @@ export class ThemeComponent implements OnInit {
   toggleDarkMode() {
     this.checked != this.checked;
 
-    const theme = this.checked
-      ? this.selectedTheme + '-dark'
-      : this.selectedTheme.replace('-dark', '');
+    const theme = this.checked ? this.selectedTheme + '-dark' : this.selectedTheme.replace('-dark', '');
 
     let themeSelect = this.selectedTheme;
 
@@ -412,12 +391,8 @@ export class ThemeComponent implements OnInit {
   getThemeIndex(themeId: string): number {
     const themeType = themeId.split('-')[0];
 
-    const filteredThemes = this.Themes.filter(
-      (theme) => theme.theme === themeType
-    );
-    const themeIndex = filteredThemes.findIndex(
-      (theme) => theme.id === themeId
-    );
+    const filteredThemes = this.Themes.filter((theme) => theme.theme === themeType);
+    const themeIndex = filteredThemes.findIndex((theme) => theme.id === themeId);
 
     return themeIndex !== -1 ? themeIndex : -1;
   }

@@ -22,8 +22,7 @@ export class ThemeService {
   }
 
   private initializeTheme(): void {
-    let savedTheme =
-      localStorage.getItem(this.SELECTED_THEME_KEY) || 'lara-blue';
+    let savedTheme = localStorage.getItem(this.SELECTED_THEME_KEY) || 'lara-blue';
     this.selectedThemeSubject.next(savedTheme);
 
     const savedDarkMode = localStorage.getItem(this.DARK_MODE_KEY);
@@ -40,16 +39,12 @@ export class ThemeService {
   }
 
   setSelectedTheme(theme: string): void {
-    if (theme !== 'lara-blue') {
-      this.selectedThemeSubject.next(theme);
-      localStorage.setItem(this.SELECTED_THEME_KEY, theme);
-    }
+    this.selectedThemeSubject.next(theme);
+    localStorage.setItem(this.SELECTED_THEME_KEY, theme);
   }
 
   switchTheme(theme: string): void {
-    let themeLink = this.document.getElementById(
-      'app-theme'
-    ) as HTMLLinkElement;
+    let themeLink = this.document.getElementById('app-theme') as HTMLLinkElement;
     if (themeLink) {
       themeLink.href = theme + '.css';
     }
@@ -57,10 +52,7 @@ export class ThemeService {
 
   setSelectedThemeIndex(themeType: string, index: number): void {
     this.selectedThemeIndexes[themeType] = index;
-    localStorage.setItem(
-      'selectedThemeIndexes',
-      JSON.stringify(this.selectedThemeIndexes)
-    );
+    localStorage.setItem('selectedThemeIndexes', JSON.stringify(this.selectedThemeIndexes));
   }
 
   getSelectedThemeIndex(): { themeType: string; index: number } | undefined {
