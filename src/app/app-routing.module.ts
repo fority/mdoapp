@@ -87,6 +87,13 @@ export const routes: Routes = [
             (mod) => mod.ReasonComponent
           ),
         canActivate: [AutoLoginPartialRoutesGuard],
+      }, {
+        path: 'generic-setting',
+        loadComponent: () =>
+          import('./pages/GenericSetting/GenericSetting.component').then(
+            (mod) => mod.GenericSettingComponent
+          ),
+        canActivate: [AutoLoginPartialRoutesGuard],
       },
       {
         path: 'uom',
@@ -147,4 +154,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
