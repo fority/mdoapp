@@ -1,47 +1,19 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewEncapsulation,
-  inject,
-} from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SelectOption, GridifyQueryExtend, DefaultPage, ValidateAllFormFields } from 'fxt-core';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
 import { Observable, map, of, tap } from 'rxjs';
-import {
-  DefaultPage,
-  SelectOption
-} from 'src/app/core/models/sharedModels';
-import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
-import { ValidateAllFormFields } from 'src/app/core/utils/helpers';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { UOMService } from 'src/app/services/mdo.service';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    SidebarModule,
-    ButtonModule,
-    InputTextModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DropdownModule,
-  ],
+  imports: [CommonModule, SidebarModule, ButtonModule, InputTextModule, InputNumberModule, ReactiveFormsModule, FormsModule, DropdownModule],
   selector: 'app-mdoLinesForm',
   templateUrl: './mdoLinesForm.component.html',
   styleUrls: ['./mdoLinesForm.component.less'],
@@ -63,9 +35,7 @@ export class MdoLinesFormComponent {
   update: boolean = false;
   selectedIndex: number = 0;
   FG = {} as FormGroup;
-  uomSource$: Observable<SelectOption<string>[]> | undefined = of(
-    [] as SelectOption<string>[]
-  );
+  uomSource$: Observable<SelectOption<string>[]> | undefined = of([] as SelectOption<string>[]);
   constructor() {
     this.dataSharingService.currentMdo.subscribe((x) => {
       this.update = x.update;
@@ -96,9 +66,7 @@ export class MdoLinesFormComponent {
     query.Select = `Id, Name`;
     query.Includes = null;
 
-    this.uomSource$ = this.uomService
-      .GetMany(query)
-      .pipe(map((x) => x.Content.map((x) => ({ label: x.Name, value: x.Id }))));
+    this.uomSource$ = this.uomService.GetMany(query).pipe(map((x) => x.Content.map((x) => ({ label: x.Name, value: x.Id }))));
   }
 
   LoadForm() {
@@ -124,9 +92,7 @@ export class MdoLinesFormComponent {
       this.uomSource$
         .pipe(
           tap((options) => {
-            const selectedOption = options.find(
-              (option) => option.value === event
-            );
+            const selectedOption = options.find((option) => option.value === event);
             this.uomSelected = selectedOption ? selectedOption.label : '';
             this.FG.get('UOMName')?.patchValue(this.uomSelected);
           })
@@ -141,14 +107,10 @@ export class MdoLinesFormComponent {
       if (uomId) {
         if (this.uomSource$) {
           this.uomSource$.subscribe((options) => {
-            const selectedOption = options.find(
-              (option) => option.value === uomId
-            );
+            const selectedOption = options.find((option) => option.value === uomId);
             const uomName = selectedOption ? selectedOption.label : '';
             this.FG.get('UOMName')?.patchValue(uomName);
-            const emitter = this.update
-              ? this.updateEmitter
-              : this.successEmitter;
+            const emitter = this.update ? this.updateEmitter : this.successEmitter;
             if (this.update) {
               emitter.emit({ line: this.FG.value, index: this.selectedIndex });
             } else {

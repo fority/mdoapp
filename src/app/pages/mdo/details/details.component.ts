@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GridifyQueryExtend, DefaultPage, DefaultPageSize } from 'fxt-core';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
-import { DefaultPage, DefaultPageSize } from 'src/app/core/models/sharedModels';
-import { GridifyQueryExtend } from 'src/app/core/utils/GridifyHelpers';
 import { MDOHeaderDto } from 'src/app/models/mdo';
 import { MdoService } from 'src/app/services/mdo.service';
 import { SharedModule } from 'src/app/shared/module/SharedModule/SharedModule.module';

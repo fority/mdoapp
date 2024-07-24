@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,15 +9,14 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthInterceptor } from './core/interceptor/auth.interceptor';
-import { CsrfInterceptor } from './core/interceptor/csrf.interceptor';
-import { ErrorHandlerInterceptor } from './core/interceptor/error-handler.interceptor';
 import { AuthConfigModule } from './shared/auth/auth-config.module';
 import { SpinnerComponent } from './shared/components/spinner/spinner.component';
+import { AuthInterceptor, CsrfInterceptor, ErrorInterceptor } from 'fxt-core';
 
 @NgModule({
   declarations: [AppComponent],
   providers: [
+    provideHttpClient(),
     DatePipe,
     MessageService,
     ConfirmationService,
@@ -29,7 +28,7 @@ import { SpinnerComponent } from './shared/components/spinner/spinner.component'
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ErrorHandlerInterceptor,
+      useClass: ErrorInterceptor,
       multi: true,
     },
     {
@@ -41,7 +40,6 @@ import { SpinnerComponent } from './shared/components/spinner/spinner.component'
   bootstrap: [AppComponent],
   imports: [
     CommonModule,
-    HttpClientModule,
     SpinnerComponent,
     AppRoutingModule,
     AuthConfigModule,

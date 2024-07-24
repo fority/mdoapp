@@ -7,37 +7,17 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
-import {
-  DefaultPageSize,
-  PagingContent,
-} from 'src/app/core/models/sharedModels';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import {
-  BuildFilterText,
-  BuildSortText,
-  GridifyQueryExtend,
-} from 'src/app/core/utils/GridifyHelpers';
 import { ShipperDto } from 'src/app/models/shipper';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
 import { ShipperService } from './../../services/mdo.service';
+import { LoadingService, PagingContent, GridifyQueryExtend, DefaultPageSize, BuildSortText, BuildFilterText } from 'fxt-core';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ReactiveFormsModule,
-    FormsModule,
-    CardModule,
-    ButtonModule,
-    TooltipModule,
-    SearchboxComponent,
-    InputTextModule,
-  ],
+  imports: [CommonModule, TableModule, ReactiveFormsModule, FormsModule, CardModule, ButtonModule, TooltipModule, SearchboxComponent, InputTextModule],
   selector: 'app-shipper',
   templateUrl: './shipper.component.html',
   styleUrls: ['./shipper.component.less'],
-
 })
 export class ShipperComponent {
   Title: string = 'Shipper';
@@ -54,9 +34,7 @@ export class ShipperComponent {
   NewDescription: string = '';
   isAddEnable: boolean = false;
 
-  PagingSignal = signal<PagingContent<ShipperDto>>(
-    {} as PagingContent<ShipperDto>
-  );
+  PagingSignal = signal<PagingContent<ShipperDto>>({} as PagingContent<ShipperDto>);
   Query: GridifyQueryExtend = {} as GridifyQueryExtend;
 
   DEFAULT_ORDER: string = 'Name asc';
@@ -88,63 +66,62 @@ export class ShipperComponent {
   }
 
   SaveClick() {
-    this.shipperService
-      .Create({ Name: this.NewName, Description: this.NewDescription })
-      .subscribe((res) => {
-        this.PagingSignal.update((x) => ({
-          Content: [res, ...x.Content],
-          TotalElements: x.TotalElements + 1,
-        }));
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Data have been added successfully',
-        });
-        this.isAddEnable = false;
-        this.NewName = '';
+    this.shipperService.Create({ Name: this.NewName, Description: this.NewDescription }).subscribe((res) => {
+      this.PagingSignal.update((x) => ({
+        Content: [res, ...x.Content],
+        TotalElements: x.TotalElements + 1,
+      }));
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Data have been added successfully',
       });
+      this.isAddEnable = false;
+      this.NewName = '';
+    });
   }
 
   Search(data: string) {
-
     if (this.fTable != null) {
       this.fTable.first = 0; //goto first page (paginator)
       this.fTable.filters = {
         Name: [
           {
             value: data,
-            matchMode: "=*",
-            operator: "and",
+            matchMode: '=*',
+            operator: 'and',
           },
-        ], Description: [
+        ],
+        Description: [
           {
             value: data,
-            matchMode: "=*",
-            operator: "and",
+            matchMode: '=*',
+            operator: 'and',
           },
-        ]
-      }
+        ],
+      };
     }
 
     const event: TableLazyLoadEvent = {
       first: 0, // Starting index of the data to load
-      rows: this.fTable?.rows,  // Number of rows to load per request
-      sortField: null,  // Optional: Field to sort by
-      sortOrder: null,   // Optional: Sort order (asc/desc)
+      rows: this.fTable?.rows, // Number of rows to load per request
+      sortField: null, // Optional: Field to sort by
+      sortOrder: null, // Optional: Sort order (asc/desc)
       filters: {
         Name: [
           {
             value: data,
-            matchMode: "=*",
-            operator: "and",
+            matchMode: '=*',
+            operator: 'and',
           },
-        ], Description: [
+        ],
+        Description: [
           {
             value: data,
-            matchMode: "=*",
-            operator: "and",
+            matchMode: '=*',
+            operator: 'and',
           },
-        ]
+        ],
       },
     };
     this.NextPage(event);
@@ -168,30 +145,32 @@ export class ShipperComponent {
   }
 
   onRowEditSave(index: number, data: ShipperDto) {
-    this.shipperService
-      .Update({ Id: data.Id, Name: data.Name, Description: data.Description })
-      .subscribe({
-        next: () => {
-          delete this.ClonedLineData[data.Id];
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Data have been updated successfully',
-          });
-        },
-        error: () => {
-          this.PagingSignal.mutate((res) => {
-            res.Content[index] = this.ClonedLineData[data.Id];
-          });
-          delete this.ClonedLineData[data.Id];
-        },
-      });
+    this.shipperService.Update({ Id: data.Id, Name: data.Name, Description: data.Description }).subscribe({
+      next: () => {
+        delete this.ClonedLineData[data.Id];
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Data have been updated successfully',
+        });
+      },
+      error: () => {
+        this.PagingSignal.update((res) => {
+          const newContent = [...res.Content];
+          newContent[index] = this.ClonedLineData[data.Id];
+          return { ...res, Content: newContent };
+        });
+        delete this.ClonedLineData[data.Id];
+      },
+    });
   }
 
   onRowEditCancel(data: ShipperDto, index: number) {
-    this.PagingSignal.mutate(
-      (res) => (res.Content[index] = this.ClonedLineData[data.Id])
-    );
+    this.PagingSignal.update((res) => {
+      const newContent = [...res.Content];
+      newContent[index] = this.ClonedLineData[data.Id];
+      return { ...res, Content: newContent };
+    });
     delete this.ClonedLineData[data.Id];
   }
 

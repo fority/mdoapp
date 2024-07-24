@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { FxtRoleGuard } from 'fxt-core';
 import { CardModule } from 'primeng/card';
-import { FxtRoleGuard } from 'src/app/core/directives/fxtRoleGuard.directive';
 
 @Component({
   standalone: true,

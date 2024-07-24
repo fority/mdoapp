@@ -1,22 +1,13 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewEncapsulation,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { RoleService } from 'fxt-core';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { SidebarModule } from 'primeng/sidebar';
 import { take } from 'rxjs';
-import { RoleService } from 'src/app/core/services/role.service';
 import { ThemeService } from 'src/app/services/theme-service.service';
 
 interface CustomMenuItem extends MenuItem {
@@ -116,12 +107,7 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     this.themeService.selectedTheme$.subscribe((theme) => {
-      if (
-        theme?.endsWith('-dark') ||
-        theme.startsWith('arya') ||
-        theme.startsWith('vela') ||
-        theme.startsWith('luna')
-      ) {
+      if (theme?.endsWith('-dark') || theme.startsWith('arya') || theme.startsWith('vela') || theme.startsWith('luna')) {
         this.isDarkMode = true;
       } else {
         this.isDarkMode = false;

@@ -1,22 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoadingService, PagingContent, GridifyQueryExtend, DefaultPage, DefaultPageSize, BuildSortText, BuildFilterText } from 'fxt-core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
-import {
-  DefaultPage,
-  DefaultPageSize,
-  PagingContent,
-} from 'src/app/core/models/sharedModels';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import {
-  BuildFilterText,
-  BuildSortText,
-  GridifyQueryExtend,
-} from 'src/app/core/utils/GridifyHelpers';
 import { UOMDto } from 'src/app/models/uom';
 import { UOMService } from 'src/app/services/mdo.service';
 import { SearchboxComponent } from 'src/app/shared/components/searchbox/searchbox.component';
@@ -103,45 +93,46 @@ export class UomComponent {
   }
 
   Search(data: string) {
-
     if (this.fTable != null) {
       this.fTable.first = 0; //goto first page (paginator)
       this.fTable.filters = {
         Name: [
           {
             value: data,
-            matchMode: "=*",
-            operator: "and",
+            matchMode: '=*',
+            operator: 'and',
           },
-        ], Description: [
+        ],
+        Description: [
           {
             value: data,
-            matchMode: "=*",
-            operator: "and",
+            matchMode: '=*',
+            operator: 'and',
           },
-        ]
-      }
+        ],
+      };
     }
 
     const event: TableLazyLoadEvent = {
       first: 0, // Starting index of the data to load
-      rows: this.fTable?.rows,  // Number of rows to load per request
-      sortField: null,  // Optional: Field to sort by
-      sortOrder: null,   // Optional: Sort order (asc/desc)
+      rows: this.fTable?.rows, // Number of rows to load per request
+      sortField: null, // Optional: Field to sort by
+      sortOrder: null, // Optional: Sort order (asc/desc)
       filters: {
         Name: [
           {
             value: data,
-            matchMode: "=*",
-            operator: "and",
+            matchMode: '=*',
+            operator: 'and',
           },
-        ], Description: [
+        ],
+        Description: [
           {
             value: data,
-            matchMode: "=*",
-            operator: "and",
+            matchMode: '=*',
+            operator: 'and',
           },
-        ]
+        ],
       },
     };
     this.NextPage(event);
@@ -177,8 +168,13 @@ export class UomComponent {
           });
         },
         error: () => {
-          this.PagingSignal.mutate((res) => {
-            res.Content[index] = this.ClonedLineData[data.Id];
+          // this.PagingSignal.mutate((res) => {
+          //   res.Content[index] = this.ClonedLineData[data.Id];
+          // });
+          this.PagingSignal.update((res) => {
+            const newContent = [...res.Content];
+            newContent[index] = this.ClonedLineData[data.Id];
+            return { ...res, Content: newContent };
           });
           delete this.ClonedLineData[data.Id];
         },
@@ -186,9 +182,14 @@ export class UomComponent {
   }
 
   onRowEditCancel(data: UOMDto, index: number) {
-    this.PagingSignal.mutate(
-      (res) => (res.Content[index] = this.ClonedLineData[data.Id])
-    );
+    // this.PagingSignal.update(
+    //   (res) => (res.Content[index] = this.ClonedLineData[data.Id])
+    // );
+    this.PagingSignal.update((res) => {
+      const newContent = [...res.Content];
+      newContent[index] = this.ClonedLineData[data.Id];
+      return { ...res, Content: newContent };
+    });
     delete this.ClonedLineData[data.Id];
   }
 
