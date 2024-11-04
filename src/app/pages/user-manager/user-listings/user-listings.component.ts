@@ -75,7 +75,10 @@ export class UserListingsComponent {
   PagingSignal = signal<PagingContent<UserProfileDto>>({} as PagingContent<UserProfileDto>);
   Query: GridifyQueryExtend = {} as GridifyQueryExtend;
 
-  userSelection$ = this.userProfileService.FxtGetUser().pipe(map((x) => x.Content.map((x) => ({ label: x.UserName, value: x.Id }))));
+  userSelection$ = this.userProfileService.FxtGetUser().pipe(map((x) => x.Content.map((x) => ({ label: x.UserName, value: x.Id }))
+  //jiawei add 4 Nov 2024
+  .filter(user => user.label !== null)
+  .sort((a, b) => a.label!.localeCompare(b.label!))));
 
   userSelected: string = '';
 

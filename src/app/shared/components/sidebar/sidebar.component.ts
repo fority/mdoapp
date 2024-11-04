@@ -86,7 +86,7 @@ export class SidebarComponent {
           },
         },
         {
-          label: '\xa0\xa0\xa0\xa0\xa0\xa0' + 'Manager User',
+          label: '\xa0\xa0\xa0\xa0\xa0\xa0' + 'Manage User',
           command: () => {
             this.router.navigateByUrl('/user-manager/view');
             this.HideSideBar();

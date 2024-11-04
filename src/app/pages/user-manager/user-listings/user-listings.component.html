@@ -91,11 +91,24 @@
   </p-table>
 </p-card>
 
-<p-dialog [(visible)]="isVisible" [draggable]="false" [resizable]="false" [style]="{ width: '30vw' }">
+<p-dialog [(visible)]="isVisible" [draggable]="false" [resizable]="false" [style]="{ width: '30vw' }" [contentStyle]="{ overflow: 'visible' }">
   <ng-template pTemplate="header">
     <span class="text-xl font-bold">Import User</span>
   </ng-template>
-  <p-dropdown appendTo="body" placeholder="Select a user" [options]="(userSelection$ | async) || []" [(ngModel)]="userSelected"></p-dropdown>
+  <!-- jiawei add 4 Nov 2024 -->
+  <p-dropdown appendTo="body" placeholder="Select a user" [options]="(userSelection$ | async ) || []" [(ngModel)]="userSelected" 
+  [filter]="true" filterPlaceholder="Enter user name" [filterBy]="'label'" [showClear]="true" >
+    <ng-template pTemplate="selectedItem" let-selectedOption>
+      <div class="flex align-items-center">
+        <div>{{ selectedOption.label }}</div>
+      </div>
+    </ng-template>
+    <ng-template let-user pTemplate="item">
+      <div class="flex align-items-center">
+        <div>{{ user.label }}</div> 
+      </div>
+    </ng-template>
+  </p-dropdown>
   <ng-template pTemplate="footer">
     <div class="flex flex-row justify-content-center align-items-center gap-2">
       <p-button class="ok" label="OK" pRipple icon="pi pi-check" (click)="ImportClick()"></p-button>
