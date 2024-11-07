@@ -46,7 +46,8 @@ export class ThemeService {
   switchTheme(theme: string): void {
     let themeLink = this.document.getElementById('app-theme') as HTMLLinkElement;
     if (themeLink) {
-      themeLink.href = theme + '.css';
+      //themeLink.href = theme + '.css';
+      themeLink.href = "saga-orange.css";
     }
   }
 
