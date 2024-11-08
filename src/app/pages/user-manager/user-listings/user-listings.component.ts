@@ -131,31 +131,48 @@ export class UserListingsComponent {
     });
   }
 
+  //jiawei add new 5 Nov 2024
   EnableDisableUser(event: boolean, id: string) {
-    if (event) {
+    if (event) { 
       this.userProfileService.Disable(id).subscribe({
         next: () => {
-          this.PagingSignal().Content.forEach((res) => {
-            if (res.Id === id) {
-              res.IsDisable = !event;
-            }
-          });
+          if (Array.isArray(this.PagingSignal().Content)) {
+            this.PagingSignal().Content.forEach((res) => {
+              if (res.Id === id) {
+                res.IsDisable = true;
+                console.log(`User with ID ${id} has been disabled successfully.`);
+              }
+            });
+          }
         },
         error: () => {
-          this.PagingSignal().Content.forEach((res) => {
-            if (res.Id === id) {
-              res.IsDisable = !event;
-            }
-          });
           this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Data have been updated successfully',
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to disable the user',
           });
         },
       });
-    } else {
-      this.userProfileService.Enable(id).subscribe(() => {});
+    } else { 
+      this.userProfileService.Enable(id).subscribe({
+        next: () => {
+          if (Array.isArray(this.PagingSignal().Content)) {
+            this.PagingSignal().Content.forEach((res) => {
+              if (res.Id === id) {
+                res.IsDisable = false; 
+                console.log(`User with ID ${id} has been enabled successfully.`);
+              }
+            });
+          }
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to enable the user',
+          });
+        },
+      });
     }
   }
 
